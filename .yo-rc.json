@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "authenticationType": "jwt",
-    "baseName": "TapasTop",
+    "baseName": "tapasTop",
     "blueprints": [],
     "buildTool": "maven",
     "cacheProvider": "ehcache",
@@ -10,7 +10,7 @@
     "clientPackageManager": "npm",
     "clientTheme": "litera",
     "clientThemeVariant": "primary",
-    "creationTimestamp": 1677960988747,
+    "creationTimestamp": 1678656537664,
     "databaseType": "sql",
     "devDatabaseType": "sql",
     "devServerPort": 9060,
@@ -40,6 +40,6 @@
     "skipUserManagement": false,
     "testFrameworks": [],
     "websocket": false,
-    "withAdminUi": false
+    "withAdminUi": true
   }
 }

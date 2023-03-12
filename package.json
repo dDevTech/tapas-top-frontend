@@ -2,7 +2,7 @@
   "name": "tapas-top",
   "version": "0.0.1-SNAPSHOT",
   "private": true,
-  "description": "Description for TapasTop",
+  "description": "Description for tapasTop",
   "license": "UNLICENSED",
   "scripts": {
     "build": "npm run webapp:prod --",
