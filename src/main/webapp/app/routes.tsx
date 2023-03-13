@@ -14,6 +14,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import {AgeVerifyPage} from "app/modules/account/age-verification/age-verify";
 
 const loading = <div>loading ...</div>;
 
@@ -33,6 +34,8 @@ const AppRoutes = () => {
       <ErrorBoundaryRoutes>
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
+        <Route path="age-verify" element={<AgeVerifyPage />} />
+        <Route path="register" element={<Register />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
@@ -43,12 +46,13 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route path="register" element={<Register />} />
+
           <Route path="activate" element={<Activate />} />
           <Route path="reset">
             <Route path="request" element={<PasswordResetInit />} />
             <Route path="finish" element={<PasswordResetFinish />} />
           </Route>
+
         </Route>
         <Route
           path="admin/*"
