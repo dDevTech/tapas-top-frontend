@@ -48,7 +48,7 @@ export const AgeVerifyPage = () => {
            <ValidatedForm id="age-form" onSubmit= {change}>
              <ValidatedField
                name="birth-date"
-               label="Birth date"
+               label="Fecha de nacimiento"
                placeholder="Fecha de nacimiento"
                validate={{
                  required: { value: true, message: 'Se requiere una fecha de nacimiento para continuar' },
