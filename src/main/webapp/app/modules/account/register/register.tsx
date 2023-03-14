@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Row, Col, Alert, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { handleRegister, reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select'
-import countryList from 'react-select-country-list'
+import { Country, State, City } from "country-state-city";
 
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
@@ -36,12 +36,14 @@ export const RegisterPage = () => {
     }
   }, [successMessage]);
 
-  const [country, setCountry] = useState('')
-  const options = useMemo(() => countryList().getData(), [])
-
-  const changeCountry = value => {
-    setCountry(value)
-  }
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  useEffect(() => {
+    console.log(selectedCountry);
+    console.log(selectedCountry?.isoCode);
+    console.log(State?.getStatesOfCountry(selectedCountry?.isoCode));
+  }, [selectedCountry]);
 
   return (
     <div>
@@ -169,11 +171,40 @@ export const RegisterPage = () => {
               data-cy="secondPassword"
             />
 
-            <Select placeholder="Selecccione un país"
-              options={options}
-              value={country}
-              onChange={changeCountry}
-            />
+            <div>
+              Seleccione la región
+              <Select
+                placeholder={'Seleccione el país'}
+                options={Country.getAllCountries()}
+                getOptionLabel={(options) => {
+                  return options["name"];
+                }}
+                getOptionValue={(options) => {
+                  return options["name"];
+                }}
+                value={selectedCountry}
+                onChange={(item) => {
+                  setSelectedCountry(item);
+                }}
+              />
+              <br/>
+              <Select
+                noOptionsMessage={() => 'No hay opciones'}
+                placeholder={'Seleccione la ciudad'}
+                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                getOptionLabel={(options) => {
+                  return options["name"];
+                }}
+                getOptionValue={(options) => {
+                  return options["name"];
+                }}
+                value={selectedState}
+                onChange={(item) => {
+                  setSelectedState(item);
+                }}
+              />
+            </div>
+
 
             {/*TODO: pasar imagen a tamaño correspondiente*/}
             {selectedImage && (
