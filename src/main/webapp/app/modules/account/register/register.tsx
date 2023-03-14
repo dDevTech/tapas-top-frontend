@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Row, Col, Alert, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -7,6 +7,8 @@ import PasswordStrengthBar from 'app/shared/layout/password/password-strength-ba
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { handleRegister, reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
 
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
@@ -34,6 +36,12 @@ export const RegisterPage = () => {
     }
   }, [successMessage]);
 
+  const [country, setCountry] = useState('')
+  const options = useMemo(() => countryList().getData(), [])
+
+  const changeCountry = value => {
+    setCountry(value)
+  }
 
   return (
     <div>
@@ -159,6 +167,12 @@ export const RegisterPage = () => {
                 maxLength: { value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres' }
               }}
               data-cy="secondPassword"
+            />
+
+            <Select placeholder="Selecccione un país"
+              options={options}
+              value={country}
+              onChange={changeCountry}
             />
 
             {/*TODO: pasar imagen a tamaño correspondiente*/}
