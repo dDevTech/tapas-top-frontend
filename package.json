@@ -45,6 +45,7 @@
     "axios": "0.27.2",
     "bootstrap": "5.2.0",
     "bootswatch": "5.2.0",
+    "country-state-city": "^3.1.2",
     "dayjs": "1.11.5",
     "lodash": "4.17.21",
     "path-browserify": "1.0.1",

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Col, Row} from 'reactstrap';
 import {ValidatedField, ValidatedForm, isEmail} from 'react-jhipster';
 import {toast} from 'react-toastify';
@@ -8,6 +8,7 @@ import {getSession} from 'app/shared/reducers/authentication';
 import {saveAccountSettings, reset} from './settings.reducer';
 import countryList from 'react-select-country-list'
 import Select from 'react-select'
+import {Country, State} from "country-state-city";
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,9 @@ export const SettingsPage = () => {
       })
     );
   };
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
 
   return (
     <div>
@@ -102,7 +106,12 @@ export const SettingsPage = () => {
               label="Correo electrónico"
               placeholder="Su correo electrónico"
               type="email"
-              readOnly={true}
+              validate={{
+                required: { value: true, message: 'Se requiere un correo electrónico.' },
+                minLength: { value: 5, message: 'Se requiere que su correo electrónico tenga por lo menos 5 caracteres' },
+                maxLength: { value: 254, message: 'Su correo electrónico no puede tener más de 50 caracteres' },
+                validate: v => isEmail(v) || 'Su correo electrónico no es válido.',
+              }}
               data-cy="email"
             />
             <ValidatedField
@@ -116,9 +125,43 @@ export const SettingsPage = () => {
               data-cy="image"
             />
             <label>Género</label>
-            <Select className="mt-2 mb-3" options={options}/>
-            <label>País de residencia</label>
-            <Select className="mt-2 mb-3" options={optionsCountry}/>
+            <Select className="mt-2 mb-3"
+                    placeholder='Introduzca su género'
+                    options={options}/>
+
+            <label>Región de residencia</label>
+            <div className={'row'}>
+              <Select className={"mt-3 mb-2 col-sm"}
+                      placeholder={'Seleccione el país'}
+                      options={Country.getAllCountries()}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedCountry}
+                      onChange={(item) => {
+                        setSelectedCountry(item);
+                      }}
+              />
+              <Select className={"mt-3 mb-2 col-sm"}
+                      noOptionsMessage={() => 'No hay opciones'}
+                      placeholder={'Seleccione la ciudad'}
+                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedState}
+                      onChange={(item) => {
+                        setSelectedState(item);
+                      }}
+              />
+            </div>
+
 
             <ValidatedField
               name="ubication"
