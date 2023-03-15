@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
 import Register from 'app/modules/account/register/register';
+import RegisterAccountInfo from 'app/modules/account/register/register-account-info';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
@@ -36,6 +37,7 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="age-verify" element={<AgeVerifyPage />} />
         <Route path="register" element={<Register />} />
+        <Route path="register-account-info" element={<RegisterAccountInfo />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
