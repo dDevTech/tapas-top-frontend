@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {ValidatedField, ValidatedForm} from 'react-jhipster';
-import {Row, Col, Button} from 'reactstrap';
-import {toast} from 'react-toastify';
-import {useLocation} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Row, Col, Button } from 'reactstrap';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
 
-import {useAppDispatch, useAppSelector} from 'app/config/store';
-import {handleRegister, reset} from './register.reducer';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { handleRegister, reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import Select from 'react-select'
-import {Country, State} from "country-state-city";
+import Select from 'react-select';
+import { Country, State } from 'country-state-city';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -25,9 +25,8 @@ export const RegisterAccountInfo = () => {
   const handleSubmit = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    dispatch(handleRegister({login: state.login, email: state.em, password: state.password, langKey: 'en'}));
+    dispatch(handleRegister({ login: state.login, email: state.em, password: state.password, langKey: 'en' }));
   };
-
 
   useEffect(() => {
     if (successMessage) {
@@ -41,7 +40,7 @@ export const RegisterAccountInfo = () => {
   return (
     <div>
       <Row className="justify-content-center">
-        <ProgressBar animated now={60} label={"Introducción datos personales"}></ProgressBar>
+        <ProgressBar animated now={60} label={'Introducción datos personales'}></ProgressBar>
       </Row>
 
       <Row className="justify-content-center mt-3">
@@ -63,7 +62,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'Su nombre no tiene el formato válido.',
                 },
-                maxLength: {value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.'}
+                maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
               }}
               data-cy="name"
             />
@@ -76,7 +75,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'El formato de su apellido no es válido.',
                 },
-                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
+                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres.' },
               }}
               data-cy="surname1"
             />
@@ -89,7 +88,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'El formato de su apellido no es válido.',
                 },
-                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
+                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres.' },
               }}
               data-cy="surname2"
             />
@@ -99,7 +98,7 @@ export const RegisterAccountInfo = () => {
               label="Breve texto de introducción"
               placeholder="Texto introducción"
               validate={{
-                maxLength: {value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres'}
+                maxLength: { value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres' },
               }}
               type="textarea"
               data-cy="description"
@@ -107,46 +106,32 @@ export const RegisterAccountInfo = () => {
 
             <label>Seleccione la región</label>
             <div className={'row'}>
-              <Select className={"mt-3 mb-2 col-sm"}
-                      placeholder={'Seleccione el país'}
-                      options={Country.getAllCountries()}
-                      getOptionLabel={(options) => {
-                        return options["name"];
-                      }}
-                      getOptionValue={(options) => {
-                        return options["name"];
-                      }}
-                      value={selectedCountry}
-                      onChange={(item) => {
-                        setSelectedCountry(item);
-                      }}
+              <Select
+                className={'mt-3 mb-2 col-sm'}
+                placeholder={'Seleccione el país'}
+                options={Country.getAllCountries()}
+                getOptionLabel={options => {
+                  return options['name'];
+                }}
+                onChange={item => {
+                  setSelectedCountry(item);
+                }}
               />
-              <Select className={"mt-3 mb-2 col-sm"}
-                      noOptionsMessage={() => 'No hay opciones'}
-                      placeholder={'Seleccione la ciudad'}
-                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
-                      getOptionLabel={(options) => {
-                        return options["name"];
-                      }}
-                      getOptionValue={(options) => {
-                        return options["name"];
-                      }}
-                      value={selectedState}
-                      onChange={(item) => {
-                        setSelectedState(item);
-                      }}
+              <Select
+                className={'mt-3 mb-2 col-sm'}
+                noOptionsMessage={() => 'No hay opciones'}
+                placeholder={'Seleccione la ciudad'}
+                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                getOptionLabel={options => {
+                  return options['name'];
+                }}
+                onChange={item => {
+                  setSelectedState(item);
+                }}
               />
             </div>
-            <ValidatedField
-              name="ubication"
-              label="Ubicación"
-              id="ubication"
-              placeholder="Lugar de residencia"
-              data-cy="ubication"
-            />
-            <div>
-
-            </div>
+            <ValidatedField name="ubication" label="Ubicación" id="ubication" placeholder="Lugar de residencia" data-cy="ubication" />
+            <div></div>
             <ValidatedField
               name="image"
               label="Foto de perfil"
@@ -154,7 +139,7 @@ export const RegisterAccountInfo = () => {
               placeholder="Imagen"
               validate={{}}
               type="file"
-              accept='image/*'
+              accept="image/*"
               data-cy="image"
             />
 
