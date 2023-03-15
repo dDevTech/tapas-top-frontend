@@ -94,7 +94,6 @@ export const RegisterAccountInfo = () => {
               data-cy="surname2"
             />
 
-
             <ValidatedField
               name="introductionText"
               label="Breve texto de introducción"
@@ -138,6 +137,13 @@ export const RegisterAccountInfo = () => {
                       }}
               />
             </div>
+            <ValidatedField
+              name="ubication"
+              label="Ubicación"
+              id="ubication"
+              placeholder="Lugar de residencia"
+              data-cy="ubication"
+            />
             <div>
 
             </div>
