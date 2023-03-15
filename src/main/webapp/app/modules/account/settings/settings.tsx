@@ -1,27 +1,27 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Button, Col, Row} from 'reactstrap';
-import {ValidatedField, ValidatedForm, isEmail} from 'react-jhipster';
-import {toast} from 'react-toastify';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, Col, Row } from 'reactstrap';
+import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import { toast } from 'react-toastify';
 
-import {useAppDispatch, useAppSelector} from 'app/config/store';
-import {getSession} from 'app/shared/reducers/authentication';
-import {saveAccountSettings, reset} from './settings.reducer';
-import countryList from 'react-select-country-list'
-import Select from 'react-select'
-import {Country, State} from "country-state-city";
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getSession } from 'app/shared/reducers/authentication';
+import { saveAccountSettings, reset } from './settings.reducer';
+import countryList from 'react-select-country-list';
+import Select from 'react-select';
+import { Country, State } from 'country-state-city';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const successMessage = useAppSelector(state => state.settings.successMessage);
 
-  const options = [
-    {value: 'none', label: 'No seleccionar'},
-    {value: 'male', label: 'Hombre'},
-    {value: 'female', label: 'Mujer'},
-    {value: 'notsay', label: 'Prefiero no indicarlo'}
-  ]
-  const optionsCountry = useMemo(() => countryList().getData(), [])
+  const optionsGender = [
+    { value: 'none', label: 'No seleccionar' },
+    { value: 'male', label: 'Hombre' },
+    { value: 'female', label: 'Mujer' },
+    { value: 'notsay', label: 'Prefiero no indicarlo' },
+  ];
+  const optionsCountry = useMemo(() => countryList().getData(), []);
   useEffect(() => {
     dispatch(getSession());
     return () => {
@@ -61,13 +61,13 @@ export const SettingsPage = () => {
               id="username"
               placeholder="Su usuario"
               validate={{
-                required: {value: true, message: 'Su nombre de usuario es obligatorio.'},
+                required: { value: true, message: 'Su nombre de usuario es obligatorio.' },
                 pattern: {
                   value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
                   message: 'Su nombre de usuario no es válido.',
                 },
-                minLength: {value: 1, message: 'Su nombre de usuario debe tener al menos 1 caracter.'},
-                maxLength: {value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.'},
+                minLength: { value: 1, message: 'Su nombre de usuario debe tener al menos 1 caracter.' },
+                maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
               }}
               data-cy="username"
             />
@@ -77,7 +77,7 @@ export const SettingsPage = () => {
               id="firstName"
               placeholder="Su nombre"
               validate={{
-                maxLength: {value: 50, message: 'Su nombre no puede tener más de 50 caracteres'},
+                maxLength: { value: 50, message: 'Su nombre no puede tener más de 50 caracteres' },
               }}
               data-cy="firstname"
             />
@@ -87,7 +87,7 @@ export const SettingsPage = () => {
               id="lastName"
               placeholder="Su primer apellido"
               validate={{
-                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres'},
+                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname1"
             />
@@ -97,7 +97,7 @@ export const SettingsPage = () => {
               id="lastName"
               placeholder="Su segundo apellido"
               validate={{
-                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres'},
+                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname2"
             />
@@ -125,51 +125,38 @@ export const SettingsPage = () => {
               data-cy="image"
             />
             <label>Género</label>
-            <Select className="mt-2 mb-3"
-                    placeholder='Introduzca su género'
-                    options={options}/>
+            <Select className="mt-2 mb-3" placeholder="Introduzca su género" options={optionsGender} />
 
             <label>Región de residencia</label>
             <div className={'row'}>
-              <Select className={"mt-3 mb-2 col-sm"}
-                      placeholder={'Seleccione el país'}
-                      options={Country.getAllCountries()}
-                      getOptionLabel={(options) => {
-                        return options["name"];
-                      }}
-                      getOptionValue={(options) => {
-                        return options["name"];
-                      }}
-                      value={selectedCountry}
-                      onChange={(item) => {
-                        setSelectedCountry(item);
-                      }}
+              <Select
+                className={'mt-3 mb-2 col-sm'}
+                placeholder={'Seleccione el país'}
+                options={Country.getAllCountries()}
+                getOptionValue={options => {
+                  return options['name'];
+                }}
+                value={selectedCountry}
+                onChange={item => {
+                  setSelectedCountry(item);
+                }}
               />
-              <Select className={"mt-3 mb-2 col-sm"}
-                      noOptionsMessage={() => 'No hay opciones'}
-                      placeholder={'Seleccione la ciudad'}
-                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
-                      getOptionLabel={(options) => {
-                        return options["name"];
-                      }}
-                      getOptionValue={(options) => {
-                        return options["name"];
-                      }}
-                      value={selectedState}
-                      onChange={(item) => {
-                        setSelectedState(item);
-                      }}
+              <Select
+                className={'mt-3 mb-2 col-sm'}
+                noOptionsMessage={() => 'No hay opciones'}
+                placeholder={'Seleccione la ciudad'}
+                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                getOptionLabel={options => {
+                  return options['name'];
+                }}
+                value={selectedState}
+                onChange={item => {
+                  setSelectedState(item);
+                }}
               />
             </div>
 
-
-            <ValidatedField
-              name="ubication"
-              label="Ubicación"
-              id="ubication"
-              placeholder="Lugar de residencia"
-              data-cy="ubication"
-            />
+            <ValidatedField name="ubication" label="Ubicación" id="ubication" placeholder="Lugar de residencia" data-cy="ubication" />
 
             <ValidatedField
               name="description"
@@ -177,7 +164,7 @@ export const SettingsPage = () => {
               id="description"
               placeholder="Descripción"
               validate={{
-                maxLength: {value: 2500, message: 'Su apellido no puede tener más de 2500 caracteres'},
+                maxLength: { value: 2500, message: 'Su apellido no puede tener más de 2500 caracteres' },
               }}
               type="textarea"
               data-cy="description"
@@ -186,7 +173,6 @@ export const SettingsPage = () => {
             <Button color="primary" type="submit" data-cy="submit">
               Guardar
             </Button>
-
           </ValidatedForm>
         </Col>
       </Row>

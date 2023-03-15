@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Row, Col, Alert, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { handleRegister, reset } from './register.reducer';
+import { reset } from './register.reducer';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
@@ -18,8 +20,9 @@ export const RegisterPage = () => {
     []
   );
 
+  const navigate = useNavigate();
   const handleValidSubmit = ({ username, email, firstPassword }) => {
-    dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: 'en' }));
+    navigate('/register-account-info', { state: { login: username, em: email, password: firstPassword } });
   };
 
   const updatePassword = event => setPassword(event.target.value);
@@ -35,6 +38,10 @@ export const RegisterPage = () => {
   return (
     <div>
       <Row className="justify-content-center">
+        <ProgressBar animated now={40} label={'Registro'}></ProgressBar>
+      </Row>
+
+      <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
             Registro
@@ -46,7 +53,7 @@ export const RegisterPage = () => {
           <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
             <ValidatedField
               name="username"
-              label="Usuario"
+              label="Usuario (*)"
               placeholder="Nombre de usuario"
               validate={{
                 required: { value: true, message: 'Su nombre de usuario es obligatorio.' },
@@ -56,12 +63,14 @@ export const RegisterPage = () => {
                 },
                 minLength: { value: 1, message: 'Su nombre de usuario debe tener al menos 1 caracter.' },
                 maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
+                // TODO: verificación no repetición
               }}
               data-cy="username"
             />
+
             <ValidatedField
               name="email"
-              label="Correo electrónico"
+              label="Correo electrónico (*)"
               placeholder="Su correo electrónico"
               type="email"
               validate={{
@@ -74,7 +83,7 @@ export const RegisterPage = () => {
             />
             <ValidatedField
               name="firstPassword"
-              label="Nueva contraseña"
+              label="Nueva contraseña (*)"
               placeholder="Nueva contraseña"
               type="password"
               onChange={updatePassword}
@@ -88,24 +97,28 @@ export const RegisterPage = () => {
             <PasswordStrengthBar password={password} />
             <ValidatedField
               name="secondPassword"
-              label="Confirmación de la nueva contraseña"
+              label="Confirmación de la nueva contraseña (*)"
               placeholder="Confirmación de la nueva contraseña"
               type="password"
               validate={{
                 required: { value: true, message: 'Se requiere que confirme la contraseña.' },
-                minLength: { value: 4, message: 'Se requiere que su contraseña de confirmación tenga por lo menos 4 caracteres' },
+                minLength: {
+                  value: 4,
+                  message: 'Se requiere que su contraseña de confirmación tenga por lo menos 4 caracteres',
+                },
                 maxLength: { value: 50, message: 'Su contraseña de confirmación no puede tener más de 50 caracteres' },
                 validate: v => v === password || '¡La contraseña y la confirmación de contraseña no coinciden!',
               }}
               data-cy="secondPassword"
             />
+
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Crear la cuenta
+              Crear cuenta
             </Button>
           </ValidatedForm>
           <p>&nbsp;</p>
           <Alert color="warning">
-            <span>Si desea</span>
+            <span>Si desea </span>
             <a className="alert-link">iniciar sesión</a>
             <span>
               , puede intentar con las cuentas predeterminadas:
