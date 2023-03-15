@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { toast } from 'react-toastify';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Button, Col, Row} from 'reactstrap';
+import {ValidatedField, ValidatedForm, isEmail} from 'react-jhipster';
+import {toast} from 'react-toastify';
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
-import { saveAccountSettings, reset } from './settings.reducer';
+import {useAppDispatch, useAppSelector} from 'app/config/store';
+import {getSession} from 'app/shared/reducers/authentication';
+import {saveAccountSettings, reset} from './settings.reducer';
+import countryList from 'react-select-country-list'
+import Select from 'react-select'
+import {Country, State} from "country-state-city";
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const successMessage = useAppSelector(state => state.settings.successMessage);
 
+  const options = [
+    {value: 'none', label: 'No seleccionar'},
+    {value: 'male', label: 'Hombre'},
+    {value: 'female', label: 'Mujer'},
+    {value: 'notsay', label: 'Prefiero no indicarlo'}
+  ]
+  const optionsCountry = useMemo(() => countryList().getData(), [])
   useEffect(() => {
     dispatch(getSession());
     return () => {
@@ -34,6 +44,9 @@ export const SettingsPage = () => {
     );
   };
 
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+
   return (
     <div>
       <Row className="justify-content-center">
@@ -43,28 +56,50 @@ export const SettingsPage = () => {
           </h2>
           <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
+              name="login"
+              label="Usuario"
+              id="username"
+              placeholder="Su usuario"
+              validate={{
+                required: {value: true, message: 'Su nombre de usuario es obligatorio.'},
+                pattern: {
+                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
+                  message: 'Su nombre de usuario no es válido.',
+                },
+                minLength: {value: 1, message: 'Su nombre de usuario debe tener al menos 1 caracter.'},
+                maxLength: {value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.'},
+              }}
+              data-cy="username"
+            />
+            <ValidatedField
               name="firstName"
               label="Nombre"
               id="firstName"
               placeholder="Su nombre"
               validate={{
-                required: { value: true, message: 'Se requiere que ingrese su nombre.' },
-                minLength: { value: 1, message: 'Se requiere que su nombre tenga por lo menos 1 caracter' },
-                maxLength: { value: 50, message: 'Su nombre no puede tener más de 50 caracteres' },
+                maxLength: {value: 50, message: 'Su nombre no puede tener más de 50 caracteres'},
               }}
               data-cy="firstname"
             />
             <ValidatedField
               name="lastName"
-              label="Apellidos"
+              label="Apellido 1"
               id="lastName"
-              placeholder="Sus apellidos"
+              placeholder="Su primer apellido"
               validate={{
-                required: { value: true, message: 'Se requiere que ingrese sus apellidos.' },
-                minLength: { value: 1, message: 'Se requiere que sus apellidos tengan por lo menos 1 caracter' },
-                maxLength: { value: 50, message: 'Sus apellidos no pueden tener más de 50 caracteres' },
+                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres'},
               }}
-              data-cy="lastname"
+              data-cy="surname1"
+            />
+            <ValidatedField
+              name="lastName"
+              label="Apellido 2"
+              id="lastName"
+              placeholder="Su segundo apellido"
+              validate={{
+                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres'},
+              }}
+              data-cy="surname2"
             />
             <ValidatedField
               name="email"
@@ -79,9 +114,79 @@ export const SettingsPage = () => {
               }}
               data-cy="email"
             />
+            <ValidatedField
+              name="image"
+              label="Imagen de perfil"
+              id="image"
+              placeholder="Imagen"
+              validate={{}}
+              type="file"
+              accept={'image/*'}
+              data-cy="image"
+            />
+            <label>Género</label>
+            <Select className="mt-2 mb-3"
+                    placeholder='Introduzca su género'
+                    options={options}/>
+
+            <label>Región de residencia</label>
+            <div className={'row'}>
+              <Select className={"mt-3 mb-2 col-sm"}
+                      placeholder={'Seleccione el país'}
+                      options={Country.getAllCountries()}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedCountry}
+                      onChange={(item) => {
+                        setSelectedCountry(item);
+                      }}
+              />
+              <Select className={"mt-3 mb-2 col-sm"}
+                      noOptionsMessage={() => 'No hay opciones'}
+                      placeholder={'Seleccione la ciudad'}
+                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedState}
+                      onChange={(item) => {
+                        setSelectedState(item);
+                      }}
+              />
+            </div>
+
+
+            <ValidatedField
+              name="ubication"
+              label="Ubicación"
+              id="ubication"
+              placeholder="Lugar de residencia"
+              data-cy="ubication"
+            />
+
+            <ValidatedField
+              name="description"
+              label="Descripción"
+              id="description"
+              placeholder="Descripción"
+              validate={{
+                maxLength: {value: 2500, message: 'Su apellido no puede tener más de 2500 caracteres'},
+              }}
+              type="textarea"
+              data-cy="description"
+            />
+
             <Button color="primary" type="submit" data-cy="submit">
               Guardar
             </Button>
+
           </ValidatedForm>
         </Col>
       </Row>
