@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {ValidatedField, ValidatedForm, isEmail} from 'react-jhipster';
 import {Row, Col, Alert, Button} from 'reactstrap';
 import {toast} from 'react-toastify';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {useAppDispatch, useAppSelector} from 'app/config/store';
-import {handleRegister, reset} from './register.reducer';
+import {reset} from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 export const RegisterPage = () => {
@@ -26,7 +26,6 @@ export const RegisterPage = () => {
   };
 
   const updatePassword = event => setPassword(event.target.value);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const successMessage = useAppSelector(state => state.register.successMessage);
 

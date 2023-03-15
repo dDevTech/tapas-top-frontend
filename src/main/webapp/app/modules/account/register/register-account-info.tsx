@@ -1,20 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {ValidatedField, ValidatedForm, isEmail} from 'react-jhipster';
+import {ValidatedField, ValidatedForm} from 'react-jhipster';
 import {Row, Col, Button} from 'reactstrap';
 import {toast} from 'react-toastify';
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {useAppDispatch, useAppSelector} from 'app/config/store';
 import {handleRegister, reset} from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select'
-import {Country, State, City} from "country-state-city";
-import Resizer from "react-image-file-resizer";
+import {Country, State} from "country-state-city";
 
-type LocationState = { state: { login: string, em: string, password: string } }
 export const RegisterAccountInfo = () => {
-  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
 
   useEffect(
@@ -33,10 +29,6 @@ export const RegisterAccountInfo = () => {
   };
 
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-
-
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
@@ -46,31 +38,13 @@ export const RegisterAccountInfo = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
-
-  const resizeFile = (file) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        128,
-        128,
-        "JPEG",
-        100,
-        0,
-        (uri) => {
-          resolve(uri);
-        },
-        "blob"
-      );
-    });
-
-
   return (
     <div>
       <Row className="justify-content-center">
         <ProgressBar animated now={60} label={"Introducción datos personales"}></ProgressBar>
       </Row>
 
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mt-3">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
             Datos personales
@@ -103,7 +77,6 @@ export const RegisterAccountInfo = () => {
                   message: 'El formato de su apellido no es válido.',
                 },
                 maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
-                // TODO: verificación no repetición
               }}
               data-cy="surname1"
             />
@@ -117,7 +90,6 @@ export const RegisterAccountInfo = () => {
                   message: 'El formato de su apellido no es válido.',
                 },
                 maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
-                // TODO: verificación no repetición
               }}
               data-cy="surname2"
             />
@@ -130,68 +102,55 @@ export const RegisterAccountInfo = () => {
               validate={{
                 maxLength: {value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres'}
               }}
-              data-cy="secondPassword"
+              type="textarea"
+              data-cy="description"
             />
 
-            <div>
-              Seleccione la región
-              <Select
-                placeholder={'Seleccione el país'}
-                options={Country.getAllCountries()}
-                getOptionLabel={(options) => {
-                  return options["name"];
-                }}
-                getOptionValue={(options) => {
-                  return options["name"];
-                }}
-                value={selectedCountry}
-                onChange={(item) => {
-                  setSelectedCountry(item);
-                }}
+            <label>Seleccione la región</label>
+            <div className={'row'}>
+              <Select className={"mt-3 mb-2 col-sm"}
+                      placeholder={'Seleccione el país'}
+                      options={Country.getAllCountries()}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedCountry}
+                      onChange={(item) => {
+                        setSelectedCountry(item);
+                      }}
               />
-              <br/>
-              <Select
-                noOptionsMessage={() => 'No hay opciones'}
-                placeholder={'Seleccione la ciudad'}
-                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
-                getOptionLabel={(options) => {
-                  return options["name"];
-                }}
-                getOptionValue={(options) => {
-                  return options["name"];
-                }}
-                value={selectedState}
-                onChange={(item) => {
-                  setSelectedState(item);
-                }}
+              <Select className={"mt-3 mb-2 col-sm"}
+                      noOptionsMessage={() => 'No hay opciones'}
+                      placeholder={'Seleccione la ciudad'}
+                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                      getOptionLabel={(options) => {
+                        return options["name"];
+                      }}
+                      getOptionValue={(options) => {
+                        return options["name"];
+                      }}
+                      value={selectedState}
+                      onChange={(item) => {
+                        setSelectedState(item);
+                      }}
               />
-              <br/>
             </div>
-
             <div>
-              Foto de perfil <br/>
-              {/*TODO: pasar imagen a tamaño correspondiente*/}
-              {selectedImage && (
-                <div>
-                  <img
-                    alt="not found"
-                    width={"128px"}
-                    src={URL.createObjectURL(selectedImage)}
-                  />
-                  <button onClick={() => setSelectedImage(null)}>Quitar</button>
-                </div>
-              )}
 
-              <input
-                type="file"
-                name="myImage"
-                onChange={(event) => {
-                  // console.log(event.target.files[0]);
-                  setSelectedImage(event.target.files[0]);
-                }}
-              />
-              <br/>
             </div>
+            <ValidatedField
+              name="image"
+              label="Foto de perfil"
+              id="image"
+              placeholder="Imagen"
+              validate={{}}
+              type="file"
+              accept='image/*'
+              data-cy="image"
+            />
 
             <Button onSubmit={handleSubmit} id="register-submit" color="primary" type="submit" data-cy="submit">
               Continuar
