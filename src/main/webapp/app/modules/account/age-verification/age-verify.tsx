@@ -13,10 +13,10 @@ export const AgeVerifyPage = () => {
   const [value, onChange] = useState(false);
   const location = useLocation();
   const isAdult = (v: string) =>{
-    var today = new Date();
-    var birth = new Date(v);
-    var age = today.getFullYear() - birth.getFullYear();
-    var m = today.getMonth() - birth.getMonth();
+    const today = new Date();
+    const birth = new Date(v);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
 
     if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
       age--;
