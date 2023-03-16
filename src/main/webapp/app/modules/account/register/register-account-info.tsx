@@ -104,7 +104,7 @@ export const RegisterAccountInfo = () => {
               data-cy="description"
             />
 
-            <label>Seleccione la región</label>
+            <label>Ubicación</label>
             <div className={'row'}>
               <Select
                 className={'mt-3 mb-2 col-sm'}
@@ -113,8 +113,12 @@ export const RegisterAccountInfo = () => {
                 getOptionLabel={options => {
                   return options['name'];
                 }}
+                getOptionValue={options => {
+                  return options['name'];
+                }}
                 onChange={item => {
                   setSelectedCountry(item);
+                  setSelectedState(null);
                 }}
               />
               <Select
@@ -125,12 +129,15 @@ export const RegisterAccountInfo = () => {
                 getOptionLabel={options => {
                   return options['name'];
                 }}
+                getOptionValue={options => {
+                  return options['name'];
+                }}
                 onChange={item => {
                   setSelectedState(item);
                 }}
               />
             </div>
-            <ValidatedField name="ubication" label="Ubicación" id="ubication" placeholder="Lugar de residencia" data-cy="ubication" />
+            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia" data-cy="address" />
             <div></div>
             <ValidatedField
               name="image"
