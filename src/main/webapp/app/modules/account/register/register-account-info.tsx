@@ -9,6 +9,7 @@ import { handleRegister, reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
+import AnimatedProgress from 'app/shared/util/animated-progress';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -40,9 +41,8 @@ export const RegisterAccountInfo = () => {
   return (
     <div>
       <Row className="justify-content-center">
-        <ProgressBar animated now={60} label={'Introducción datos personales'}></ProgressBar>
+        <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} t={50}></AnimatedProgress>
       </Row>
-
       <Row className="justify-content-center mt-3">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
