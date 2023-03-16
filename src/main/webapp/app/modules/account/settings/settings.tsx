@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
-import countryList from 'react-select-country-list';
+
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 
@@ -21,7 +21,7 @@ export const SettingsPage = () => {
     { value: 'female', label: 'Mujer' },
     { value: 'notsay', label: 'Prefiero no indicarlo' },
   ];
-  const optionsCountry = useMemo(() => countryList().getData(), []);
+
   useEffect(() => {
     dispatch(getSession());
     return () => {
@@ -127,18 +127,22 @@ export const SettingsPage = () => {
             <label>Género</label>
             <Select className="mt-2 mb-3" placeholder="Introduzca su género" options={optionsGender} />
 
-            <label>Región de residencia</label>
+            <label>Ubicación</label>
             <div className={'row'}>
               <Select
                 className={'mt-3 mb-2 col-sm'}
                 placeholder={'Seleccione el país'}
                 options={Country.getAllCountries()}
+                getOptionLabel={options => {
+                  return options['name'];
+                }}
                 getOptionValue={options => {
                   return options['name'];
                 }}
                 value={selectedCountry}
                 onChange={item => {
                   setSelectedCountry(item);
+                  setSelectedState(null);
                 }}
               />
               <Select
@@ -149,6 +153,9 @@ export const SettingsPage = () => {
                 getOptionLabel={options => {
                   return options['name'];
                 }}
+                getOptionValue={options => {
+                  return options['name'];
+                }}
                 value={selectedState}
                 onChange={item => {
                   setSelectedState(item);
@@ -156,7 +163,7 @@ export const SettingsPage = () => {
               />
             </div>
 
-            <ValidatedField name="ubication" label="Ubicación" id="ubication" placeholder="Lugar de residencia" data-cy="ubication" />
+            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia" data-cy="address" />
 
             <ValidatedField
               name="description"
