@@ -132,6 +132,7 @@ export const RegisterAccountInfo = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
+                value={selectedState}
                 onChange={item => {
                   setSelectedState(item);
                 }}
