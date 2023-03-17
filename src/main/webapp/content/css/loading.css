@@ -84,13 +84,7 @@
     opacity: 1;
   }
 }
-.progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-}
+
 .app-loading {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;

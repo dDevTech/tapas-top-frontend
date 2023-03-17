@@ -4,6 +4,7 @@ import { Row, Col, Alert } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { activateAction, reset } from './activate.reducer';
+import AnimatedProgress from 'app/shared/util/animated-progress';
 
 const successAlert = (
   <Alert color="success">
@@ -39,6 +40,7 @@ export const ActivatePage = () => {
 
   return (
     <div>
+      <AnimatedProgress label="" start={100} end={100} delay={50}></AnimatedProgress>
       <Row className="justify-content-center">
         <Col md="8">
           <h1>Activación</h1>
