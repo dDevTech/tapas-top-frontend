@@ -37,7 +37,7 @@ export const Home = () => {
 
             <Alert color="warning">
               ¿Aún no tienes una cuenta?&nbsp;
-              <Link to="/account/register" className="alert-link">
+              <Link to="/age-verify" className="alert-link">
                 Crea una cuenta
               </Link>
             </Alert>
