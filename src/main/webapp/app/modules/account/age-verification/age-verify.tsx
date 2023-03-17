@@ -34,7 +34,7 @@ export const AgeVerifyPage = () => {
   return (
     <div>
       <Row className="justify-content-center">
-        <AnimatedProgress label="VERIFICACIÓN EDAD" start={0} end={25} t={50}></AnimatedProgress>
+        <AnimatedProgress label="VERIFICACIÓN EDAD" start={0} end={25} delay={50}></AnimatedProgress>
       </Row>
 
       <Row className="justify-content-center">

@@ -35,13 +35,20 @@ export const RegisterAccountInfo = () => {
     }
   }, [successMessage]);
 
+  function Progress() {
+    if (successMessage) {
+      return <AnimatedProgress label="VERIFICACIÓN CORREO" start={75} end={90} delay={50}></AnimatedProgress>;
+    }
+    return <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} delay={50}></AnimatedProgress>;
+  }
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
   return (
     <div>
       <Row className="justify-content-center">
-        <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} t={50}></AnimatedProgress>
+        <Progress />
       </Row>
       <Row className="justify-content-center mt-3">
         <Col md="8">

@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-export const AnimatedProgress = ({ label, start, end, t }) => {
-  const [progress, setProgress] = useState(start);
-  const animateProgressBar = (value, time) => {
+export const AnimatedProgress = ({ label, start, end, delay }) => {
+  const [progress, setProgress] = useState(0);
+  const animateProgressBar = time => {
     const steps = 50;
-    const diff = value - start;
-    const increment = diff > 0 ? diff / steps : -diff / steps;
+    const diff = end - start;
+    const increment = diff / steps;
 
     const timer = setInterval(() => {
       setProgress(prevProgress => {
-        const nextProgress = prevProgress + (diff > 0 ? increment : -increment);
-        return diff > 0 ? (nextProgress > value ? value : nextProgress) : nextProgress < value ? value : nextProgress;
+        const nextProgress = prevProgress + increment;
+        return nextProgress > diff ? diff : nextProgress;
       });
 
-      if ((diff > 0 && progress >= value) || (diff < 0 && progress <= value)) {
+      if (progress > end) {
         clearInterval(timer);
       }
     }, time / steps);
   };
 
   useEffect(() => {
-    animateProgressBar(end, t);
+    animateProgressBar(delay);
   }, []);
 
-  return <ProgressBar animated striped now={progress} label={label} />;
+  return (
+    <ProgressBar>
+      <ProgressBar animated striped variant="success" now={start} key={1} />
+      <ProgressBar animated striped now={progress} label={label} key={2} />
+    </ProgressBar>
+  );
 };
 export default AnimatedProgress;
