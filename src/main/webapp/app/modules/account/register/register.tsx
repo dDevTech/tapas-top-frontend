@@ -8,6 +8,7 @@ import PasswordStrengthBar from 'app/shared/layout/password/password-strength-ba
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import AnimatedProgress from 'app/shared/util/animated-progress';
 
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
@@ -27,20 +28,11 @@ export const RegisterPage = () => {
 
   const updatePassword = event => setPassword(event.target.value);
 
-  const successMessage = useAppSelector(state => state.register.successMessage);
-
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
-    }
-  }, [successMessage]);
-
   return (
     <div>
       <Row className="justify-content-center">
-        <ProgressBar animated now={40} label={'Registro'}></ProgressBar>
+        <AnimatedProgress label="DATOS NECESARIOS" start={25} end={50} delay={50}></AnimatedProgress>
       </Row>
-
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
