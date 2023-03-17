@@ -9,6 +9,7 @@ import { handleRegister, reset } from './register.reducer';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
+import AnimatedProgress from 'app/shared/util/animated-progress';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -34,15 +35,21 @@ export const RegisterAccountInfo = () => {
     }
   }, [successMessage]);
 
+  function Progress() {
+    if (successMessage) {
+      return <AnimatedProgress label="VERIFICACIÓN CORREO" start={75} end={90} delay={50}></AnimatedProgress>;
+    }
+    return <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} delay={50}></AnimatedProgress>;
+  }
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
   return (
     <div>
       <Row className="justify-content-center">
-        <ProgressBar animated now={60} label={'Introducción datos personales'}></ProgressBar>
+        <Progress />
       </Row>
-
       <Row className="justify-content-center mt-3">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
