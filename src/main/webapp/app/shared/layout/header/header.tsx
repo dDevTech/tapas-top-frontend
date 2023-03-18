@@ -30,9 +30,11 @@ const Header = (props: IHeaderProps) => {
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
         <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ms-auto" navbar>
+          <Nav id="header-tabs" className="mr-auto" navbar>
             {props.isAuthenticated && <Home />}
-            {props.isAuthenticated && <EntitiesMenu />}
+          </Nav>
+          <Nav id="header-tabs" className="ms-auto" navbar>
+            {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
