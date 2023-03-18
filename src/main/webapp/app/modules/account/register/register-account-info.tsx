@@ -47,9 +47,7 @@ export const RegisterAccountInfo = () => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Progress />
-      </Row>
+      <Progress />
       <Row className="justify-content-center mt-3">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">

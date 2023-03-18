@@ -30,9 +30,7 @@ export const RegisterPage = () => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <AnimatedProgress label="DATOS NECESARIOS" start={25} end={50} delay={50}></AnimatedProgress>
-      </Row>
+      <AnimatedProgress label="DATOS NECESARIOS" start={25} end={50} delay={50}></AnimatedProgress>
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
