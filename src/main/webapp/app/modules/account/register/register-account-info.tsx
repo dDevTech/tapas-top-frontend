@@ -2,24 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { Row, Col, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { handleRegister, reset } from './register.reducer';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import AnimatedProgress from 'app/shared/util/animated-progress';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
-
+  const ageVerified = useAppSelector(state => state.ageVerify.age_verification_success);
+  const registerRequired = useAppSelector(state => state.register.registerRequiredFinished);
   useEffect(
     () => () => {
       dispatch(reset());
     },
     []
   );
+  const navigate = useNavigate();
+  if (!ageVerified) {
+    navigate('/age-verify');
+  } else if (!registerRequired) {
+    navigate('/register');
+  }
+
   const successMessage = useAppSelector(state => state.register.successMessage);
 
   const state = useLocation().state;
@@ -39,7 +46,7 @@ export const RegisterAccountInfo = () => {
     if (successMessage) {
       return <AnimatedProgress label="VERIFICACIÓN CORREO" start={75} end={90} delay={50}></AnimatedProgress>;
     }
-    return <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} delay={50}></AnimatedProgress>;
+    return <AnimatedProgress label="DATOS OPCIONALES" start={45} end={75} delay={50}></AnimatedProgress>;
   }
 
   const [selectedCountry, setSelectedCountry] = useState(null);

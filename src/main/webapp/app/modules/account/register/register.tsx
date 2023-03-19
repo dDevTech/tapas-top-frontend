@@ -13,15 +13,18 @@ import AnimatedProgress from 'app/shared/util/animated-progress';
 export const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-
+  const ageVerified = useAppSelector(state => state.ageVerify.age_verification_success);
   useEffect(
     () => () => {
       dispatch(reset());
     },
     []
   );
-
   const navigate = useNavigate();
+  if (!ageVerified) {
+    navigate('/age-verify');
+  }
+
   const handleValidSubmit = ({ username, email, firstPassword }) => {
     navigate('/register-account-info', { state: { login: username, em: email, password: firstPassword } });
   };
@@ -30,7 +33,7 @@ export const RegisterPage = () => {
 
   return (
     <div>
-      <AnimatedProgress label="DATOS NECESARIOS" start={25} end={50} delay={50}></AnimatedProgress>
+      <AnimatedProgress label="DATOS NECESARIOS" start={15} end={45} delay={50}></AnimatedProgress>
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
