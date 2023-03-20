@@ -9,7 +9,7 @@ export const NavDropdown = props => (
       <FontAwesomeIcon icon={props.icon} />
       <span>{props.name}</span>
     </DropdownToggle>
-    <DropdownMenu end style={props.style}>
+    <DropdownMenu end style={props.style} className="account-dropdown">
       {props.children}
     </DropdownMenu>
   </UncontrolledDropdown>

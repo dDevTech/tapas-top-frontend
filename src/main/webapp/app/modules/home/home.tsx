@@ -2,8 +2,7 @@ import './home.scss';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Row, Col, Alert } from 'reactstrap';
+import { Button, Alert, Row, Col } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
 
@@ -12,75 +11,58 @@ export const Home = () => {
 
   return (
     <Row>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
-      <Col md="9">
-        <h2>¡Bienvenido, Java Hipster!</h2>
-        <p className="lead">Esta es su página de inicio</p>
-        {account?.login ? (
-          <div>
-            <Alert color="success">Está conectado como &quot;{account.login}&quot;.</Alert>
-          </div>
+      <Col xs="1"></Col>
+      <Col xs="10">
+        {!account?.login ? (
+          <>
+            <Row>
+              <p className="title">¡Bienvenido a TapasTop!</p>
+            </Row>
+
+            <Row className="margin-top-row shadow-box">
+              <Col md="6">
+                <img className="width-100" src="content/images/foto-tapa.avif" />
+              </Col>
+              <Col md="6">
+                <Row className="row-introduction">
+                  <p className="introduction">
+                    TapasTop es una aplicación social que promociona los pequeños bares y restaurantes que ofertan productos de muy buena
+                    calidad. Dentro de la aplicación podrás conocer cuál es la comida típica de una zona y valorla según tu gusto. Además
+                    podrás encontrar locales con encanto visitados y comentados por nuestra comunidad.
+                  </p>
+                </Row>
+                <Row className="row-citation">
+                  <p className="citation">
+                    &quot;El descubrimiento de un nuevo plato es de más provecho para la humanidad que el descubrimiento de una
+                    estrella.&quot;
+                  </p>
+                  <span className="citation">(Jean Anthelme Brillat-Savarin)</span>
+                </Row>
+                <Row className="row-buttons">
+                  <Col className="login-col" md="6">
+                    <Link to="/login">
+                      <Button className="login-button" color="primary" type="submit" data-cy="submit">
+                        Iniciar sesión
+                      </Button>
+                    </Link>
+                  </Col>
+                  <Col className="register-col" md="6">
+                    <Link to="/age-verify">
+                      <Button className="register-button" color="primary" type="submit" data-cy="submit">
+                        Crear una cuenta
+                      </Button>
+                    </Link>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </>
         ) : (
-          <div>
-            <Alert color="warning">
-              Si desea
-              <span>&nbsp;</span>
-              <Link to="/login" className="alert-link">
-                iniciar sesión
-              </Link>
-              , puede intentar con las cuentas predeterminadas:
-              <br />- Administrador (usuario=&quot;admin&quot; y contraseña=&quot;admin&quot;) <br />- Usuario (usuario=&quot;user&quot; y
-              contraseña=&quot;user&quot;).
-            </Alert>
-
-            <Alert color="warning">
-              ¿Aún no tienes una cuenta?&nbsp;
-              <Link to="/account/register" className="alert-link">
-                Crea una cuenta
-              </Link>
-            </Alert>
-          </div>
+          <>Hola</>
         )}
-        <p>Si tiene preguntas sobre JHipster:</p>
-
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              Página de inicio de JHipster
-            </a>
-          </li>
-          <li>
-            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              JHipster en Stack Overflow
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              JHipster seguimiento de errores
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              Sala de chat pública de JHipster
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-              contacto @jhipster en Twitter
-            </a>
-          </li>
-        </ul>
-
-        <p>
-          Si te gusta JHipster, danos una estrella en{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          !
-        </p>
+        <Row></Row>
       </Col>
+      <Col xs="1"></Col>
     </Row>
   );
 };

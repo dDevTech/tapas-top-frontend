@@ -8,3 +8,67 @@ Main page styles
   background: url('../../../content/images/jhipster_family_member_0.svg') no-repeat center top;
   background-size: contain;
 }
+
+.title {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.margin-top-row {
+  margin-top: 20px;
+}
+.shadow-box {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.login-col {
+  text-align: right;
+}
+
+.register-col {
+  text-align: left;
+}
+
+.login-button {
+  margin-right: 10px;
+  width: 60%;
+}
+
+.register-button {
+  margin-left: 10px;
+  width: 60%;
+}
+
+.introduction {
+  font-size: 14px;
+  text-align: justify;
+}
+
+.citation {
+  font-size: 18px;
+  font-style: oblique;
+  color: grey;
+  text-align: center;
+}
+
+.row-buttons {
+  position: relative;
+  top: 80px;
+}
+
+.row-citation {
+  position: relative;
+  top: 35px;
+}
+
+.row-introduction {
+  position: relative;
+  top: 10px;
+}
