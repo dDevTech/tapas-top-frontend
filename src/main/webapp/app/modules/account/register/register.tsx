@@ -103,7 +103,7 @@ export const RegisterPage = () => {
             />
 
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Crear cuenta
+              Continuar
             </Button>
           </ValidatedForm>
           <p>&nbsp;</p>
