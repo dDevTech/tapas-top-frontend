@@ -9,6 +9,7 @@ const initialState = {
   registrationFailure: false,
   errorMessage: null,
   successMessage: null,
+  registerRequiredFinished: false,
 };
 
 export type RegisterState = Readonly<typeof initialState>;
@@ -27,6 +28,12 @@ export const RegisterSlice = createSlice({
   reducers: {
     reset() {
       return initialState;
+    },
+    registerFinished() {
+      return {
+        ...initialState,
+        registerRequiredFinished: true,
+      };
     },
   },
   extraReducers(builder) {
@@ -47,7 +54,7 @@ export const RegisterSlice = createSlice({
   },
 });
 
-export const { reset } = RegisterSlice.actions;
+export const { reset, registerFinished } = RegisterSlice.actions;
 
 // Reducer
 export default RegisterSlice.reducer;

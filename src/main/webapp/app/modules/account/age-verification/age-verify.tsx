@@ -7,12 +7,15 @@ import { Alert, Button, Col, Progress, Row } from 'reactstrap';
 import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import 'react-calendar/dist/Calendar.css';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import AnimatedProgress from 'app/shared/util/animated-progress';
+import { verify_age } from 'app/modules/account/age-verification/age-verify.reducer';
+import warning = toast.warning;
 export const AgeVerifyPage = () => {
-  const [value, onChange] = useState(false);
+  const [verified, onVerify] = useState(false);
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const isAdult = (v: string) => {
     const today = new Date();
     const birth = new Date(v);
@@ -24,16 +27,19 @@ export const AgeVerifyPage = () => {
     }
     return age >= 18;
   };
-  function change() {
-    onChange(true);
+  function verify() {
+    onVerify(true);
+    dispatch(verify_age());
+  }
+  const navigate = useNavigate();
+  if (verified) {
+    navigate('/register');
   }
 
-  if (value) {
-    return <Navigate to={'/register'} replace />;
-  }
   return (
     <div>
-      <AnimatedProgress label="VERIFICACIÓN EDAD" start={0} end={25} delay={50}></AnimatedProgress>
+      <Alert color="warning">Para acceder a la página debe verificar su edad</Alert>
+      <AnimatedProgress label="VERIFICACIÓN EDAD" start={0} end={15} delay={50}></AnimatedProgress>
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
@@ -43,7 +49,7 @@ export const AgeVerifyPage = () => {
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
-          <ValidatedForm id="age-form" onSubmit={change}>
+          <ValidatedForm id="age-form" onSubmit={verify}>
             <ValidatedField
               name="birth-date"
               label="Fecha de nacimiento"
