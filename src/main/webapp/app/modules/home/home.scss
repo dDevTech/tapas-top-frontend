@@ -74,3 +74,86 @@ Main page styles
   position: relative;
   top: 10px;
 }
+
+.div-padding {
+  padding: 12px;
+}
+.div-padding-left {
+  padding-left: 12px;
+}
+
+.no-margin-top {
+  margin-top: 0px !important;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+.text-align-center {
+  text-align: center;
+}
+
+.height-100 {
+  height: 100%;
+}
+
+.empty-div {
+  display: flex;
+  justify-content: center;
+}
+
+.negative-margin-top {
+  margin-top: -30px;
+}
+
+.sample-div {
+  padding: 10px;
+}
+
+.sample-card {
+  border: 1px solid #f0f0f0;
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.card-head {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 40px;
+  margin-bottom: -1px;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 8px 8px 0 0;
+}
+
+.card-left-img {
+  padding-left: 0px;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.card-rate {
+  margin-top: -8px;
+}
+
+.card-date {
+  float: right;
+}
+
+.favorite-button {
+  width: 100%;
+  margin-top: 10px;
+}
