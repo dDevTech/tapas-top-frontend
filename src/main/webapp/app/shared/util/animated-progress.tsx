@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import './animated-progress.scss';
 
 export const AnimatedProgress = ({ label, start, end, delay }) => {
   const [progress, setProgress] = useState(0);

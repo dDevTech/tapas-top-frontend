@@ -4,15 +4,19 @@ import { Row, Col, Alert } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { activateAction, reset } from './activate.reducer';
+import AnimatedProgress from 'app/shared/util/animated-progress';
 
 const successAlert = (
-  <Alert color="success">
-    <strong>Su cuenta ha sido activada.</strong> Por favor,
-    <Link to="/login" className="alert-link">
-      iniciar sesión
-    </Link>
-    .
-  </Alert>
+  <div>
+    <AnimatedProgress label="" start={100} end={100} delay={50}></AnimatedProgress>
+    <Alert color="success">
+      <strong>Su cuenta ha sido activada.</strong> Por favor,
+      <Link to="/login" className="alert-link">
+        iniciar sesión
+      </Link>
+      .
+    </Alert>
+  </div>
 );
 
 const failureAlert = (

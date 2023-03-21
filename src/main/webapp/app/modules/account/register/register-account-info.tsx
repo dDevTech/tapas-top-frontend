@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { ValidatedField, ValidatedForm } from 'react-jhipster';
-import { Row, Col, Button } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {ValidatedField, ValidatedForm} from 'react-jhipster';
+import {Row, Col, Button} from 'reactstrap';
+import {toast} from 'react-toastify';
+import {useLocation, useNavigate} from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { handleRegister, reset } from './register.reducer';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+import {useAppDispatch, useAppSelector} from 'app/config/store';
+import {handleRegister} from './register.reducer';
 import Select from 'react-select';
-import { Country, State } from 'country-state-city';
+import {Country, State} from 'country-state-city';
 import AnimatedProgress from 'app/shared/util/animated-progress';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
+  const ageVerified = useAppSelector(state => state.ageVerify.age_verification_success);
+  const registerRequired = useAppSelector(state => state.register.registerRequiredFinished);
 
+  const navigate = useNavigate();
   useEffect(
-    () => () => {
-      dispatch(reset());
+    () => {
     },
     []
   );
+
+  if (!ageVerified) {
+    navigate('/age-verify');
+  } else if (!registerRequired) {
+    navigate('/register');
+  }
+
   const successMessage = useAppSelector(state => state.register.successMessage);
 
   const state = useLocation().state;
   const handleSubmit = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    dispatch(handleRegister({ login: state.login, email: state.em, password: state.password, langKey: 'en' }));
+    dispatch(handleRegister({login: state.login, email: state.em, password: state.password, langKey: 'en'}));
   };
 
   useEffect(() => {
@@ -39,7 +47,7 @@ export const RegisterAccountInfo = () => {
     if (successMessage) {
       return <AnimatedProgress label="VERIFICACIÓN CORREO" start={75} end={90} delay={50}></AnimatedProgress>;
     }
-    return <AnimatedProgress label="DATOS OPCIONALES" start={50} end={75} delay={50}></AnimatedProgress>;
+    return <AnimatedProgress label="DATOS OPCIONALES" start={45} end={75} delay={50}></AnimatedProgress>;
   }
 
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -47,9 +55,7 @@ export const RegisterAccountInfo = () => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Progress />
-      </Row>
+      <Progress/>
       <Row className="justify-content-center mt-3">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
@@ -69,7 +75,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'Su nombre no tiene el formato válido.',
                 },
-                maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
+                maxLength: {value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.'},
               }}
               data-cy="name"
             />
@@ -82,7 +88,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'El formato de su apellido no es válido.',
                 },
-                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres.' },
+                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
               }}
               data-cy="surname1"
             />
@@ -95,7 +101,7 @@ export const RegisterAccountInfo = () => {
                   value: /^[ÁÉÍÓÚÑÜA-Za-záéíóúñü]+(\s+[ÁÉÍÓÚÑA-Z]?[a-záéíóúñ]+)*$/,
                   message: 'El formato de su apellido no es válido.',
                 },
-                maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres.' },
+                maxLength: {value: 50, message: 'Su apellido no puede tener más de 50 caracteres.'},
               }}
               data-cy="surname2"
             />
@@ -105,7 +111,7 @@ export const RegisterAccountInfo = () => {
               label="Breve texto de introducción"
               placeholder="Texto introducción"
               validate={{
-                maxLength: { value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres' },
+                maxLength: {value: 2500, message: 'Su texto de introducción no puede tener más de 2500 caracteres'},
               }}
               type="textarea"
               data-cy="description"
@@ -145,7 +151,8 @@ export const RegisterAccountInfo = () => {
                 }}
               />
             </div>
-            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia" data-cy="address" />
+            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia"
+                            data-cy="address"/>
             <div></div>
             <ValidatedField
               name="image"
