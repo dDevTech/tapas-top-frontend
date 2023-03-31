@@ -24,9 +24,11 @@ export const saveAccountSettings: (account: any) => AppThunk = account => async 
   dispatch(getSession());
 };
 
-export const updateAccount = createAsyncThunk('settings/update_account', async (account: any) => axios.post<any>(apiUrl, account), {
-  serializeError: serializeAxiosError,
-});
+export const updateAccount = createAsyncThunk(
+  'settings/update_account', 
+  async (account: any) => axios.post<any>(apiUrl, account),
+  { serializeError: serializeAxiosError }
+);
 
 export const SettingsSlice = createSlice({
   name: 'settings',
