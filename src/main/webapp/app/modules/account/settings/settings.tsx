@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
-import { saveAccountSettings, reset } from './settings.reducer';
+import { saveAccountSettings, reset, updateAccount } from './settings.reducer';
 
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
@@ -22,6 +22,10 @@ export const SettingsPage = () => {
     { value: 'notsay', label: 'Prefiero no indicarlo' },
   ];
 
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedGender, setSelectedGender] = useState(null);
+
   useEffect(() => {
     dispatch(getSession());
     return () => {
@@ -35,17 +39,54 @@ export const SettingsPage = () => {
     }
   }, [successMessage]);
 
-  const handleValidSubmit = values => {
+  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, image, address, description }){
+    
+    let genderId = null;
+    if (selectedGender != null) {
+      if (selectedGender.label === 'Hombre') {
+        genderId = 'MALE';
+      } else {
+        genderId = 'FEMALE';
+      }
+    }
+    let countryString = null;
+    let cityString = null;
+    if (selectedCountry != null) {
+      countryString = selectedCountry.name;
+    }
+    if (selectedState != null) {
+      cityString = selectedState.name;
+    }
+    /*let data = {
+      login: account.login,
+      userName: login,
+      firstName: firstName,
+      lastName: lastName1,
+      lastName2: lastName2,
+      email: email,
+      address: { address, country: countryString, city: cityString },
+      gender: genderId,
+      description: description,
+      imageUrl: image,
+      langKey: 'en'
+    }
+    console.log(data)*/
     dispatch(
-      saveAccountSettings({
-        ...account,
-        ...values,
+      updateAccount({
+        login: account.login,
+        userName: login,
+        firstName: firstName,
+        lastName: lastName1,
+        lastName2: lastName2,
+        email: email,
+        address: { address, country: countryString, city: cityString },
+        gender: genderId,
+        description: description,
+        imageUrl: image,
+        langKey: 'en'
       })
     );
   };
-
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
 
   return (
     <div>
@@ -82,7 +123,7 @@ export const SettingsPage = () => {
               data-cy="firstname"
             />
             <ValidatedField
-              name="lastName"
+              name="lastName1"
               label="Apellido 1"
               id="lastName"
               placeholder="Su primer apellido"
@@ -92,7 +133,7 @@ export const SettingsPage = () => {
               data-cy="surname1"
             />
             <ValidatedField
-              name="lastName"
+              name="lastName2"
               label="Apellido 2"
               id="lastName"
               placeholder="Su segundo apellido"
@@ -125,11 +166,19 @@ export const SettingsPage = () => {
               data-cy="image"
             />
             <label>Género</label>
-            <Select className="mt-2 mb-3" placeholder="Introduzca su género" options={optionsGender} />
+            <Select 
+              name="gender" 
+              className="mt-2 mb-3" 
+              placeholder="Introduzca su género" 
+              options={optionsGender} 
+              onChange={item => {
+                setSelectedGender(item);
+              }}/>
 
             <label>Ubicación</label>
             <div className={'row'}>
               <Select
+                name='country'
                 className={'mt-3 mb-2 col-sm'}
                 placeholder={'Seleccione el país'}
                 options={Country.getAllCountries()}
@@ -146,6 +195,7 @@ export const SettingsPage = () => {
                 }}
               />
               <Select
+                name='city'
                 className={'mt-3 mb-2 col-sm'}
                 noOptionsMessage={() => 'No hay opciones'}
                 placeholder={'Seleccione la ciudad'}
