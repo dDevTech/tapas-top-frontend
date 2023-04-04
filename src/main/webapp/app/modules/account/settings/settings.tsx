@@ -9,6 +9,7 @@ import { saveAccountSettings, reset, updateAccount } from './settings.reducer';
 
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
+import axios from 'axios';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -39,14 +40,18 @@ export const SettingsPage = () => {
     }
   }, [successMessage]);
 
-  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, image, address, description }){
+  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, imageUrl, address, description }){
     
     let genderId = null;
     if (selectedGender != null) {
       if (selectedGender.label === 'Hombre') {
         genderId = 'MALE';
-      } else {
+      } else if(selectedGender.label === 'Mujer'){
         genderId = 'FEMALE';
+      } else if(selectedGender.label === 'No seleccionar') {
+        genderId = 'NONE';
+      } else {
+        genderId = 'NOTSAY'
       }
     }
     let countryString = null;
@@ -57,22 +62,9 @@ export const SettingsPage = () => {
     if (selectedState != null) {
       cityString = selectedState.name;
     }
-    /*let data = {
-      login: account.login,
-      userName: login,
-      firstName: firstName,
-      lastName: lastName1,
-      lastName2: lastName2,
-      email: email,
-      address: { address, country: countryString, city: cityString },
-      gender: genderId,
-      description: description,
-      imageUrl: image,
-      langKey: 'en'
-    }
-    console.log(data)*/
+    
     dispatch(
-      updateAccount({
+      saveAccountSettings({
         login: account.login,
         userName: login,
         firstName: firstName,
@@ -82,12 +74,26 @@ export const SettingsPage = () => {
         address: { address, country: countryString, city: cityString },
         gender: genderId,
         description: description,
-        imageUrl: image,
+        imageUrl: imageUrl,
         langKey: 'en'
       })
     );
   };
 
+  function getGender(gender){
+    let genderValue = null
+    if(gender == "NONE"){
+      genderValue = optionsGender[0]
+    } else if(gender == "MALE"){
+      genderValue = optionsGender[1]
+    } else if(gender == "FEMALE"){
+      genderValue = optionsGender[2]
+    } else {
+      genderValue = optionsGender[3]
+    }
+    return genderValue
+  }
+  
   return (
     <div>
       <Row className="justify-content-center">
@@ -123,7 +129,7 @@ export const SettingsPage = () => {
               data-cy="firstname"
             />
             <ValidatedField
-              name="lastName1"
+              name="lastName"
               label="Apellido 1"
               id="lastName"
               placeholder="Su primer apellido"
@@ -156,13 +162,11 @@ export const SettingsPage = () => {
               data-cy="email"
             />
             <ValidatedField
-              name="image"
+              name="imageUrl"
               label="Imagen de perfil"
               id="image"
               placeholder="Imagen"
               validate={{}}
-              type="file"
-              accept={'image/*'}
               data-cy="image"
             />
             <label>Género</label>
@@ -173,7 +177,9 @@ export const SettingsPage = () => {
               options={optionsGender} 
               onChange={item => {
                 setSelectedGender(item);
-              }}/>
+              }}
+              defaultValue={ getGender(account.gender) }
+              />
 
             <label>Ubicación</label>
             <div className={'row'}>
