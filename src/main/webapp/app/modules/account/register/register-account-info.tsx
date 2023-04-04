@@ -38,13 +38,12 @@ export const RegisterAccountInfo = () => {
   const [selectedGender, setSelectedGender] = useState(null);
   const state = useLocation().state;
   function handleSubmit({ name, surname1, surname2, introductionText, address, image }) {
-    // eslint-disable-next-line no-console
-    console.log(name, surname1, surname2, introductionText, selectedState, selectedCountry, address, selectedGender);
+    // console.log(name, surname1, surname2, introductionText, selectedState, selectedCountry, address, selectedGender);
     let genderId = null;
     if (selectedGender != null) {
       if (selectedGender.label === 'Hombre') {
         genderId = 'MALE';
-      } else {
+      } else if (selectedGender.label === 'Mujer') {
         genderId = 'FEMALE';
       }
     }
@@ -56,12 +55,17 @@ export const RegisterAccountInfo = () => {
     if (selectedState != null) {
       cityString = selectedState.name;
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+
     dispatch(
       handleRegister({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         login: state.login,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         email: state.em,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         password: state.password,
         firstName: name,
         lastName: surname1,
