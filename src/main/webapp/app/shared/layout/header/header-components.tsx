@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {NavItem, NavLink, NavbarBrand, InputGroup, InputGroupText, Input} from 'reactstrap';
+import {NavLink as Link} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
-    <img src="content/images/TapasTop-logos_white.png" alt="Logo" />
+    <img src="content/images/TapasTop-logos_white.png" alt="Logo"/>
   </div>
 );
 
 export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
+    <BrandIcon/>
     <span className="brand-title">TapasTop</span>
   </NavbarBrand>
 );
@@ -20,8 +20,38 @@ export const Brand = () => (
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
+      <FontAwesomeIcon icon="home"/>
       <span>&nbsp;Inicio</span>
     </NavLink>
   </NavItem>
+);
+
+export const Tasting = () => ( // TODO: introducir enlace real cuando se cree la página
+  <NavItem>
+    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+      <FontAwesomeIcon icon="utensils"/>
+      <span>&nbsp;Degustaciones</span>
+    </NavLink>
+  </NavItem>
+)
+
+export const MostValorated = () => ( // TODO: introducir enlace real cuando se cree la página
+  <NavItem>
+    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+      <FontAwesomeIcon icon="award"/>
+      <span>&nbsp;Más valoradas</span>
+    </NavLink>
+  </NavItem>
+)
+
+export const SearchBar = () => (
+  <NavItem>
+    <InputGroup>
+      <Input placeholder={'Búsqueda'} className="search-form"/>
+      <InputGroupText>
+        <FontAwesomeIcon icon="search" size='sm'/>
+      </InputGroupText>
+    </InputGroup>
+  </NavItem>
+
 );
