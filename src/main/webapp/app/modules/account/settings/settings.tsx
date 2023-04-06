@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
-import { saveAccountSettings, reset } from './settings.reducer';
+import { saveAccountSettings, reset, updateAccount } from './settings.reducer';
 
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
+import axios from 'axios';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,10 @@ export const SettingsPage = () => {
     { value: 'female', label: 'Mujer' },
     { value: 'notsay', label: 'Prefiero no indicarlo' },
   ];
+
+  const [selectedCountry, setSelectedCountry] = useState(getCountry(account.address.country));
+  const [selectedState, setSelectedState] = useState(getCity(account.address.city));
+  const [selectedGender, setSelectedGender] = useState(null);
 
   useEffect(() => {
     dispatch(getSession());
@@ -35,18 +40,76 @@ export const SettingsPage = () => {
     }
   }, [successMessage]);
 
-  const handleValidSubmit = values => {
+  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, imageUrl, address, description }){
+    
+    let genderId = null;
+    if (selectedGender != null) {
+      if (selectedGender.label === 'Hombre') {
+        genderId = 'MALE';
+      } else if(selectedGender.label === 'Mujer'){
+        genderId = 'FEMALE';
+      } else if(selectedGender.label === 'No seleccionar') {
+        genderId = 'NONE';
+      } else {
+        genderId = 'NOTSAY'
+      }
+    }
+    let countryString = selectedCountry == null ? "" : selectedCountry.name.toString();
+    let cityString = selectedState == null ? "" : selectedState.name.toString();
+
     dispatch(
       saveAccountSettings({
-        ...account,
-        ...values,
+        login: account.login,
+        userName: login,
+        firstName: firstName,
+        lastName: lastName1,
+        lastName2: lastName2,
+        email: email,
+        address: { address, country: countryString, city: cityString },
+        gender: genderId,
+        description: description,
+        imageUrl: imageUrl,
+        langKey: 'en'
       })
     );
   };
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  function getGender(gender){
+    let genderValue = null
+    if(gender == "NONE"){
+      genderValue = optionsGender[0]
+    } else if(gender == "MALE"){
+      genderValue = optionsGender[1]
+    } else if(gender == "FEMALE"){
+      genderValue = optionsGender[2]
+    } else {
+      genderValue = optionsGender[3]
+    }
+    return genderValue
+  }
 
+  function getSelectedCountry(){
+    return account.address.country == "" ? 'Seleccione el país' : account.address.country 
+  }
+
+  function getSelectedCity(){
+    return account.address.city == "" ? 'Seleccione la ciudad' : account.address.city 
+  }
+
+  function getCountry(country){
+    let countryObject = Country.getAllCountries().find(obj => {
+      return obj.name === country
+    })
+    return countryObject == null ? null : countryObject
+  }
+
+  function getCity(city){
+    let cityObject = State.getStatesOfCountry(selectedCountry.isoCode).find(obj => {
+      return obj.name === city
+    })
+    return cityObject == null ? null : cityObject
+  }
+  
   return (
     <div>
       <Row className="justify-content-center">
@@ -54,7 +117,7 @@ export const SettingsPage = () => {
           <h2 id="settings-title">
             Ajustes del usuario [<strong>{account.login}</strong>]
           </h2>
-          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
+          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit}>
             <ValidatedField
               name="login"
               label="Usuario"
@@ -70,6 +133,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
               }}
               data-cy="username"
+              defaultValue={account.login}
             />
             <ValidatedField
               name="firstName"
@@ -80,6 +144,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su nombre no puede tener más de 50 caracteres' },
               }}
               data-cy="firstname"
+              defaultValue={account.firstName}
             />
             <ValidatedField
               name="lastName"
@@ -90,9 +155,10 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname1"
+              defaultValue={account.lastName}
             />
             <ValidatedField
-              name="lastName"
+              name="lastName2"
               label="Apellido 2"
               id="lastName"
               placeholder="Su segundo apellido"
@@ -100,6 +166,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname2"
+              defaultValue={account.lastName2}
             />
             <ValidatedField
               name="email"
@@ -113,25 +180,35 @@ export const SettingsPage = () => {
                 validate: v => isEmail(v) || 'Su correo electrónico no es válido.',
               }}
               data-cy="email"
+              defaultValue={account.email}
             />
             <ValidatedField
-              name="image"
+              name="imageUrl"
               label="Imagen de perfil"
               id="image"
               placeholder="Imagen"
               validate={{}}
-              type="file"
-              accept={'image/*'}
               data-cy="image"
+              defaultValue={account.imageUrl}
             />
             <label>Género</label>
-            <Select className="mt-2 mb-3" placeholder="Introduzca su género" options={optionsGender} />
+            <Select 
+              name="gender" 
+              className="mt-2 mb-3" 
+              placeholder="Introduzca su género" 
+              options={optionsGender} 
+              onChange={item => {
+                setSelectedGender(item);
+              }}
+              defaultValue={ getGender(account.gender) }
+              />
 
             <label>Ubicación</label>
             <div className={'row'}>
               <Select
+                name='country'
                 className={'mt-3 mb-2 col-sm'}
-                placeholder={'Seleccione el país'}
+                placeholder={ getSelectedCountry() }
                 options={Country.getAllCountries()}
                 getOptionLabel={options => {
                   return options['name'];
@@ -146,9 +223,10 @@ export const SettingsPage = () => {
                 }}
               />
               <Select
+                name='city'
                 className={'mt-3 mb-2 col-sm'}
                 noOptionsMessage={() => 'No hay opciones'}
-                placeholder={'Seleccione la ciudad'}
+                placeholder={getSelectedCity()}
                 options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
                 getOptionLabel={options => {
                   return options['name'];
@@ -163,7 +241,14 @@ export const SettingsPage = () => {
               />
             </div>
 
-            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia" data-cy="address" />
+            <ValidatedField 
+              name="address" 
+              label="Dirección" 
+              id="address" 
+              placeholder="Dirección de residencia" 
+              data-cy="address"
+              defaultValue={account.address.address}
+            />
 
             <ValidatedField
               name="description"
@@ -175,6 +260,7 @@ export const SettingsPage = () => {
               }}
               type="textarea"
               data-cy="description"
+              defaultValue={account.description}
             />
 
             <Button color="primary" type="submit" data-cy="submit">
