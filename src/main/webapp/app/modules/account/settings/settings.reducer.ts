@@ -32,7 +32,7 @@ export const updateAccount = createAsyncThunk(
     lastName?: string,
     lastName2?: string,
     email: string,
-    address: { address?: string; city?: string; country?: string },
+    address: { address?: string; city?: string; country?: string };
     gender?: string,
     description?: string
     imageUrl?: string,

@@ -54,15 +54,9 @@ export const SettingsPage = () => {
         genderId = 'NOTSAY'
       }
     }
-    let countryString = null;
-    let cityString = null;
-    if (selectedCountry != null) {
-      countryString = selectedCountry.name;
-    }
-    if (selectedState != null) {
-      cityString = selectedState.name;
-    }
-    
+    let countryString = selectedCountry == null ? "" : selectedCountry.name.toString();
+    let cityString = selectedState == null ? "" : selectedState.name.toString();
+
     dispatch(
       saveAccountSettings({
         login: account.login,
@@ -80,6 +74,8 @@ export const SettingsPage = () => {
     );
   };
 
+  console.log(account)
+
   function getGender(gender){
     let genderValue = null
     if(gender == "NONE"){
@@ -93,6 +89,14 @@ export const SettingsPage = () => {
     }
     return genderValue
   }
+
+  function getSelectedCountry(){
+    return account.address.country == "" ? 'Seleccione el país' : account.address.country 
+  }
+
+  function getSelectedCity(){
+    return account.address.city == "" ? 'Seleccione la ciudad' : account.address.city 
+  }
   
   return (
     <div>
@@ -101,7 +105,7 @@ export const SettingsPage = () => {
           <h2 id="settings-title">
             Ajustes del usuario [<strong>{account.login}</strong>]
           </h2>
-          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
+          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit}>
             <ValidatedField
               name="login"
               label="Usuario"
@@ -117,6 +121,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su nombre de usuario no puede tener más de 50 caracteres.' },
               }}
               data-cy="username"
+              defaultValue={account.login}
             />
             <ValidatedField
               name="firstName"
@@ -127,6 +132,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su nombre no puede tener más de 50 caracteres' },
               }}
               data-cy="firstname"
+              defaultValue={account.firstName}
             />
             <ValidatedField
               name="lastName"
@@ -137,6 +143,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname1"
+              defaultValue={account.lastName}
             />
             <ValidatedField
               name="lastName2"
@@ -147,6 +154,7 @@ export const SettingsPage = () => {
                 maxLength: { value: 50, message: 'Su apellido no puede tener más de 50 caracteres' },
               }}
               data-cy="surname2"
+              defaultValue={account.lastName2}
             />
             <ValidatedField
               name="email"
@@ -160,6 +168,7 @@ export const SettingsPage = () => {
                 validate: v => isEmail(v) || 'Su correo electrónico no es válido.',
               }}
               data-cy="email"
+              defaultValue={account.email}
             />
             <ValidatedField
               name="imageUrl"
@@ -168,6 +177,7 @@ export const SettingsPage = () => {
               placeholder="Imagen"
               validate={{}}
               data-cy="image"
+              defaultValue={account.imageUrl}
             />
             <label>Género</label>
             <Select 
@@ -186,7 +196,7 @@ export const SettingsPage = () => {
               <Select
                 name='country'
                 className={'mt-3 mb-2 col-sm'}
-                placeholder={'Seleccione el país'}
+                placeholder={ getSelectedCountry() }
                 options={Country.getAllCountries()}
                 getOptionLabel={options => {
                   return options['name'];
@@ -204,7 +214,7 @@ export const SettingsPage = () => {
                 name='city'
                 className={'mt-3 mb-2 col-sm'}
                 noOptionsMessage={() => 'No hay opciones'}
-                placeholder={'Seleccione la ciudad'}
+                placeholder={getSelectedCity()}
                 options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
                 getOptionLabel={options => {
                   return options['name'];
@@ -219,7 +229,14 @@ export const SettingsPage = () => {
               />
             </div>
 
-            <ValidatedField name="address" label="Dirección" id="address" placeholder="Dirección de residencia" data-cy="address" />
+            <ValidatedField 
+              name="address" 
+              label="Dirección" 
+              id="address" 
+              placeholder="Dirección de residencia" 
+              data-cy="address"
+              defaultValue={account.address.address}
+            />
 
             <ValidatedField
               name="description"
@@ -231,6 +248,7 @@ export const SettingsPage = () => {
               }}
               type="textarea"
               data-cy="description"
+              defaultValue={account.description}
             />
 
             <Button color="primary" type="submit" data-cy="submit">
