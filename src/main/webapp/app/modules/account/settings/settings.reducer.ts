@@ -16,17 +16,30 @@ const initialState = {
 export type SettingsState = Readonly<typeof initialState>;
 
 // Actions
-const apiUrl = 'api/account';
 
 export const saveAccountSettings: (account: any) => AppThunk = account => async dispatch => {
   await dispatch(updateAccount(account));
-
+  
   dispatch(getSession());
 };
 
-export const updateAccount = createAsyncThunk('settings/update_account', async (account: any) => axios.post<any>(apiUrl, account), {
-  serializeError: serializeAxiosError,
-});
+export const updateAccount = createAsyncThunk(
+  'settings/update_account', 
+  async (data: {
+    login: string,
+    userName?: string,
+    firstName?: string,
+    lastName?: string,
+    lastName2?: string,
+    email: string,
+    address: { address?: string; city?: string; country?: string };
+    gender?: string,
+    description?: string
+    imageUrl?: string,
+    langKey?: string;
+  }) => axios.post<any>('api/account', data),
+  { serializeError: serializeAxiosError }
+);
 
 export const SettingsSlice = createSlice({
   name: 'settings',
