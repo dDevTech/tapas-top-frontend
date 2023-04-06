@@ -23,8 +23,8 @@ export const SettingsPage = () => {
     { value: 'notsay', label: 'Prefiero no indicarlo' },
   ];
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(getCountry(account.address.country));
+  const [selectedState, setSelectedState] = useState(getCity(account.address.city));
   const [selectedGender, setSelectedGender] = useState(null);
 
   useEffect(() => {
@@ -74,8 +74,6 @@ export const SettingsPage = () => {
     );
   };
 
-  console.log(account)
-
   function getGender(gender){
     let genderValue = null
     if(gender == "NONE"){
@@ -96,6 +94,20 @@ export const SettingsPage = () => {
 
   function getSelectedCity(){
     return account.address.city == "" ? 'Seleccione la ciudad' : account.address.city 
+  }
+
+  function getCountry(country){
+    let countryObject = Country.getAllCountries().find(obj => {
+      return obj.name === country
+    })
+    return countryObject == null ? null : countryObject
+  }
+
+  function getCity(city){
+    let cityObject = State.getStatesOfCountry(selectedCountry.isoCode).find(obj => {
+      return obj.name === city
+    })
+    return cityObject == null ? null : cityObject
   }
   
   return (
