@@ -30,6 +30,7 @@ export const Profile = () => {
   useEffect(() => {
     if (value) {
       document.getElementById('description_general').style.height = value + 'px';
+      document.getElementById('description_info').style.height = value - 39 + 'px';
       document.getElementById('imagen_hola').style.height = value + 'px';
     }
   }, [value]);
@@ -50,27 +51,36 @@ export const Profile = () => {
           </div>
         </Col>
         <Col className="descriptions-box" id="description_general">
-          <Descriptions size="default" column={1} layout="horizontal">
-            <Descriptions.Item label="Login">{account.login}</Descriptions.Item>
-            <Descriptions.Item label="Correo">{account.email}</Descriptions.Item>
-            <Descriptions.Item label="Nombre">
-              {account.firstName ? account.firstName + ' ' : ''}
-              {account.lastName ? account.lastName + ' ' : ''}
-              {account.lastName2 ? account.lastName2 + ' ' : ''}
-            </Descriptions.Item>
-            {account.address?.address ? <Descriptions.Item label="Dirección">{account.address?.address}</Descriptions.Item> : null}
-            {favorites ? (
-              <Descriptions.Item label="Tapas favoritas">{favorites.length}</Descriptions.Item>
-            ) : (
-              <Descriptions.Item label="Tapas favoritas">{0}</Descriptions.Item>
-            )}
-            {account.ratings ? (
-              <Descriptions.Item label="Tapas puntuadas">{account.ratings?.length}</Descriptions.Item>
-            ) : (
-              <Descriptions.Item label="Tapas puntuadas">{0}</Descriptions.Item>
-            )}
-            {account.description ? <Descriptions.Item label="Descripción">{account.description}</Descriptions.Item> : null}
-          </Descriptions>
+          <Row id="description_info">
+            <Descriptions className="descriptions-box height-100" size="default" column={1} layout="horizontal">
+              <Descriptions.Item label="Login">{account.login}</Descriptions.Item>
+              <Descriptions.Item label="Correo">{account.email}</Descriptions.Item>
+              <Descriptions.Item label="Nombre">
+                {account.firstName ? account.firstName + ' ' : ''}
+                {account.lastName ? account.lastName + ' ' : ''}
+                {account.lastName2 ? account.lastName2 + ' ' : ''}
+              </Descriptions.Item>
+              {account.address?.address ? <Descriptions.Item label="Dirección">{account.address?.address}</Descriptions.Item> : null}
+              {favorites ? (
+                <Descriptions.Item label="Tapas favoritas">{favorites.length}</Descriptions.Item>
+              ) : (
+                <Descriptions.Item label="Tapas favoritas">{0}</Descriptions.Item>
+              )}
+              {account.ratings ? (
+                <Descriptions.Item label="Tapas puntuadas">{account.ratings?.length}</Descriptions.Item>
+              ) : (
+                <Descriptions.Item label="Tapas puntuadas">{0}</Descriptions.Item>
+              )}
+              {account.description ? <Descriptions.Item label="Descripción">{account.description}</Descriptions.Item> : null}
+            </Descriptions>
+          </Row>
+          <Row className="login-col">
+            <Link to="/account/settings">
+              <Button className="register-button" color="primary" type="submit" data-cy="submit">
+                Ver más
+              </Button>
+            </Link>
+          </Row>
         </Col>
       </Row>
     </div>
