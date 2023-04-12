@@ -35,7 +35,7 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated && <Tasting />}
             {props.isAuthenticated && <MostValorated />}
             {props.isAuthenticated && <SearchBar />}
-            {props.isAuthenticated && <EntitiesMenu />}
+            {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             {<AccountMenu isAuthenticated={props.isAuthenticated} />}
           </Nav>
