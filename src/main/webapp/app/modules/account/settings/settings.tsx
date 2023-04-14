@@ -23,8 +23,8 @@ export const SettingsPage = () => {
     { value: 'notsay', label: 'Prefiero no indicarlo' },
   ];
 
-  const [selectedCountry, setSelectedCountry] = useState(getCountry(account.address.country));
-  const [selectedState, setSelectedState] = useState(getCity(account.address.city));
+  const [selectedCountry, setSelectedCountry] = useState(account.address.country);
+  const [selectedState, setSelectedState] = useState(account.address.city);
   const [selectedGender, setSelectedGender] = useState(null);
 
   useEffect(() => {
@@ -54,8 +54,9 @@ export const SettingsPage = () => {
         genderId = 'NOTSAY'
       }
     }
-    let countryString = selectedCountry == null ? "" : selectedCountry.name.toString();
-    let cityString = selectedState == null ? "" : selectedState.name.toString();
+
+    let countryString = typeof selectedCountry == 'undefined' ? "" : selectedCountry
+    let cityString = typeof selectedState == 'undefined' ? "" : selectedState
 
     dispatch(
       saveAccountSettings({
@@ -89,25 +90,32 @@ export const SettingsPage = () => {
   }
 
   function getSelectedCountry(){
-    return account.address.country == "" ? 'Seleccione el país' : account.address.country 
+    if(selectedCountry != ""){
+      let countryObject = Country.getAllCountries().find(obj => obj.name.toString() === selectedCountry)
+      return countryObject
+    } else {
+      return null
+    }
   }
 
   function getSelectedCity(){
-    return account.address.city == "" ? 'Seleccione la ciudad' : account.address.city 
+    if(selectedState != ""){
+      let countryObject = getSelectedCountry()
+      let cityObject = State.getStatesOfCountry(countryObject.isoCode).find(obj => obj.name.toString() === selectedState)
+      return cityObject
+    } else {
+      return null
+    }
   }
 
-  function getCountry(country){
-    let countryObject = Country.getAllCountries().find(obj => {
-      return obj.name === country
-    })
-    return countryObject == null ? null : countryObject
-  }
-
-  function getCity(city){
-    let cityObject = State.getStatesOfCountry(selectedCountry.isoCode).find(obj => {
-      return obj.name === city
-    })
-    return cityObject == null ? null : cityObject
+  function getCalleString(){
+    if(typeof account.address != "undefined"){
+      if(typeof account.address.address != "undefined"){
+        return account.address.address
+      }
+      return ""
+    }
+    return ""
   }
   
   return (
@@ -208,7 +216,6 @@ export const SettingsPage = () => {
               <Select
                 name='country'
                 className={'mt-3 mb-2 col-sm'}
-                placeholder={ getSelectedCountry() }
                 options={Country.getAllCountries()}
                 getOptionLabel={options => {
                   return options['name'];
@@ -216,9 +223,10 @@ export const SettingsPage = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
-                value={selectedCountry}
+                placeholder={selectedCountry}
+                value={ selectedCountry }
                 onChange={item => {
-                  setSelectedCountry(item);
+                  setSelectedCountry(item.name.toString());
                   setSelectedState(null);
                 }}
               />
@@ -226,17 +234,17 @@ export const SettingsPage = () => {
                 name='city'
                 className={'mt-3 mb-2 col-sm'}
                 noOptionsMessage={() => 'No hay opciones'}
-                placeholder={getSelectedCity()}
-                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                options={State?.getStatesOfCountry(getSelectedCountry()?.isoCode)}
                 getOptionLabel={options => {
                   return options['name'];
                 }}
                 getOptionValue={options => {
                   return options['name'];
                 }}
-                value={selectedState}
+                placeholder={selectedState}
+                value={ selectedState }
                 onChange={item => {
-                  setSelectedState(item);
+                  setSelectedState(item.name);
                 }}
               />
             </div>
@@ -247,7 +255,7 @@ export const SettingsPage = () => {
               id="address" 
               placeholder="Dirección de residencia" 
               data-cy="address"
-              defaultValue={account.address.address}
+              defaultValue={ getCalleString() }
             />
 
             <ValidatedField
