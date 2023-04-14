@@ -54,14 +54,9 @@ export const SettingsPage = () => {
         genderId = 'NOTSAY'
       }
     }
-    /*let countryString = selectedCountry;
-    let cityString = selectedState;*/
+
     let countryString = typeof selectedCountry == 'undefined' ? "" : selectedCountry
     let cityString = typeof selectedState == 'undefined' ? "" : selectedState
-    console.log(countryString)
-    console.log(cityString)
-    console.log(selectedCountry)
-    console.log(selectedState)
 
     dispatch(
       saveAccountSettings({
@@ -97,7 +92,6 @@ export const SettingsPage = () => {
   function getSelectedCountry(){
     if(selectedCountry != ""){
       let countryObject = Country.getAllCountries().find(obj => obj.name.toString() === selectedCountry)
-      console.log(countryObject)
       return countryObject
     } else {
       return null
@@ -123,34 +117,6 @@ export const SettingsPage = () => {
     }
     return ""
   }
-
-  function getCountry(){
-    return account.address.country == "" ? "Selecciona un país" : account.address.country
-  }
-
-  function getCity(){
-    return account.address.city == "" ? "Selecciona una ciudad" : account.address.city
-  }
-
-  function paisElegido(){
-    if(typeof selectedCountry != "undefined"){
-      console.log(getSelectedCountry())
-      return getSelectedCountry()
-    } else {
-      return selectedCountry
-    }
-  }
-
-  function ciudadElegida(){
-    if(typeof selectedState != "undefined"){
-      return getSelectedCity()
-    } else {
-      return selectedState
-    }
-  }
-
-  console.log(account)
-  console.log(selectedCountry)
   
   return (
     <div>
@@ -260,7 +226,6 @@ export const SettingsPage = () => {
                 placeholder={selectedCountry}
                 value={ selectedCountry }
                 onChange={item => {
-                  console.log(item.name)
                   setSelectedCountry(item.name.toString());
                   setSelectedState(null);
                 }}
