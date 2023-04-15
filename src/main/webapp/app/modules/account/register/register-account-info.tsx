@@ -51,9 +51,14 @@ export const RegisterAccountInfo = () => {
     let cityString = null;
     if (selectedCountry != null) {
       countryString = selectedCountry.name;
+    } else {
+      countryString = ""
     }
+
     if (selectedState != null) {
       cityString = selectedState.name;
+    } else {
+      cityString = ""
     }
 
     dispatch(
