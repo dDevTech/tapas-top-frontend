@@ -2,7 +2,7 @@ import { Button, Col, Row, UncontrolledCarousel, Alert } from 'reactstrap';
 import { Avatar, Descriptions, Divider, Table, Tabs, Timeline, Empty, Card, Image, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLast } from 'app/shared/reducers/tapa.reducer';
+import { getLast, getLastEstablisment } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import Sample from 'app/modules/home/sample';
 
@@ -11,11 +11,15 @@ export const Statistics = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const sampleList = useAppSelector(state => state.tapas.last);
-  useEffect(() => {
-    dispatch(getLast(account.login));
-  }, []);
+  const establishmentList = useAppSelector(state => state.tapas.lastRestaurants);
 
-  const establishmentList = [];
+  useEffect(() => {
+    if (dispatch && account) {
+      dispatch(getLast(account.login));
+      dispatch(getLastEstablisment(account.login));
+    }
+  }, [dispatch, account]);
+
   return (
     <Col>
       <Tabs
@@ -88,28 +92,64 @@ function LastSample({ list }) {
 }
 
 function LastEstablishment({ list }) {
+  const timelineList = [];
+  list.forEach(sample => {
+    timelineList.push({ children: new Date(sample?.createdDate).toLocaleDateString() + ' ' + sample.name });
+  });
   return (
     <Col>
       {list.length ? (
         <Row>
-          <Col md="9">hola</Col>
+          <Col md="9">
+            <Row>
+              {list.map(sample => (
+                <Col className="sample-div" md="6">
+                  <Row className="sample-card">
+                    <Col md="12">
+                      <Row className="card-head">
+                        <div className="card-head-wrapper">
+                          <div className="card-head-title">{sample?.name}</div>
+                          <div className="card-extra">
+                            <Descriptions className="login-col" size="small" column={1} layout="horizontal">
+                              <Descriptions.Item className="card-date" label="Fecha">
+                                {new Date(sample?.createdDate).toLocaleDateString()}
+                              </Descriptions.Item>
+                            </Descriptions>
+                          </div>
+                        </div>
+                      </Row>
+                      <Row>
+                        <Col className="card-content" md="12">
+                          <Descriptions size="small" column={2} layout="horizontal">
+                            <Descriptions.Item label="País">{sample?.address?.country}</Descriptions.Item>
+                            <Descriptions.Item label="Tipo de establecimiento">{sample?.type}</Descriptions.Item>
+                          </Descriptions>
+                          <Descriptions column={1} layout="horizontal">
+                            <Descriptions.Item label="Ciudad">{sample?.address?.city}</Descriptions.Item>
+                            <Descriptions.Item label="Dirección">{sample?.address?.address}</Descriptions.Item>
+                          </Descriptions>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              ))}
+            </Row>
+          </Col>
           <Col md="3">
-            <Divider className="no-margin-top">Últimos locales visitados</Divider>
-            <Timeline items={list} />
+            <Divider className="no-margin-top">
+              <span>Últimas restaurantes introducidos (</span>
+              {list.length}
+              <span>)</span>
+            </Divider>
+            <Timeline items={timelineList} />
           </Col>
         </Row>
       ) : (
         <div className="text-align-center margin-top ">
           <div>
             <Row>
-              <Empty description={'No has introducido ningún nuevo local en los últimos 7 días'} />
-            </Row>
-            <Row className="empty-div margin-top-20">
-              <Link to="/login">
-                <Button color="primary" type="submit" data-cy="submit">
-                  Introduce un nuevo local ahora
-                </Button>
-              </Link>
+              <Empty description={'No has introducido ningún establecimiento en los últimos 7 días'} />
             </Row>
           </div>
         </div>
