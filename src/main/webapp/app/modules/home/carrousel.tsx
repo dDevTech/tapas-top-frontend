@@ -8,42 +8,57 @@ export const Carrousel = () => {
   const [imgList, setImageList] = useState([]);
 
   useEffect(() => {
+    const containerWidth = document.getElementById('home-carousel')?.clientWidth;
+    document.getElementById('home-carousel').style.height = containerWidth / 2 + 'px';
+  }, [document.getElementById('home-carousel')?.clientWidth]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+  }, []);
+
+  const handleResize = () => {
+    const containerWidth = document.getElementById('home-carousel')?.clientWidth;
+    document.getElementById('home-carousel').style.height = containerWidth / 2 + 'px';
+  };
+
+  useEffect(() => {
     if (favorites.length) {
+      imgList.length = 0;
       favorites.forEach(tapa => {
-        if (tapa.photo)
+        if (tapa.imageUrl)
           imgList.push({
             altText: tapa.name,
             caption: tapa.name,
             key: tapa.id,
-            src: tapa.photo,
+            src: tapa.imageUrl,
           });
       });
       setImageList(imgList);
     } else
       setImageList([
         {
-          altText: 'Slide 1',
-          caption: 'Slide 1',
+          altText: 'Mary Montaña ',
+          caption: 'Rabo de toro glaseado con risotto marinero',
           key: 1,
-          src: 'https://picsum.photos/id/123/1200/600',
+          src: 'https://elperroylagalleta.com/wp-content/uploads/2016/08/MAR-Y-MONTAN%CC%83A.jpg',
         },
         {
-          altText: 'Slide 2',
-          caption: 'Slide 2',
+          altText: ' Hamburguesa de vaca',
+          caption: 'Hamburguesa de vaca madurada, mozarella y mahonesa de trufa',
           key: 2,
-          src: 'https://picsum.photos/id/456/1200/600',
+          src: 'https://2.bp.blogspot.com/-mO24agnTv0c/WCzDGk83vnI/AAAAAAAAWoA/k3JMPz3VyIwQuFnMLA-5W2G6h_abawhDQCPcB/s1600/Hamburguesa-setas-Persucarhipa.JPG',
         },
         {
-          altText: 'Slide 3',
-          caption: 'Slide 3',
+          altText: 'Presa ibérica',
+          caption: 'Presa ibérica con parmentier de coliflor',
           key: 3,
-          src: 'https://picsum.photos/id/678/1200/600',
+          src: 'https://www.recetassinlactosa.com/wp-content/uploads/2018/03/Presa-ib%C3%A9rica-con-parmentier-y-setas-1.jpg',
         },
       ]);
   }, [favorites]);
   return (
     <Row className="width-100">
-      <UncontrolledCarousel className="width-100" items={imgList} />
+      <UncontrolledCarousel id="home-carousel" className="width-100 overflow-auto" items={imgList} />
     </Row>
   );
 };
