@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { ITapa } from 'app/shared/model/tapa.model';
+import { IEstablishment } from 'app/shared/model/establishment.model';
 
 const initialState = {
   loading: false,
@@ -10,6 +11,7 @@ const initialState = {
   updateSuccess: false,
   favorites: [] as ITapa[],
   last: [] as ITapa[],
+  lastRestaurants: [] as IEstablishment[],
 };
 
 const apiUrl = 'api/tapas';
@@ -31,6 +33,16 @@ export const getLast = createAsyncThunk(
   },
   { serializeError: serializeAxiosError }
 );
+
+export const getLastEstablisment = createAsyncThunk(
+  'tapas_fetch_last_establisment',
+  async (login: string) => {
+    const requestUrl = `api/myuser/lastRestaurants/${login}`;
+    return axios.get<ITapa[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
+
 /*export const getQuestionaryStructuresByCampaignPhase = createAsyncThunk(
   'questionary-structures/fetch_questionary-structures',
   async (campaignPhaseId: number) => {
@@ -80,15 +92,15 @@ export const TapaSlice = createSlice({
         state.favorites = action.payload.data;
         state.loading = false;
       })
+      .addCase(getLastEstablisment.fulfilled, (state, action) => {
+        state.lastRestaurants = action.payload.data;
+        state.loading = false;
+      })
       .addCase(getLast.fulfilled, (state, action) => {
         state.last = action.payload.data;
         state.loading = false;
       })
-      .addMatcher(isPending(getFavorites), state => {
-        state.errorMessage = null;
-        state.loading = true;
-      })
-      .addMatcher(isPending(getLast), state => {
+      .addMatcher(isPending(getFavorites, getLast, getLastEstablisment), state => {
         state.errorMessage = null;
         state.loading = true;
       });
