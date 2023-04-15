@@ -3,7 +3,7 @@ import { Route, useNavigate } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
-import Register from 'app/modules/account/register/register';
+import Register, { RegisterPage } from 'app/modules/account/register/register';
 import RegisterAccountInfo from 'app/modules/account/register/register-account-info';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
@@ -16,6 +16,8 @@ import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
+
+import { TastingPage } from 'app/modules/tasting/Tasting';
 
 const loading = <div>loading ...</div>;
 
@@ -48,13 +50,21 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-
           <Route path="activate" element={<Activate />} />
           <Route path="reset">
             <Route path="request" element={<PasswordResetInit />} />
             <Route path="finish" element={<PasswordResetFinish />} />
           </Route>
         </Route>
+        <Route
+          path="tasting"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <TastingPage />
+            </PrivateRoute>
+          }
+        ></Route>
+
         <Route
           path="admin/*"
           element={
