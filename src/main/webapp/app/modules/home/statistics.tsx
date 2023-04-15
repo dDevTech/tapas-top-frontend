@@ -47,7 +47,7 @@ function LastSample({ list }) {
           <Col md="9">
             <Row>
               {list.map(sample => (
-                <Sample key={sample} tapa={sample} />
+                <Sample key={sample} tapa={sample} id_image={'sample-statistics-image'} />
               ))}
             </Row>
           </Col>

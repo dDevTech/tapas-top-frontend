@@ -48,7 +48,7 @@ export const Favorite = () => {
           ) : null}
           <Row>
             {sampleList.map(sample => (
-              <Sample key={sample} tapa={sample} />
+              <Sample key={sample} tapa={sample} id_image={'sample-favorite-image'} />
             ))}
           </Row>
         </Col>
