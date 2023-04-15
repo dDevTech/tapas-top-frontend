@@ -48,7 +48,7 @@ export const PasswordResetSlice = createSlice({
         ...initialState,
         loading: false,
         resetPasswordSuccess: true,
-        successMessage: "La contraseña no se pudo cambiar. El link solo es válido por 24 horas.",
+        successMessage: "Contraseña cambiada correctamente",
       }))
       .addMatcher(isPending(handlePasswordResetInit, handlePasswordResetFinish), state => {
         state.loading = true;
