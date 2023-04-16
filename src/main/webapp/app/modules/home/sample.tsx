@@ -3,7 +3,7 @@ import { Descriptions, Divider, Image, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 export const Sample = ({ tapa, id_image }) => {
-  const [value, setValue] = useState(20);
+  const [value, setValue] = useState(150);
   useEffect(() => {
     const containerFavoriteWidth = document.getElementById('sample-favorite-image')?.clientWidth;
     const containerStatiscticsWidth = document.getElementById('sample-statistics-image')?.clientWidth;

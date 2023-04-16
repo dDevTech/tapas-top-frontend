@@ -2,7 +2,7 @@ import { Button, Col, Row, UncontrolledCarousel, Alert } from 'reactstrap';
 import { Avatar, Descriptions, Divider, Table, Tabs, Timeline, Empty, Card, Image, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLast, getLastEstablisment } from 'app/shared/reducers/tapa.reducer';
+import { getLast, getLastEstablisment } from 'app/shared/reducers/user-info.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import Sample from 'app/modules/home/sample';
 
@@ -10,8 +10,8 @@ export const Statistics = () => {
   const tabs = ['Últimas tapas degustadas', 'Últimos locales visitados'];
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
-  const sampleList = useAppSelector(state => state.tapas.last);
-  const establishmentList = useAppSelector(state => state.tapas.lastRestaurants);
+  const sampleList = useAppSelector(state => state.userInfo.last);
+  const establishmentList = useAppSelector(state => state.userInfo.lastRestaurants);
 
   useEffect(() => {
     if (dispatch && account) {
@@ -103,7 +103,7 @@ function LastEstablishment({ list }) {
           <Col md="9">
             <Row>
               {list.map(sample => (
-                <Col className="sample-div" md="6">
+                <Col key={sample} className="sample-div" md="6">
                   <Row className="sample-card">
                     <Col md="12">
                       <Row className="card-head">

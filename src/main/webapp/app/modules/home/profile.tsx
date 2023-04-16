@@ -6,9 +6,9 @@ import { useAppSelector } from 'app/config/store';
 
 export const Profile = () => {
   const account = useAppSelector(state => state.authentication.account);
-  const favorites = useAppSelector(state => state.tapas.favorites);
+  const favorites = useAppSelector(state => state.userInfo.favorites);
 
-  const [value, setValue] = useState(100);
+  const [value, setValue] = useState(250);
   useEffect(() => {
     const dividerHeight = document.getElementById('divider-home')?.clientHeight;
     const containerWidth = document.getElementById('container-profile')?.clientWidth;

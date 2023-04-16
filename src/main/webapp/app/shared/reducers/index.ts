@@ -13,6 +13,7 @@ import settings from 'app/modules/account/settings/settings.reducer';
 import passwordReset from 'app/modules/account/password-reset/password-reset.reducer';
 import entitiesReducers from 'app/entities/reducers';
 import ageVerify from 'app/modules/account/age-verification/age-verify.reducer';
+import userInfo from 'app/shared/reducers/user-info.reducer';
 import tapas from 'app/shared/reducers/tapa.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
@@ -28,6 +29,7 @@ const rootReducer: ReducersMapObject = {
   settings,
   loadingBar,
   ageVerify,
+  userInfo,
   tapas,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   ...entitiesReducers,

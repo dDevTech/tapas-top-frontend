@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppSelector } from 'app/config/store';
 
 export const Carrousel = () => {
-  const favorites = useAppSelector(state => state.tapas.favorites);
+  const favorites = useAppSelector(state => state.userInfo.favorites);
   const [imgList, setImageList] = useState([]);
 
   useEffect(() => {
