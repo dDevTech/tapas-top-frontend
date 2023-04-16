@@ -23,37 +23,35 @@ export const TastingPage = () => {
         </Col>
       </Row>
       <Row className="mx-auto w-50">
-        <ValidatedForm id="register-form" onSubmit={onValidatedFormSubmit}>
-          <Row className="col-md-auto mx-auto ">
-            <Col>
-              <ValidatedField
-                name="find"
-                placeholder="Buscar tapa"
-                validate={{
-                  required: { value: true, message: 'Escribe para buscar una tapa.' },
-                  minLength: { value: 2, message: 'Mínimo 2 carácteres para buscar.' },
-                  maxLength: { value: 50, message: 'Máximo 50 carácteres.' },
-                }}
-                onChange={v => {
-                  setSearch(v.target.value);
-                }}
-              />
-            </Col>
-            <Col className="col-md-auto">
-              <Button disabled={loading} id="tasting-search" color="primary" type="submit" data-cy="submit">
-                Buscar
-              </Button>
-            </Col>
-            <Col className="col-md-auto">
-              {loading && (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
-            </Col>
-          </Row>
+        <ValidatedForm className="row" id="register-form" onSubmit={onValidatedFormSubmit}>
+          <ValidatedField
+            className="col-sm"
+            name="find"
+            placeholder="Buscar tapa"
+            validate={{
+              required: { value: true, message: 'Escribe para buscar una tapa.' },
+              minLength: { value: 2, message: 'Mínimo 2 carácteres para buscar.' },
+              maxLength: { value: 50, message: 'Máximo 50 carácteres.' },
+            }}
+            onChange={v => {
+              setSearch(v.target.value);
+            }}
+          />
+          <Col className="col-md-auto">
+            <Button disabled={loading} id="tasting-search" color="primary" type="submit" data-cy="submit">
+              Buscar
+            </Button>
+          </Col>
+          <Col className="col-md-auto">
+            {loading && (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            )}
+          </Col>
         </ValidatedForm>
       </Row>
+
       <List
         itemLayout="vertical"
         size="large"
@@ -61,17 +59,19 @@ export const TastingPage = () => {
           pageSize: 3,
         }}
         dataSource={coincidences}
-        footer={
-          <div>
-            Mostrando <b>Degustaciones</b>
-          </div>
-        }
         renderItem={item => (
           <List.Item>
             <TastingElement item={item}></TastingElement>
           </List.Item>
         )}
       />
+      {coincidences.length === 0 && (
+        <div className="text-center">
+          <Button id="new-dish" color="secondary">
+            Crear una tapa
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
