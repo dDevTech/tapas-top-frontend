@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import Sample from 'app/modules/home/sample';
 
 export const Statistics = () => {
-  const tabs = ['Últimas tapas degustadas', 'Últimos locales visitados'];
+  const tabs = ['Tapas degustadas en los últimos 7 días', 'Locales visitados en los últimos 7 días'];
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const sampleList = useAppSelector(state => state.userInfo.last);
@@ -138,7 +138,7 @@ function LastEstablishment({ list }) {
           </Col>
           <Col md="3">
             <Divider className="no-margin-top">
-              <span>Últimas restaurantes introducidos (</span>
+              <span>Últimos restaurantes introducidos (</span>
               {list.length}
               <span>)</span>
             </Divider>
