@@ -117,6 +117,19 @@ export const SettingsPage = () => {
     }
     return ""
   }
+
+  function isImage(i){
+    let validate = true;
+    
+    if(!i.startsWith('http:') && !i.startsWith('https:')){
+      validate = false
+    }
+    if(!i.endsWith('.jpg') && !i.endsWith('.jpeg') && !i.endsWith('.png') && !i.endsWith('.gif') && !i.endsWith('.svg') && !i.endsWith('.webp')){
+      validate = false
+    }
+
+    return validate
+  }
   
   return (
     <div>
@@ -195,7 +208,9 @@ export const SettingsPage = () => {
               label="Imagen de perfil"
               id="image"
               placeholder="Imagen"
-              validate={{}}
+              validate={{
+                validate: i => isImage(i) || 'La URL no es válida'
+              }}
               data-cy="image"
               defaultValue={account.imageUrl}
             />
