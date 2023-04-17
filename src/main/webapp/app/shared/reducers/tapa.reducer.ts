@@ -13,6 +13,7 @@ const initialState = {
   last: [] as ITapa[],
   searchCoincidence: [] as ITapa[],
   lastRestaurants: [] as IEstablishment[],
+  restaurants: [] as IEstablishment[],
 };
 
 const apiUrl = 'api/tapas';
@@ -43,7 +44,14 @@ export const getLast = createAsyncThunk(
   },
   { serializeError: serializeAxiosError }
 );
-
+export const getRestaurants = createAsyncThunk(
+  'restaurantes',
+  async () => {
+    const requestUrl = `api/establishment`;
+    return axios.get<IEstablishment[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
 export const getLastEstablisment = createAsyncThunk(
   'tapas_fetch_last_establisment',
   async (login: string) => {
@@ -71,6 +79,10 @@ export const TapaSlice = createSlice({
         state.searchCoincidence = action.payload.data;
         state.loading = false;
       })
+      .addCase(getRestaurants.fulfilled, (state, action) => {
+        state.restaurants = action.payload.data;
+        state.loading = false;
+      })
       .addCase(getLastEstablisment.fulfilled, (state, action) => {
         state.lastRestaurants = action.payload.data;
         state.loading = false;
@@ -79,7 +91,7 @@ export const TapaSlice = createSlice({
         state.last = action.payload.data;
         state.loading = false;
       })
-      .addMatcher(isPending(getLast, getSearchCoincidences, getFavorites, getLastEstablisment), state => {
+      .addMatcher(isPending(getRestaurants, getLast, getSearchCoincidences, getFavorites, getLastEstablisment), state => {
         state.errorMessage = null;
         state.loading = true;
       });

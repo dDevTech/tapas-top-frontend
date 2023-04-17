@@ -10,18 +10,12 @@ import { saveAccountSettings, reset, updateAccount } from './settings.reducer';
 import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import axios from 'axios';
+import { optionsGender } from 'app/shared/util/Selectores';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const successMessage = useAppSelector(state => state.settings.successMessage);
-
-  const optionsGender = [
-    { value: 'none', label: 'No seleccionar' },
-    { value: 'male', label: 'Hombre' },
-    { value: 'female', label: 'Mujer' },
-    { value: 'notsay', label: 'Prefiero no indicarlo' },
-  ];
 
   const [selectedCountry, setSelectedCountry] = useState(account.address.country);
   const [selectedState, setSelectedState] = useState(account.address.city);
@@ -40,23 +34,22 @@ export const SettingsPage = () => {
     }
   }, [successMessage]);
 
-  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, imageUrl, address, description }){
-    
+  function handleValidSubmit({ login, firstName, lastName1, lastName2, email, imageUrl, address, description }) {
     let genderId = null;
     if (selectedGender != null) {
       if (selectedGender.label === 'Hombre') {
         genderId = 'MALE';
-      } else if(selectedGender.label === 'Mujer'){
+      } else if (selectedGender.label === 'Mujer') {
         genderId = 'FEMALE';
-      } else if(selectedGender.label === 'No seleccionar') {
+      } else if (selectedGender.label === 'No seleccionar') {
         genderId = 'NONE';
       } else {
-        genderId = 'NOTSAY'
+        genderId = 'NOTSAY';
       }
     }
 
-    let countryString = typeof selectedCountry == 'undefined' ? "" : selectedCountry
-    let cityString = typeof selectedState == 'undefined' ? "" : selectedState
+    const countryString = typeof selectedCountry === 'undefined' ? '' : selectedCountry;
+    const cityString = typeof selectedState === 'undefined' ? '' : selectedState;
 
     dispatch(
       saveAccountSettings({
@@ -70,54 +63,44 @@ export const SettingsPage = () => {
         gender: genderId,
         description: description,
         imageUrl: imageUrl,
-        langKey: 'en'
+        langKey: 'en',
       })
     );
-  };
-
-  function getGender(gender){
-    let genderValue = null
-    if(gender == "NONE"){
-      genderValue = optionsGender[0]
-    } else if(gender == "MALE"){
-      genderValue = optionsGender[1]
-    } else if(gender == "FEMALE"){
-      genderValue = optionsGender[2]
-    } else {
-      genderValue = optionsGender[3]
-    }
-    return genderValue
   }
 
-  function getSelectedCountry(){
-    if(selectedCountry != ""){
-      let countryObject = Country.getAllCountries().find(obj => obj.name.toString() === selectedCountry)
-      return countryObject
+  function getGender(gender) {
+    let genderValue = null;
+    if (gender === 'NONE') {
+      genderValue = optionsGender[0];
+    } else if (gender === 'MALE') {
+      genderValue = optionsGender[1];
+    } else if (gender === 'FEMALE') {
+      genderValue = optionsGender[2];
     } else {
-      return null
+      genderValue = optionsGender[3];
     }
+    return genderValue;
   }
 
-  function getSelectedCity(){
-    if(selectedState != ""){
-      let countryObject = getSelectedCountry()
-      let cityObject = State.getStatesOfCountry(countryObject.isoCode).find(obj => obj.name.toString() === selectedState)
-      return cityObject
+  function getSelectedCountry() {
+    if (selectedCountry !== '') {
+      const countryObject = Country.getAllCountries().find(obj => obj.name.toString() === selectedCountry);
+      return countryObject;
     } else {
-      return null
+      return null;
     }
   }
 
-  function getCalleString(){
-    if(typeof account.address != "undefined"){
-      if(typeof account.address.address != "undefined"){
-        return account.address.address
+  function getCalleString() {
+    if (typeof account.address !== 'undefined') {
+      if (typeof account.address.address !== 'undefined') {
+        return account.address.address;
       }
-      return ""
+      return '';
     }
-    return ""
+    return '';
   }
-  
+
   return (
     <div>
       <Row className="justify-content-center">
@@ -200,21 +183,21 @@ export const SettingsPage = () => {
               defaultValue={account.imageUrl}
             />
             <label>Género</label>
-            <Select 
-              name="gender" 
-              className="mt-2 mb-3" 
-              placeholder="Introduzca su género" 
-              options={optionsGender} 
+            <Select
+              name="gender"
+              className="mt-2 mb-3"
+              placeholder="Introduzca su género"
+              options={optionsGender}
               onChange={item => {
                 setSelectedGender(item);
               }}
-              defaultValue={ getGender(account.gender) }
-              />
+              defaultValue={getGender(account.gender)}
+            />
 
             <label>Ubicación</label>
             <div className={'row'}>
               <Select
-                name='country'
+                name="country"
                 className={'mt-3 mb-2 col-sm'}
                 options={Country.getAllCountries()}
                 getOptionLabel={options => {
@@ -224,14 +207,14 @@ export const SettingsPage = () => {
                   return options['name'];
                 }}
                 placeholder={selectedCountry}
-                value={ selectedCountry }
+                value={selectedCountry}
                 onChange={item => {
                   setSelectedCountry(item.name.toString());
                   setSelectedState(null);
                 }}
               />
               <Select
-                name='city'
+                name="city"
                 className={'mt-3 mb-2 col-sm'}
                 noOptionsMessage={() => 'No hay opciones'}
                 options={State?.getStatesOfCountry(getSelectedCountry()?.isoCode)}
@@ -242,20 +225,20 @@ export const SettingsPage = () => {
                   return options['name'];
                 }}
                 placeholder={selectedState}
-                value={ selectedState }
+                value={selectedState}
                 onChange={item => {
                   setSelectedState(item.name);
                 }}
               />
             </div>
 
-            <ValidatedField 
-              name="address" 
-              label="Dirección" 
-              id="address" 
-              placeholder="Dirección de residencia" 
+            <ValidatedField
+              name="address"
+              label="Dirección"
+              id="address"
+              placeholder="Dirección de residencia"
               data-cy="address"
-              defaultValue={ getCalleString() }
+              defaultValue={getCalleString()}
             />
 
             <ValidatedField

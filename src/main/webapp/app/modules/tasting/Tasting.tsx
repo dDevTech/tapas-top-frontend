@@ -4,6 +4,7 @@ import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Descriptions, Image, List, Rate } from 'antd';
 import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { toast } from 'react-toastify';
 
 export const TastingPage = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,11 @@ export const TastingPage = () => {
   function onValidatedFormSubmit() {
     dispatch(getSearchCoincidences(searchValue));
   }
+  useEffect(() => {
+    if (coincidences.length === 0 && searchValue !== '') {
+      toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
+    }
+  }, [coincidences]);
 
   return (
     <div>
@@ -54,6 +60,11 @@ export const TastingPage = () => {
           </Row>
         </ValidatedForm>
       </Row>
+      <div className="text-center">
+        <a href="/newDish">
+          <Button color="secondary">Crear una tapa</Button>
+        </a>
+      </div>
       <List
         itemLayout="vertical"
         size="large"
@@ -61,11 +72,6 @@ export const TastingPage = () => {
           pageSize: 3,
         }}
         dataSource={coincidences}
-        footer={
-          <div>
-            Mostrando <b>Degustaciones</b>
-          </div>
-        }
         renderItem={item => (
           <List.Item>
             <TastingElement item={item}></TastingElement>

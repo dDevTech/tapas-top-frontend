@@ -10,6 +10,7 @@ import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import AnimatedProgress from 'app/shared/util/animated-progress';
 import password from 'app/modules/account/password/password';
+import { optionsGender } from 'app/shared/util/Selectores';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -26,25 +27,21 @@ export const RegisterAccountInfo = () => {
     }
   }
 
-  const optionsGender = [
-    { value: 'none', label: 'No seleccionar' },
-    { value: 'male', label: 'Hombre' },
-    { value: 'female', label: 'Mujer' },
-    { value: 'notsay', label: 'Prefiero no indicarlo' },
-  ];
-
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedGender, setSelectedGender] = useState(null);
   const state = useLocation().state;
   function handleSubmit({ name, surname1, surname2, introductionText, address, image }) {
-    // console.log(name, surname1, surname2, introductionText, selectedState, selectedCountry, address, selectedGender);
     let genderId = null;
     if (selectedGender != null) {
       if (selectedGender.label === 'Hombre') {
         genderId = 'MALE';
       } else if (selectedGender.label === 'Mujer') {
         genderId = 'FEMALE';
+      } else if (selectedGender.label === 'No seleccionar') {
+        genderId = 'NONE';
+      } else {
+        genderId = 'NOTSAY';
       }
     }
     let countryString = null;
@@ -52,13 +49,13 @@ export const RegisterAccountInfo = () => {
     if (selectedCountry != null) {
       countryString = selectedCountry.name;
     } else {
-      countryString = ""
+      countryString = '';
     }
 
     if (selectedState != null) {
       cityString = selectedState.name;
     } else {
-      cityString = ""
+      cityString = '';
     }
 
     dispatch(
