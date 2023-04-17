@@ -1,14 +1,12 @@
-import AnimatedProgress from 'app/shared/util/animated-progress';
-import { Alert, Button, Col, Row } from 'reactstrap';
-import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
-import React, { useCallback, useEffect } from 'react';
+import { Button, Col, Row } from 'reactstrap';
+import { ValidatedField, ValidatedForm } from 'react-jhipster';
+import React, { useEffect } from 'react';
 import Select from 'react-select';
-import { State } from 'country-state-city';
 import { optionsProcedencia, optionsTipoDeComida } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
+import './tasting.scss'
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -95,7 +93,7 @@ export const NewDish = () => {
               required={true}
             />
             <label>Restaurante asociado (*)</label>
-            <Row className="row-mx-auto">
+            <Row className="row-mx-auto restaurant">
               <Col className="col-8">
                 <Select
                   name="restaurantes"
@@ -126,14 +124,22 @@ export const NewDish = () => {
             </Row>
             <label className="mb-2">Calificadores de gusto</label>
             <br />
-            <span>Dulce:</span> <Rate allowClear />
-            <br />
-            <span>Salado:</span> <Rate allowClear />
-            <br />
-            <span>Amargo:</span> <Rate allowClear />
-            <br />
-            <span>Acido:</span> <Rate allowClear />
-            <br />
+            <Row>
+              <Col className={'col-2'}> Dulce: </Col>
+              <Col className={'col-10'}> <Rate allowClear /> </Col>
+            </Row>
+            <Row>
+              <Col className={'col-2'}> Salado: </Col>
+              <Col className={'col-10'}> <Rate allowClear /> </Col>
+            </Row>
+            <Row>
+              <Col className={'col-2'}> Amargo: </Col>
+              <Col className={'col-10'}> <Rate allowClear /> </Col>
+            </Row>
+            <Row>
+              <Col className={'col-2'}> Ácido: </Col>
+              <Col className={'col-10'}> <Rate allowClear /> </Col>
+            </Row>
             <Button className="mt-5" id="register-submit" color="primary" type="submit" data-cy="submit">
               Crear tapa
             </Button>
