@@ -13,6 +13,7 @@ import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 export const NewDish = () => {
   const dispatch = useAppDispatch();
   const restaurants = useAppSelector(state => state.tapas.restaurants);
+  const loading = useAppSelector(state => state.tapas.loading);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
@@ -98,7 +99,13 @@ export const NewDish = () => {
               <Col className="col-8">
                 <Select
                   name="restaurantes"
-                  noOptionsMessage={() => 'No hay opciones'}
+                  noOptionsMessage={() => {
+                    if (!loading) {
+                      return 'No hay opciones. Si no existe crea un nuevo restaurante';
+                    } else {
+                      return 'Cargando restaurantes...';
+                    }
+                  }}
                   options={restaurants}
                   getOptionLabel={options => {
                     return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
