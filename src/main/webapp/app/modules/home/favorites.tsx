@@ -3,17 +3,17 @@ import { Descriptions, Divider, Image, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Sample from 'app/modules/home/sample';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getFavorites } from 'app/shared/reducers/tapa.reducer';
+import { getFavorites } from 'app/shared/reducers/user-info.reducer';
 
 export const Favorite = () => {
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector(state => state.tapas.favorites);
+  const favorites = useAppSelector(state => state.userInfo.favorites);
   const account = useAppSelector(state => state.authentication.account);
   const [visible, setVisible] = useState(true);
   const [sampleList, setSampleList] = useState([]);
   const [seeingAll, setSeeingAll] = useState(false);
   useEffect(() => {
-    if (favorites.length) setSampleList(favorites.slice(0, 3));
+    if (favorites.length) setSampleList(favorites.slice(0, 4));
     else setSampleList([]);
   }, [favorites]);
 
@@ -22,17 +22,17 @@ export const Favorite = () => {
   }, []);
   const onDismiss = () => setVisible(false);
   const onChangeSee = () => {
-    if (seeingAll) setSampleList(favorites);
-    else setSampleList(favorites.slice(0, 3));
+    if (!seeingAll) setSampleList(favorites);
+    else setSampleList(favorites.slice(0, 4));
     setSeeingAll(!seeingAll);
   };
 
   return (
     <Row>
       <Divider>Degustaciones favoritas</Divider>
-      {sampleList.length ? (
+      {favorites.length ? (
         <Col>
-          {sampleList.length > 4 ? (
+          {favorites.length > 4 ? (
             <Row>
               <Col md="2">
                 <Button className="favorite-button" color="primary" type="submit" data-cy="submit" onClick={onChangeSee}>
@@ -46,11 +46,13 @@ export const Favorite = () => {
               </Col>
             </Row>
           ) : null}
-          <Row>
-            {sampleList.map(sample => (
-              <Sample key={sample} tapa={sample} id_image={'sample-favorite-image'} />
-            ))}
-          </Row>
+          {sampleList.length ? (
+            <Row>
+              {sampleList.map(sample => (
+                <Sample key={sample} tapa={sample} id_image={'sample-favorite-image'} />
+              ))}
+            </Row>
+          ) : null}
         </Col>
       ) : (
         <Alert color="info" isOpen={visible} toggle={onDismiss}>
