@@ -18,6 +18,7 @@ import { AUTHORITIES } from 'app/config/constants';
 import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
 
 import { TastingPage } from 'app/modules/tasting/Tasting';
+import { MyTastings } from 'app/modules/myTastings/myTastings';
 
 const loading = <div>loading ...</div>;
 
@@ -61,6 +62,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
               <TastingPage />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="myTastings"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <MyTastings />
             </PrivateRoute>
           }
         ></Route>

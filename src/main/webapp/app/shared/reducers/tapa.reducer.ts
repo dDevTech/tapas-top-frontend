@@ -10,6 +10,7 @@ const initialState = {
   updating: false,
   updateSuccess: false,
   searchCoincidence: [] as ITapa[],
+  myTastings: [] as ITapa[],
 };
 
 const apiUrl = 'api/tapa';

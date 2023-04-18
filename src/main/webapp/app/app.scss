@@ -316,3 +316,66 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   position: absolute;
   left: -85px;
 }
+
+.tasting-card-head-title {
+  display: inline-block;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 22px !important;
+  font: oblique bold 120% cursive;
+}
+.tasting-card-head-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.tasting-card-head {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 40px;
+  margin-bottom: -1px;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 8px 8px 0 0;
+}
+
+.tasting-card-extra {
+  margin-inline-start: auto;
+  font-weight: 400;
+  font-size: 14px;
+  width: 30%;
+}
+
+.tasting-card-content {
+  padding: 10px;
+  padding-top: 2px;
+}
+
+.tasting-card-container {
+  border: 1px solid #f0f0f0;
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.tasting-card-right {
+  border-left: 1px solid #f0f0f0;
+}
+
+.tasting-card-button {
+  position: absolute;
+  bottom: 5px;
+}
+
+.width-80 {
+  width: 80%;
+}
