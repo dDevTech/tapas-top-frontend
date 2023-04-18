@@ -4,6 +4,7 @@ import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Descriptions, Image, List, Rate } from 'antd';
 import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { toast } from 'react-toastify';
 
 export const TastingPage = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,11 @@ export const TastingPage = () => {
   function onValidatedFormSubmit() {
     dispatch(getSearchCoincidences(searchValue));
   }
+  useEffect(() => {
+    if (coincidences.length === 0 && searchValue !== '') {
+      toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
+    }
+  }, [coincidences]);
 
   return (
     <div>
@@ -23,35 +29,42 @@ export const TastingPage = () => {
         </Col>
       </Row>
       <Row className="mx-auto w-50">
-        <ValidatedForm className="row" id="register-form" onSubmit={onValidatedFormSubmit}>
-          <ValidatedField
-            className="col-sm"
-            name="find"
-            placeholder="Buscar tapa"
-            validate={{
-              required: { value: true, message: 'Escribe para buscar una tapa.' },
-              minLength: { value: 2, message: 'Mínimo 2 carácteres para buscar.' },
-              maxLength: { value: 50, message: 'Máximo 50 carácteres.' },
-            }}
-            onChange={v => {
-              setSearch(v.target.value);
-            }}
-          />
-          <Col className="col-md-auto">
-            <Button disabled={loading} id="tasting-search" color="primary" type="submit" data-cy="submit">
-              Buscar
-            </Button>
-          </Col>
-          <Col className="col-md-auto">
-            {loading && (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            )}
-          </Col>
+        <ValidatedForm id="register-form" onSubmit={onValidatedFormSubmit}>
+          <Row className="col-md-auto mx-auto ">
+            <Col>
+              <ValidatedField
+                name="find"
+                placeholder="Buscar tapa"
+                validate={{
+                  required: { value: true, message: 'Escribe para buscar una tapa.' },
+                  minLength: { value: 2, message: 'Mínimo 2 carácteres para buscar.' },
+                  maxLength: { value: 50, message: 'Máximo 50 carácteres.' },
+                }}
+                onChange={v => {
+                  setSearch(v.target.value);
+                }}
+              />
+            </Col>
+            <Col className="col-md-auto">
+              <Button disabled={loading} id="tasting-search" color="primary" type="submit" data-cy="submit">
+                Buscar
+              </Button>
+            </Col>
+            <Col className="col-md-auto">
+              {loading && (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
+            </Col>
+          </Row>
         </ValidatedForm>
       </Row>
-
+      <div className="text-center">
+        <a href="/newDish">
+          <Button color="secondary">Crear una tapa</Button>
+        </a>
+      </div>
       <List
         itemLayout="vertical"
         size="large"
@@ -65,13 +78,6 @@ export const TastingPage = () => {
           </List.Item>
         )}
       />
-      {coincidences.length === 0 && (
-        <div className="text-center">
-          <Button id="new-dish" color="secondary">
-            Crear una tapa
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
