@@ -7,6 +7,7 @@ export const optionsTipo = [
   { value: 'legumbres', label: 'Legumbres' },
   { value: 'cereales', label: 'Cereales y granos' },
   { value: 'leche', label: 'Leche y derivados' },
+  { value: 'otro', label: 'Otro' },
 ];
 export const optionsProcedencia = [
   { value: 'mediterranea', label: 'Mediterránea' },
@@ -19,6 +20,8 @@ export const optionsProcedencia = [
   { value: 'francesa', label: 'Francesa' },
   { value: 'oriental', label: 'Oriental' },
   { value: 'africana', label: 'Africana' },
+  { value: 'rusa', label: 'Rusa' },
+  { value: 'mexicana', label: 'Mexicana' },
   { value: 'otro', label: 'Otro' },
 ];
 
