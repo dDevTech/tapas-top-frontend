@@ -17,6 +17,19 @@ export const NewDish = () => {
   }, []);
   const onValidatedFormSubmit = () => {};
 
+  function isImage(i){
+    let validate = true;
+    
+    if(!i.startsWith('http:') && !i.startsWith('https:')){
+      validate = false
+    }
+    if(!i.endsWith('.jpg') && !i.endsWith('.jpeg') && !i.endsWith('.png') && !i.endsWith('.gif') && !i.endsWith('.svg') && !i.endsWith('.webp')){
+      validate = false
+    }
+
+    return validate
+  }
+
   return (
     <div>
       <Row className="justify-content-center">
@@ -60,6 +73,7 @@ export const NewDish = () => {
               placeholder="https://"
               validate={{
                 required: { value: true, message: 'Se debe añadir una foto' },
+                validate: i => isImage(i) || 'La URL no es válida'
               }}
             />
             <label>Tipo de comida (*) </label>
