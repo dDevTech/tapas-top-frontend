@@ -7,6 +7,7 @@ import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -16,19 +17,6 @@ export const NewDish = () => {
     dispatch(getRestaurants());
   }, []);
   const onValidatedFormSubmit = () => {};
-
-  function isImage(i){
-    let validate = true;
-    
-    if(!i.startsWith('http:') && !i.startsWith('https:')){
-      validate = false
-    }
-    if(!i.endsWith('.jpg') && !i.endsWith('.jpeg') && !i.endsWith('.png') && !i.endsWith('.gif') && !i.endsWith('.svg') && !i.endsWith('.webp')){
-      validate = false
-    }
-
-    return validate
-  }
 
   return (
     <div>

@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import axios from 'axios';
 import { optionsGender } from 'app/shared/util/Selectores';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -99,19 +100,6 @@ export const SettingsPage = () => {
       return '';
     }
     return '';
-  }
-
-  function isImage(i){
-    let validate = true;
-    
-    if(!i.startsWith('http:') && !i.startsWith('https:')){
-      validate = false
-    }
-    if(!i.endsWith('.jpg') && !i.endsWith('.jpeg') && !i.endsWith('.png') && !i.endsWith('.gif') && !i.endsWith('.svg') && !i.endsWith('.webp')){
-      validate = false
-    }
-
-    return validate
   }
 
   return (

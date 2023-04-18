@@ -11,6 +11,7 @@ import { Country, State } from 'country-state-city';
 import AnimatedProgress from 'app/shared/util/animated-progress';
 import password from 'app/modules/account/password/password';
 import { optionsGender } from 'app/shared/util/Selectores';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -92,19 +93,6 @@ export const RegisterAccountInfo = () => {
       return <AnimatedProgress label="VERIFICACIÓN CORREO" start={75} end={90} delay={50}></AnimatedProgress>;
     }
     return <AnimatedProgress label="DATOS OPCIONALES" start={45} end={75} delay={50}></AnimatedProgress>;
-  }
-
-  function isImage(i){
-    let validate = true;
-    
-    if(!i.startsWith('http:') && !i.startsWith('https:')){
-      validate = false
-    }
-    if(!i.endsWith('.jpg') && !i.endsWith('.jpeg') && !i.endsWith('.png') && !i.endsWith('.gif') && !i.endsWith('.svg') && !i.endsWith('.webp')){
-      validate = false
-    }
-
-    return validate
   }
 
   return (
