@@ -66,7 +66,7 @@ export const NewDish = () => {
             />
             <label>Procedencia (*) </label>
             <Select
-              name="tipoComida"
+              name="procedencia"
               noOptionsMessage={() => 'No hay opciones'}
               options={optionsProcedencia}
               getOptionLabel={options => {
@@ -76,12 +76,12 @@ export const NewDish = () => {
                 return options['value'];
               }}
               className={'mt-3 mb-2 col-sm'}
-              placeholder="Introduzca tipo"
+              placeholder="Introduzca procedencia"
               required={true}
             />
             <label>Tipo (*)</label>
             <Select
-              name="procedencia"
+              name="tipoComida"
               noOptionsMessage={() => 'No hay opciones'}
               options={optionsTipo}
               getOptionLabel={options => {
@@ -91,7 +91,7 @@ export const NewDish = () => {
                 return options['value'];
               }}
               className={'mt-3 mb-2 col-sm'}
-              placeholder="Introduzca procedencia"
+              placeholder="Introduzca tipo de comida"
               required={true}
             />
             <label>Restaurante asociado (*)</label>

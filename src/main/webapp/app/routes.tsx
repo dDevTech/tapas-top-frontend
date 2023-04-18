@@ -19,6 +19,8 @@ import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
 
 import { TastingPage } from 'app/modules/tasting/Tasting';
 import { NewDish } from 'app/modules/tasting/NewDish';
+import {MostValorated} from "app/modules/most-valorated/mostValorated";
+
 const loading = <div>loading ...</div>;
 
 const Account = Loadable({
@@ -40,6 +42,7 @@ const AppRoutes = () => {
         <Route path="age-verify" element={<AgeVerifyPage />} />
         <Route path="register" element={<Register />} />
         <Route path="register-account-info" element={<RegisterAccountInfo />} />
+        <Route path="most-valorated" element={<MostValorated />} />
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
