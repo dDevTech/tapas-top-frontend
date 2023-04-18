@@ -11,6 +11,7 @@ import { Country, State } from 'country-state-city';
 import AnimatedProgress from 'app/shared/util/animated-progress';
 import password from 'app/modules/account/password/password';
 import { optionsGender } from 'app/shared/util/Selectores';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const RegisterAccountInfo = () => {
   const dispatch = useAppDispatch();
@@ -212,7 +213,9 @@ export const RegisterAccountInfo = () => {
               label="URL foto de perfil"
               id="image"
               placeholder="Imagen"
-              validate={{}}
+              validate={{
+                validate: i => isImage(i) || 'La URL no es válida'
+              }}
               accept="image/*"
               data-cy="image"
             />

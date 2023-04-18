@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import axios from 'axios';
 import { optionsGender } from 'app/shared/util/Selectores';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -178,7 +179,9 @@ export const SettingsPage = () => {
               label="Imagen de perfil"
               id="image"
               placeholder="Imagen"
-              validate={{}}
+              validate={{
+                validate: i => isImage(i) || 'La URL no es válida'
+              }}
               data-cy="image"
               defaultValue={account.imageUrl}
             />

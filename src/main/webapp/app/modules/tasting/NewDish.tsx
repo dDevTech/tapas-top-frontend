@@ -7,6 +7,7 @@ import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
+import { isImage } from 'app/shared/util/image-verification';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -60,6 +61,7 @@ export const NewDish = () => {
               placeholder="https://"
               validate={{
                 required: { value: true, message: 'Se debe añadir una foto' },
+                validate: i => isImage(i) || 'La URL no es válida'
               }}
             />
             <label>Tipo de comida (*) </label>
