@@ -4,7 +4,9 @@ import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Descriptions, Image, Divider, Rate, ConfigProvider } from 'antd';
 import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import esEs from 'antd/locale/es_ES';
+import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 export const TastingElement = ({ item }) => {
   const [value, setValue] = useState(150);
   useEffect(() => {
@@ -26,7 +28,6 @@ export const TastingElement = ({ item }) => {
       document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
     }
   };
-
   return (
     <ConfigProvider locale={esEs}>
       <Row className="tasting-card-container">
@@ -54,12 +55,20 @@ export const TastingElement = ({ item }) => {
           </Row>
           <Row>
             <Col className="tasting-card-left" md="8">
-              <Descriptions size="small" column={5} layout="horizontal">
-                <Descriptions.Item label="Tipo de tapa">{item?.type}</Descriptions.Item>
-                <Descriptions.Item label="">{}</Descriptions.Item>
-                <Descriptions.Item label="">{}</Descriptions.Item>
-                <Descriptions.Item label="País de procedencia">{item?.country}</Descriptions.Item>
-              </Descriptions>
+              <Row>
+                <Col md="10">
+                  <Descriptions size="small" column={1} layout="horizontal">
+                    <Descriptions.Item label="Tipo de tapa">{item?.type}</Descriptions.Item>
+                  </Descriptions>
+                </Col>
+                <Col className="text-align-right" md="2">
+                  <Descriptions size="small" column={1} layout="horizontal">
+                    <Descriptions.Item label="Favorito">
+                      <Rate className="card-rate-6" style={{ color: '#ff0000' }} character={<FontAwesomeIcon icon={faHeart} />} count={1} />
+                    </Descriptions.Item>
+                  </Descriptions>
+                </Col>
+              </Row>
               <Descriptions size="small" column={1} layout="horizontal">
                 <Descriptions.Item label="Descripción">{item?.description}</Descriptions.Item>
               </Descriptions>
