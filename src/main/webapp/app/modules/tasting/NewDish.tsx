@@ -5,13 +5,13 @@ import Select from 'react-select';
 import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
+import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
-  const restaurants = useAppSelector(state => state.tapas.restaurants);
+  const restaurants = useAppSelector(state => state.establishment.restaurants);
   const loading = useAppSelector(state => state.tapas.loading);
   useEffect(() => {
     dispatch(getRestaurants());

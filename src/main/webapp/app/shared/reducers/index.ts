@@ -15,6 +15,7 @@ import entitiesReducers from 'app/entities/reducers';
 import ageVerify from 'app/modules/account/age-verification/age-verify.reducer';
 import userInfo from 'app/shared/reducers/user-info.reducer';
 import tapas from 'app/shared/reducers/tapa.reducer';
+import establishment from 'app/shared/reducers/establishment.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const rootReducer: ReducersMapObject = {
@@ -31,6 +32,7 @@ const rootReducer: ReducersMapObject = {
   ageVerify,
   userInfo,
   tapas,
+  establishment,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   ...entitiesReducers,
 };

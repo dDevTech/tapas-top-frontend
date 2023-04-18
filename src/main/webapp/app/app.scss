@@ -353,7 +353,8 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 .tasting-card-content {
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 2px;
 }
 
@@ -372,10 +373,25 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 .tasting-card-button {
-  position: absolute;
-  bottom: 5px;
+  position: relative;
+  bottom: 45px;
 }
 
 .width-80 {
   width: 80%;
+}
+
+.tasting-card-valorations {
+  width: 100%;
+  padding-top: 10px;
+  height: 100%;
+}
+
+.tasting-card-left {
+  padding-top: 10px;
+}
+
+.tasting-divider {
+  margin-bottom: 2px !important;
+  font-weight: normal !important;
 }

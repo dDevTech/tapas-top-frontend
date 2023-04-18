@@ -1,7 +1,7 @@
 import { Button, Col, Row } from 'reactstrap';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Descriptions, Image, List, Rate, ConfigProvider } from 'antd';
+import { Descriptions, Image, Divider, Rate, ConfigProvider } from 'antd';
 import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import esEs from 'antd/locale/es_ES';
@@ -11,14 +11,7 @@ export const TastingElement = ({ item }) => {
     const containerWidth = document.getElementById('tapa-image')?.clientWidth;
     if (containerWidth) {
       setValue(containerWidth);
-      document.getElementById('tasting-button-col').style.minHeight = containerWidth + 'px';
-    }
-  }, [document.getElementById('tapa-image')?.clientWidth]);
-
-  useEffect(() => {
-    const containerWidth = document.getElementById('tasting-button-col')?.clientWidth;
-    if (containerWidth) {
-      document.getElementById('tasting-button-row').style.width = containerWidth + 'px';
+      document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
     }
   }, [document.getElementById('tapa-image')?.clientWidth]);
 
@@ -30,11 +23,7 @@ export const TastingElement = ({ item }) => {
     const containerWidth = document.getElementById('tapa-image')?.clientWidth;
     if (containerWidth) {
       setValue(containerWidth);
-      document.getElementById('tasting-button-col').style.minHeight = containerWidth + 'px';
-    }
-    const container2Width = document.getElementById('tasting-button-col')?.clientWidth;
-    if (container2Width) {
-      document.getElementById('tasting-button-row').style.width = container2Width + 'px';
+      document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
     }
   };
 
@@ -64,26 +53,33 @@ export const TastingElement = ({ item }) => {
             </div>
           </Row>
           <Row>
-            <Col md="8">
+            <Col className="tasting-card-left" md="8">
+              <Descriptions size="small" column={5} layout="horizontal">
+                <Descriptions.Item label="Tipo de tapa">{item?.type}</Descriptions.Item>
+                <Descriptions.Item label="">{}</Descriptions.Item>
+                <Descriptions.Item label="">{}</Descriptions.Item>
+                <Descriptions.Item label="País de procedencia">{item?.country}</Descriptions.Item>
+              </Descriptions>
               <Descriptions size="small" column={1} layout="horizontal">
                 <Descriptions.Item label="Descripción">{item?.description}</Descriptions.Item>
               </Descriptions>
-              <Descriptions size="small" column={1} layout="horizontal">
-                <Descriptions.Item label="Tipo">{item?.type}</Descriptions.Item>
-              </Descriptions>
-              <Descriptions size="small" column={2} layout="horizontal">
-                <Descriptions.Item label="Local">{item?.establishment?.name}</Descriptions.Item>
-                <Descriptions.Item label="Address">
-                  {item?.establishment?.address?.address +
-                    '    ' +
-                    item?.establishment?.address?.city +
-                    ', ' +
-                    item?.establishment?.address?.country}
-                </Descriptions.Item>
+              <Divider className="tasting-divider">Local</Divider>
+              <Descriptions size="small" column={3} layout="horizontal">
+                <Descriptions.Item label="Nombre">{item?.establishment?.name}</Descriptions.Item>
+                {item.establishment?.address ? (
+                  <Descriptions.Item label="Dirección">
+                    {item?.establishment?.address?.address +
+                      '    ' +
+                      item?.establishment?.address?.city +
+                      ', ' +
+                      item?.establishment?.address?.country}
+                  </Descriptions.Item>
+                ) : null}
+                <Descriptions.Item label="Tipo de local">{item?.establishment?.type}</Descriptions.Item>
               </Descriptions>
             </Col>
-            <Col md="4" className="tasting-card-right" id="tasting-button-col">
-              <Descriptions size="small" column={1} layout="horizontal" className="favorite-button">
+            <Col md="4" className="tasting-card-right" id={'tasting-button-col' + item.id}>
+              <Descriptions size="small" column={1} layout="horizontal" className="tasting-card-valorations">
                 <Descriptions.Item label="Valoración media" className="text-align-right">
                   <Rate className="card-rate" allowHalf disabled defaultValue={item.average} />
                 </Descriptions.Item>
@@ -92,10 +88,11 @@ export const TastingElement = ({ item }) => {
                     <Rate className="card-rate" allowHalf disabled defaultValue={item.rating.rating} />
                   </Descriptions.Item>
                 ) : null}
+                <Descriptions.Item label="Nº de valoraciones">{item.ratings ? item.ratings.length : 0}</Descriptions.Item>
               </Descriptions>
-              <Row id="tasting-button-row" className="tasting-card-button">
-                <Col className="width-100 text-align-center">
-                  <Button className="width-80">{item.rating ? 'Modificar mi valoración' : 'Valorar'}</Button>
+              <Row className="tasting-card-button">
+                <Col id="tasting-buttom-row" className="width-100 text-align-center">
+                  <Button className="width-80">Valorar</Button>
                 </Col>
               </Row>
             </Col>
