@@ -2,7 +2,7 @@ import { Button, Col, Row } from 'reactstrap';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import React, { useEffect } from 'react';
 import Select from 'react-select';
-import { optionsProcedencia, optionsTipoDeComida } from 'app/shared/util/Selectores';
+import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
@@ -61,14 +61,14 @@ export const NewDish = () => {
               placeholder="https://"
               validate={{
                 required: { value: true, message: 'Se debe añadir una foto' },
-                validate: i => isImage(i) || 'La URL no es válida'
+                validate: i => isImage(i) || 'La URL no es válida',
               }}
             />
-            <label>Tipo de comida (*) </label>
+            <label>Procedencia (*) </label>
             <Select
               name="tipoComida"
               noOptionsMessage={() => 'No hay opciones'}
-              options={optionsTipoDeComida}
+              options={optionsProcedencia}
               getOptionLabel={options => {
                 return options['label'];
               }}
@@ -79,11 +79,11 @@ export const NewDish = () => {
               placeholder="Introduzca tipo"
               required={true}
             />
-            <label>Procedencia (*)</label>
+            <label>Tipo (*)</label>
             <Select
               name="procedencia"
               noOptionsMessage={() => 'No hay opciones'}
-              options={optionsProcedencia}
+              options={optionsTipo}
               getOptionLabel={options => {
                 return options['label'];
               }}

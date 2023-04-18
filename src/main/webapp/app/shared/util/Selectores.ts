@@ -1,4 +1,4 @@
-export const optionsProcedencia = [
+export const optionsTipo = [
   { value: 'roja', label: 'Carne roja' },
   { value: 'blanca', label: 'Carne blanca' },
   { value: 'pescado', label: 'Pescado y marisco' },
@@ -8,7 +8,7 @@ export const optionsProcedencia = [
   { value: 'cereales', label: 'Cereales y granos' },
   { value: 'leche', label: 'Leche y derivados' },
 ];
-export const optionsTipoDeComida = [
+export const optionsProcedencia = [
   { value: 'mediterranea', label: 'Mediterránea' },
   { value: 'italiana', label: 'Italiana' },
   { value: 'asiatica', label: 'Asiática' },
