@@ -180,7 +180,7 @@ export const SettingsPage = () => {
               id="image"
               placeholder="Imagen"
               validate={{
-                validate: i => isImage(i) || 'La URL no es válida'
+                validate: i => isImage(i) || 'La URL no es válida',
               }}
               data-cy="image"
               defaultValue={account.imageUrl}

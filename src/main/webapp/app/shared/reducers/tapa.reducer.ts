@@ -9,53 +9,16 @@ const initialState = {
   errorMessage: null,
   updating: false,
   updateSuccess: false,
-  favorites: [] as ITapa[],
-  last: [] as ITapa[],
   searchCoincidence: [] as ITapa[],
-  lastRestaurants: [] as IEstablishment[],
-  restaurants: [] as IEstablishment[],
+  myTastings: [] as ITapa[],
 };
 
-const apiUrl = 'api/tapas';
-
-export const getFavorites = createAsyncThunk(
-  'tapas_fetch_favorites',
-  async (login: string) => {
-    const requestUrl = `api/myuser/favourites/${login}`;
-    return axios.get<ITapa[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError }
-);
+const apiUrl = 'api/tapa';
 
 export const getSearchCoincidences = createAsyncThunk(
   'tapas_search_coincidences',
   async (search: string) => {
-    const requestUrl = `api/tapa/name/${search}`;
-    return axios.get<ITapa[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError }
-);
-
-export const getLast = createAsyncThunk(
-  'tapas_fetch_last',
-  async (login: string) => {
-    const requestUrl = `api/myuser/lastTapas/${login}`;
-    return axios.get<ITapa[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError }
-);
-export const getRestaurants = createAsyncThunk(
-  'restaurantes',
-  async () => {
-    const requestUrl = `api/establishment`;
-    return axios.get<IEstablishment[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError }
-);
-export const getLastEstablisment = createAsyncThunk(
-  'tapas_fetch_last_establisment',
-  async (login: string) => {
-    const requestUrl = `api/myuser/lastRestaurants/${login}`;
+    const requestUrl = `${apiUrl}/name/${search}`;
     return axios.get<ITapa[]>(requestUrl);
   },
   { serializeError: serializeAxiosError }
@@ -71,27 +34,11 @@ export const TapaSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getFavorites.fulfilled, (state, action) => {
-        state.favorites = action.payload.data;
-        state.loading = false;
-      })
       .addCase(getSearchCoincidences.fulfilled, (state, action) => {
         state.searchCoincidence = action.payload.data;
         state.loading = false;
       })
-      .addCase(getRestaurants.fulfilled, (state, action) => {
-        state.restaurants = action.payload.data;
-        state.loading = false;
-      })
-      .addCase(getLastEstablisment.fulfilled, (state, action) => {
-        state.lastRestaurants = action.payload.data;
-        state.loading = false;
-      })
-      .addCase(getLast.fulfilled, (state, action) => {
-        state.last = action.payload.data;
-        state.loading = false;
-      })
-      .addMatcher(isPending(getRestaurants, getLast, getSearchCoincidences, getFavorites, getLastEstablisment), state => {
+      .addMatcher(isPending(getSearchCoincidences), state => {
         state.errorMessage = null;
         state.loading = true;
       });
