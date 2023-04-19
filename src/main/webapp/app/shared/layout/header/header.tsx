@@ -9,6 +9,8 @@ import { Home, Brand, Tasting, MostValorated, SearchBar } from './header-compone
 import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
 import { Link } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -41,10 +43,14 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated && <Tasting />}
             {props.isAuthenticated && <MostValorated />}
             {/*{props.isAuthenticated && <SearchBar />}*/}
-            <input type='text' value={search} onChange={handleChange} /> 
-            <Link to="/tasting"> 
-              <Button className='botonBuscarMenu' type='submit'>buscar</Button>
-            </Link>
+            <div className='busquedaMenu'>
+              <input className='inputMenu' type='text' value={search} onChange={handleChange} /> 
+              <Link to="/tasting"> 
+                <Button className='botonBuscarMenu' type='submit'>
+                  <FontAwesomeIcon className='botonBuscar' icon="search" size="sm" color='white' />
+                </Button>
+              </Link>
+              </div>
             {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             {<AccountMenu isAuthenticated={props.isAuthenticated} />}

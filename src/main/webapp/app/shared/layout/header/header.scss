@@ -95,3 +95,27 @@ Navbar styles
   padding: 0.3rem 0.3rem 0.3rem 0.8rem;
   font-size: 1rem;
 }
+
+.busquedaMenu {
+  border-radius: 2em;
+  border: 2px solid white;
+  background-color: #4582ec;
+}
+
+.inputMenu {
+  width: 70%;
+  position: relative;
+  left: 5%;
+  color: white;
+  background-color: transparent;
+  border: transparent;
+}
+
+.inputMenu:focus {
+  outline: none;
+}
+
+.botonBuscarMenu {
+  position: relative;
+  left: 8%;
+}
