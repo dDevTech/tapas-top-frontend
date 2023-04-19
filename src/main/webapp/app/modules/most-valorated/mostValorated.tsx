@@ -2,26 +2,47 @@ import {Breadcrumb, BreadcrumbItem, Button, Col, Row} from 'reactstrap';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Descriptions, Image, List, Rate } from 'antd';
-import {getRestaurants, getSearchCoincidences} from 'app/shared/reducers/tapa.reducer';
+import {getRestaurants} from 'app/shared/reducers/establishment.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { toast } from 'react-toastify';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {optionsProcedencia, optionsTipo} from "app/shared/util/Selectores";
 import Select from "react-select";
+import {getMyTastings} from "app/shared/reducers/user-info.reducer";
+import {TastingElement} from "app/modules/tasting/tastingElement";
 
 export const MostValorated = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
-  const restaurants = useAppSelector(state => state.tapas.restaurants);
+  const restaurants = useAppSelector(state => state.establishment.restaurants);
+  //TODO: cambiar cuando se cree el reducer obteniendo las tapas más valoradas
+  const tastingList = useAppSelector(state => state.userInfo.myTastings);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
 
+  useEffect(() => {
+    if (dispatch && account) {
+      dispatch(getMyTastings(account.login));
+    }
+  }, [dispatch, account]);
+
   return (
     <div>
-      <h1 id="most-valorated" data-cy="most-valorated" className='mb-4'>
-        Tapas más valoradas
-      </h1>
+      <Breadcrumb>
+        <BreadcrumbItem active>
+          <FontAwesomeIcon icon="award" />
+          <span>&nbsp;Más valoradas</span>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Row className="justify-content-center mb-3">
+        <Col>
+          <h1 id="most-valorated" data-cy="most-valorated" className='mb-4'>
+            Tapas más valoradas
+          </h1>
+        </Col>
+      </Row>
+
       <Row className='selectors'>
         <Col className='col-11'>
           <Row className='selectors'>
@@ -80,6 +101,20 @@ export const MostValorated = () => {
           </Button>
         </Col>
       </Row>
+      <List
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          pageSize: 3,
+        }}
+        split={false}
+        dataSource={tastingList}
+        renderItem={item => (
+          <List.Item>
+            <TastingElement item={item}></TastingElement>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
