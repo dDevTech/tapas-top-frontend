@@ -395,3 +395,11 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   margin-bottom: 2px !important;
   font-weight: normal !important;
 }
+
+.description-span span {
+  display: block;
+  width: 80px;
+  word-wrap: break-word;
+  white-space: normal;
+  text-align: justify;
+}
