@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { NavItem, NavLink, NavbarBrand, InputGroup, InputGroupText, Input } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const [search, setSearch] = useState('')
+
+const handleChange = text => {
+  setSearch(text)
+}
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
@@ -52,6 +58,7 @@ export const SearchBar = () => (
       <Input placeholder={'Búsqueda'} className="search-form" />
       <InputGroupText>
         <FontAwesomeIcon icon="search" size="sm" />
+          <input type="text" value={search} onChange={handleChange} />
       </InputGroupText>
     </InputGroup>
   </NavItem>
