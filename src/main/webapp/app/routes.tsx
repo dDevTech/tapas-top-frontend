@@ -17,8 +17,9 @@ import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
 
-import { TastingPage } from 'app/modules/tasting/Tasting';
-import { NewDish } from 'app/modules/tasting/NewDish';
+import { TastingPage } from 'app/modules/tasting/tasting';
+import { NewDish } from 'app/modules/tasting/newDish';
+
 const loading = <div>loading ...</div>;
 
 const Account = Loadable({
@@ -64,6 +65,7 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         ></Route>
+
         <Route
           path="newDish"
           element={

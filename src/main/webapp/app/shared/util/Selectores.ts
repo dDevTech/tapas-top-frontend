@@ -31,3 +31,8 @@ export const optionsGender = [
   { value: 'female', label: 'Mujer' },
   { value: 'notsay', label: 'Prefiero no indicarlo' },
 ];
+
+export const optionsEstablishmentType = [
+  { value: 'restaurante', label: 'Restaurante' },
+  { value: 'bar', label: 'Bar' },
+];

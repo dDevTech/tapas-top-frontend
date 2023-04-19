@@ -1,6 +1,6 @@
 import { Button, Col, Row } from 'reactstrap';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
+import { NewEstablishment } from 'app/modules/tasting/newEstablishment';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -16,10 +17,12 @@ export const NewDish = () => {
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
+  const [resturantePopup, show] = useState(false);
   const onValidatedFormSubmit = () => {};
 
   return (
     <div>
+      {resturantePopup && <NewEstablishment funct={show}></NewEstablishment>}
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
@@ -94,16 +97,16 @@ export const NewDish = () => {
               placeholder="Introduzca procedencia"
               required={true}
             />
-            <label>Restaurante asociado (*)</label>
+            <label>Establecimiento asociado (*)</label>
             <Row className="row-mx-auto restaurant">
               <Col className="col-8">
                 <Select
-                  name="restaurantes"
+                  name="establecimiento"
                   noOptionsMessage={() => {
                     if (!loading) {
-                      return 'No hay opciones. Si no existe crea un nuevo restaurante';
+                      return 'No hay opciones. Si no existe crea un nuevo establecimiento';
                     } else {
-                      return 'Cargando restaurantes...';
+                      return 'Cargando establecimientos...';
                     }
                   }}
                   options={restaurants}
@@ -114,13 +117,13 @@ export const NewDish = () => {
                     return options['id'];
                   }}
                   className={'mt-3 mb-2 col-sm'}
-                  placeholder="Introduzca restaurante"
+                  placeholder="Introduzca establecimiento"
                   required={true}
                 />
               </Col>
               <Col className="col-md-auto">
-                <Button type="button" color="secondary">
-                  Nuevo restaurante
+                <Button type="button" color="secondary" onClick={() => show(true)}>
+                  Nuevo establecimiento
                 </Button>
               </Col>
             </Row>
