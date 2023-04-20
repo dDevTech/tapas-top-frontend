@@ -1,14 +1,20 @@
 import { Button, Col, Row } from 'reactstrap';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Descriptions, Image, Divider, Rate, ConfigProvider } from 'antd';
-import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import React, { useEffect, useState } from 'react';
+import { Descriptions, Image, Divider, Rate, ConfigProvider, Popconfirm } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import esEs from 'antd/locale/es_ES';
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { saveRating } from 'app/shared/reducers/rating-user.reducer';
+
 export const TastingElement = ({ item }) => {
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState(150);
+  const [valoration, setValoration] = useState(null);
+  const [newRate, setNewRate] = useState(null);
+  const [open, setOpen] = useState(false);
+  const account = useAppSelector(state => state.authentication.account);
+
   useEffect(() => {
     const containerWidth = document.getElementById('tapa-image')?.clientWidth;
     if (containerWidth) {
@@ -21,12 +27,36 @@ export const TastingElement = ({ item }) => {
     window.addEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (item.rating) setNewRate(item.rating.rating);
+  }, [item.rating?.rating]);
+
   const handleResize = () => {
     const containerWidth = document.getElementById('tapa-image')?.clientWidth;
     if (containerWidth) {
       setValue(containerWidth);
       document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
     }
+  };
+
+  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+    const data = {
+      userId: account.id,
+      tapaId: item.id,
+      rating: newRate,
+    };
+    dispatch(saveRating(data));
+    setValoration(newRate);
+    setOpen(false);
+  };
+
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+    setValoration(item.rating?.rating);
+    setOpen(false);
+  };
+  const handleRateChange = rate => {
+    setOpen(true);
+    setNewRate(rate);
   };
   return (
     <ConfigProvider locale={esEs}>
@@ -92,16 +122,24 @@ export const TastingElement = ({ item }) => {
                 <Descriptions.Item label="Valoración media" className="text-align-right">
                   <Rate className="card-rate" allowHalf disabled defaultValue={item.average} />
                 </Descriptions.Item>
-                {item.rating ? (
-                  <Descriptions.Item label="Tú valoración">
-                    <Rate className="card-rate" allowHalf disabled defaultValue={item.rating.rating} />
-                  </Descriptions.Item>
-                ) : null}
                 <Descriptions.Item label="Nº de valoraciones">{item.ratings ? item.ratings.length : 0}</Descriptions.Item>
               </Descriptions>
-              <Row className="tasting-card-button">
-                <Col id="tasting-buttom-row" className="width-100 text-align-center">
-                  <Button className="width-80">Valorar</Button>
+              <Row>
+                <Col className="width-100 text-align-center">
+                  <Divider className="tasting-divider">{newRate ? 'Tu valoración' : 'Valorar'}</Divider>
+                  <Popconfirm
+                    title="¿Estás seguro de que quieres valorar esta tapa?"
+                    placement="top"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Sí"
+                    cancelText="No"
+                    open={open}
+                  >
+                    <Row>
+                      <Rate onChange={handleRateChange} value={newRate} disabled={item.rating || valoration} />
+                    </Row>
+                  </Popconfirm>
                 </Col>
               </Row>
             </Col>
