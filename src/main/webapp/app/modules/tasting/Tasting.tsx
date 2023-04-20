@@ -26,8 +26,6 @@ export const TastingPage = () => {
 
   useEffect(() => {
     if (coincidences.length === 0 && searchValue == "") {
-      console.log(coincidences.length)
-      console.log(searchValue)
       toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
     }
   }, [coincidences]);
