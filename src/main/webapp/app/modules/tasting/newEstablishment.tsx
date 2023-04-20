@@ -56,7 +56,7 @@ export const NewEstablishment = ({ funct }) => {
           <label>Tipo de establecimiento (*)</label>
           <Select
             name="type"
-            className={'mt-3 mb-2 col-sm'}
+            className={'mt-2 mb-3 col-sm'}
             placeholder={'Tipo establecimiento'}
             options={optionsEstablishmentType}
             onChange={item => {
@@ -68,7 +68,7 @@ export const NewEstablishment = ({ funct }) => {
           <div className={'row'}>
             <Select
               name="country"
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               placeholder={'Seleccione el país'}
               options={Country.getAllCountries()}
               getOptionLabel={options => {
@@ -86,7 +86,7 @@ export const NewEstablishment = ({ funct }) => {
             />
             <Select
               name="city"
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               noOptionsMessage={() => 'No hay opciones'}
               placeholder={'Seleccione la ciudad'}
               options={State?.getStatesOfCountry(selectedCountry?.isoCode)}

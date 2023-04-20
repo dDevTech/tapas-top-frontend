@@ -85,7 +85,7 @@ export const NewDish = () => {
               getOptionValue={options => {
                 return options['value'];
               }}
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca tipo"
               required={true}
             />
@@ -100,7 +100,7 @@ export const NewDish = () => {
               getOptionValue={options => {
                 return options['value'];
               }}
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca procedencia"
               required={true}
             />
@@ -127,7 +127,7 @@ export const NewDish = () => {
                   getOptionValue={options => {
                     return options['id'];
                   }}
-                  className={'mt-3 mb-2 col-sm'}
+                  className={'mt-2 mb-3 col-sm'}
                   placeholder="Introduzca establecimiento"
                   required={true}
                 />
