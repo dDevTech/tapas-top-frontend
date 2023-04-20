@@ -16,30 +16,10 @@ export const TastingElement = ({ item }) => {
   const account = useAppSelector(state => state.authentication.account);
 
   useEffect(() => {
-    const containerWidth = document.getElementById('tapa-image')?.clientWidth;
-    if (containerWidth) {
-      setValue(containerWidth);
-      document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
-    }
-  }, [document.getElementById('tapa-image')?.clientWidth]);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
     if (item.rating) setNewRate(item.rating.rating);
   }, [item.rating?.rating]);
 
-  const handleResize = () => {
-    const containerWidth = document.getElementById('tapa-image')?.clientWidth;
-    if (containerWidth) {
-      setValue(containerWidth);
-      document.getElementById('tasting-button-col' + item.id).style.minHeight = containerWidth - 40 + 'px';
-    }
-  };
-
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  const confirm = () => {
     const data = {
       userId: account.id,
       tapaId: item.id,
@@ -50,7 +30,7 @@ export const TastingElement = ({ item }) => {
     setOpen(false);
   };
 
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+  const cancel = () => {
     setValoration(item.rating?.rating);
     setOpen(false);
   };
@@ -102,7 +82,7 @@ export const TastingElement = ({ item }) => {
               <Descriptions size="small" column={1} layout="horizontal">
                 <Descriptions.Item label="Descripción">{item?.description}</Descriptions.Item>
               </Descriptions>
-              <Divider className="tasting-divider">Local</Divider>
+              <Divider className="tasting-divider">{item?.establishment?.type}</Divider>
               <Descriptions size="small" column={3} layout="horizontal">
                 <Descriptions.Item label="Nombre">{item?.establishment?.name}</Descriptions.Item>
                 {item.establishment?.address ? (
@@ -114,7 +94,6 @@ export const TastingElement = ({ item }) => {
                       item?.establishment?.address?.country}
                   </Descriptions.Item>
                 ) : null}
-                <Descriptions.Item label="Tipo de local">{item?.establishment?.type}</Descriptions.Item>
               </Descriptions>
             </Col>
             <Col md="4" className="tasting-card-right" id={'tasting-button-col' + item.id}>

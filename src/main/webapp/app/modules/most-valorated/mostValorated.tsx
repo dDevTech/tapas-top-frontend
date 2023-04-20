@@ -1,32 +1,25 @@
-import {Breadcrumb, BreadcrumbItem, Button, Col, Row} from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Col, Row } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import { List } from 'antd';
-import {getRestaurants} from 'app/shared/reducers/establishment.reducer';
+import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {optionsProcedencia, optionsTipo} from "app/shared/util/Selectores";
-import Select from "react-select";
-import {getMyTastings} from "app/shared/reducers/user-info.reducer";
-import {TastingElement} from "app/modules/tasting/tastingElement";
-import {Country, State} from "country-state-city";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
+import Select from 'react-select';
+import { getMyTastings } from 'app/shared/reducers/user-info.reducer';
+import { TastingElement } from 'app/modules/tasting/tastingElement';
+import { Country, State } from 'country-state-city';
 
 export const MostValorated = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
-  //TODO: cambiar cuando se cree el reducer obteniendo las tapas más valoradas
   const tastingList = useAppSelector(state => state.userInfo.myTastings);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
   useEffect(() => {
-    dispatch(getRestaurants());
+    dispatch(getMyTastings(account?.login));
   }, []);
-
-  useEffect(() => {
-    if (dispatch && account) {
-      dispatch(getMyTastings(account.login));
-    }
-  }, [dispatch, account]);
 
   return (
     <div>
@@ -38,16 +31,16 @@ export const MostValorated = () => {
       </Breadcrumb>
       <Row className="justify-content-center mb-3">
         <Col>
-          <h1 id="most-valorated" data-cy="most-valorated" className='mb-4'>
+          <h1 id="most-valorated" data-cy="most-valorated" className="mb-4">
             Tapas más valoradas
           </h1>
         </Col>
       </Row>
 
-      <Row className='selectors'>
-        <Col className='col-11'>
-          <Row className='selectors'>
-            <Col className='col-6'>
+      <Row className="selectors">
+        <Col className="col-11">
+          <Row className="selectors">
+            <Col className="col-6">
               <label> Seleccione la procedencia: </label>
               <Select
                 name="procedencia"
@@ -63,7 +56,7 @@ export const MostValorated = () => {
                 placeholder="Introduzca procedencia"
               />
             </Col>
-            <Col className='col-6'>
+            <Col className="col-6">
               <label>Tipo:</label>
               <Select
                 name="tipoComida"
@@ -82,7 +75,7 @@ export const MostValorated = () => {
           </Row>
           <Row>
             <label> Ubicación: </label>
-            <Col className='col-6'>
+            <Col className="col-6">
               <Select
                 name="country"
                 className={'mt-2 mb-3 col-sm'}
@@ -102,7 +95,7 @@ export const MostValorated = () => {
                 data-cy="country"
               />
             </Col>
-            <Col className='col-6'>
+            <Col className="col-6">
               <Select
                 name="city"
                 className={'mt-2 mb-3 col-sm'}
@@ -124,7 +117,7 @@ export const MostValorated = () => {
             </Col>
           </Row>
         </Col>
-        <Col className='col-1 align-self-end mb-3'>
+        <Col className="col-1 align-self-end mb-3">
           <Button type="button" color="secondary">
             Buscar
           </Button>
