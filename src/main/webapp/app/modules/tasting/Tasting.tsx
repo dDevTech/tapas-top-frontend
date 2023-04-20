@@ -5,10 +5,12 @@ import { Descriptions, Image, List, Rate } from 'antd';
 import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
 
 export const TastingPage = () => {
   const dispatch = useAppDispatch();
-  const [searchValue, setSearch] = useState('');
+  const location = useLocation();
+  const [searchValue, setSearch] = useState(location.state != null ? location.state.toString() : "");
   const coincidences = useAppSelector(state => state.tapas.searchCoincidence);
   const loading = useAppSelector(state => state.tapas.loading);
 
@@ -20,6 +22,12 @@ export const TastingPage = () => {
       toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
     }
   }, [coincidences]);
+
+  useEffect(() => {
+    if(searchValue != ""){
+      onValidatedFormSubmit()
+    }
+  }, [])
 
   return (
     <div>
@@ -35,6 +43,7 @@ export const TastingPage = () => {
               <ValidatedField
                 name="find"
                 placeholder="Buscar tapa"
+                value={searchValue}
                 validate={{
                   required: { value: true, message: 'Escribe para buscar una tapa.' },
                   minLength: { value: 2, message: 'Mínimo 2 carácteres para buscar.' },

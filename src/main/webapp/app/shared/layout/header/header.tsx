@@ -7,7 +7,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import { Home, Brand, Tasting, MostValorated, SearchBar } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -22,11 +22,16 @@ export interface IHeaderProps {
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleChange = text => {
     setSearch(text.target.value)
+  }
+
+  const handleClick = () => {
+    navigate("/tasting", {state: search})
   }
 
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
@@ -43,14 +48,12 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated && <Tasting />}
             {props.isAuthenticated && <MostValorated />}
             {/*{props.isAuthenticated && <SearchBar />}*/}
-            <div className='busquedaMenu'>
+            {props.isAuthenticated && <div className='busquedaMenu'>
               <input className='inputMenu' type='text' value={search} onChange={handleChange} /> 
-              <Link to="/tasting"> 
-                <Button className='botonBuscarMenu' type='submit'>
-                  <FontAwesomeIcon className='botonBuscar' icon="search" size="sm" color='white' />
-                </Button>
-              </Link>
-              </div>
+              <Button className='botonBuscarMenu' onClick={handleClick}>
+                <FontAwesomeIcon className='botonBuscar' icon="search" size="sm" color='white' />
+              </Button>
+              </div>}
             {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             {<AccountMenu isAuthenticated={props.isAuthenticated} />}
