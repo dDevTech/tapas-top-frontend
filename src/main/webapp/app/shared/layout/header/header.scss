@@ -103,7 +103,7 @@ Navbar styles
 }
 
 .inputMenu {
-  width: 70%;
+  width: 65%;
   position: relative;
   left: 5%;
   color: white;
@@ -117,5 +117,11 @@ Navbar styles
 
 .botonBuscarMenu {
   position: relative;
+  border-radius: 2em;
+  border: transparent;
+  background-color: transparent;
+  color: rgba(255, 255, 255, .5);
+  top: 0%;
   left: 8%;
+  font-size: large;
 }

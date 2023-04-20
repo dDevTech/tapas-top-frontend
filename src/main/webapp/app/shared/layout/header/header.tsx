@@ -50,9 +50,9 @@ const Header = (props: IHeaderProps) => {
             {/*{props.isAuthenticated && <SearchBar />}*/}
             {props.isAuthenticated && <div className='busquedaMenu'>
               <input className='inputMenu' type='text' value={search} onChange={handleChange} /> 
-              <Button className='botonBuscarMenu' onClick={handleClick}>
-                <FontAwesomeIcon className='botonBuscar' icon="search" size="sm" color='white' />
-              </Button>
+              <button className='botonBuscarMenu' onClick={handleClick}>
+                Buscar
+              </button>
               </div>}
             {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
