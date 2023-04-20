@@ -1,22 +1,23 @@
 import {Breadcrumb, BreadcrumbItem, Button, Col, Row} from 'reactstrap';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Descriptions, Image, List, Rate } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { List } from 'antd';
 import {getRestaurants} from 'app/shared/reducers/establishment.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { toast } from 'react-toastify';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {optionsProcedencia, optionsTipo} from "app/shared/util/Selectores";
 import Select from "react-select";
 import {getMyTastings} from "app/shared/reducers/user-info.reducer";
 import {TastingElement} from "app/modules/tasting/tastingElement";
+import {Country, State} from "country-state-city";
 
 export const MostValorated = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
-  const restaurants = useAppSelector(state => state.establishment.restaurants);
   //TODO: cambiar cuando se cree el reducer obteniendo las tapas más valoradas
   const tastingList = useAppSelector(state => state.userInfo.myTastings);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
@@ -46,7 +47,7 @@ export const MostValorated = () => {
       <Row className='selectors'>
         <Col className='col-11'>
           <Row className='selectors'>
-            <Col className='col-4'>
+            <Col className='col-6'>
               <label> Seleccione la procedencia: </label>
               <Select
                 name="procedencia"
@@ -58,12 +59,12 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
-                className={'mt-3 mb-2 col-sm'}
+                className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca procedencia"
               />
             </Col>
-            <Col className='col-4'>
-              <label>Tipo</label>
+            <Col className='col-6'>
+              <label>Tipo:</label>
               <Select
                 name="tipoComida"
                 noOptionsMessage={() => 'No hay opciones'}
@@ -74,28 +75,56 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
-                className={'mt-3 mb-2 col-sm'}
+                className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca tipo de comida"
               />
             </Col>
-            <Col className='col-4'>
-              <label>Restaurante:</label>
+          </Row>
+          <Row>
+            <label> Ubicación: </label>
+            <Col className='col-6'>
               <Select
-                name="restaurantes"
-                options={restaurants}
+                name="country"
+                className={'mt-2 mb-3 col-sm'}
+                placeholder={'Seleccione el país'}
+                options={Country.getAllCountries()}
                 getOptionLabel={options => {
-                  return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
+                  return options['name'];
                 }}
                 getOptionValue={options => {
-                  return options['id'];
+                  return options['name'];
                 }}
-                className={'mt-3 mb-2 col-sm'}
-                placeholder="Introduzca restaurante"
+                onChange={item => {
+                  setSelectedCountry(item);
+                  setSelectedState(null);
+                }}
+                required
+                data-cy="country"
+              />
+            </Col>
+            <Col className='col-6'>
+              <Select
+                name="city"
+                className={'mt-2 mb-3 col-sm'}
+                noOptionsMessage={() => 'No hay opciones'}
+                placeholder={'Seleccione la ciudad'}
+                options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                getOptionLabel={options => {
+                  return options['name'];
+                }}
+                getOptionValue={options => {
+                  return options['name'];
+                }}
+                value={selectedState}
+                onChange={item => {
+                  setSelectedState(item);
+                }}
+                data-cy="city"
               />
             </Col>
           </Row>
         </Col>
-        <Col className='col-1 align-self-end mb-2'>
+        <Col className='col-1 align-self-end mb-3'>
           <Button type="button" color="secondary">
             Buscar
           </Button>
