@@ -120,12 +120,10 @@ function LastEstablishment({ list }) {
                       </Row>
                       <Row>
                         <Col className="card-content" md="12">
-                          <Descriptions size="small" column={2} layout="horizontal">
-                            <Descriptions.Item label="País">{sample?.address?.country}</Descriptions.Item>
-                            <Descriptions.Item label="Tipo de establecimiento">{sample?.type}</Descriptions.Item>
+                          <Descriptions size="small" column={1} layout="horizontal">
+                            <Descriptions.Item label="País">{sample?.address?.city + ', ' + sample?.address?.country}</Descriptions.Item>
                           </Descriptions>
                           <Descriptions column={1} layout="horizontal">
-                            <Descriptions.Item label="Ciudad">{sample?.address?.city}</Descriptions.Item>
                             <Descriptions.Item label="Dirección">{sample?.address?.address}</Descriptions.Item>
                           </Descriptions>
                         </Col>
