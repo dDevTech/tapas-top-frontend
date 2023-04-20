@@ -6,26 +6,41 @@ import Select from 'react-select';
 import { Country, State } from 'country-state-city';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { optionsEstablishmentType } from 'app/shared/util/Selectores';
+import { useAppDispatch } from 'app/config/store';
+import { createRestaurant } from 'app/shared/reducers/tapa.reducer';
 
 export const NewEstablishment = ({ funct }) => {
   const [show, setShow] = useState(true);
-
+  const dispatch = useAppDispatch();
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
   const handleClose = () => {
     funct(false);
     setShow(false);
   };
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const handleSubmit = ({ name, address }) => {
+    dispatch(
+      createRestaurant({
+        name,
+        type: selectedType.value,
+        address: { address, country: selectedCountry.name, city: selectedState?.name },
+      })
+    );
+    funct(false);
+    setShow(false);
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Nuevo establecimiento</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ValidatedForm id="restaurant-form" onSubmit={handleClose}>
+        <ValidatedForm id="restaurant-form" onSubmit={handleSubmit}>
           <ValidatedField
-            name="establishment"
+            name="name"
             label="Nombre (*)"
             placeholder="Nombre del establecimiento"
             validate={{
@@ -40,10 +55,13 @@ export const NewEstablishment = ({ funct }) => {
           />
           <label>Tipo de establecimiento (*)</label>
           <Select
-            name="establishmentType"
+            name="type"
             className={'mt-3 mb-2 col-sm'}
             placeholder={'Tipo establecimiento'}
             options={optionsEstablishmentType}
+            onChange={item => {
+              setSelectedType(item);
+            }}
             required
           />
           <label>Ubicación (*)</label>
@@ -78,7 +96,6 @@ export const NewEstablishment = ({ funct }) => {
               getOptionValue={options => {
                 return options['name'];
               }}
-              required
               value={selectedState}
               onChange={item => {
                 setSelectedState(item);

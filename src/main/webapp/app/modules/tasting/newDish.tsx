@@ -14,10 +14,17 @@ export const NewDish = () => {
   const dispatch = useAppDispatch();
   const restaurants = useAppSelector(state => state.tapas.restaurants);
   const loading = useAppSelector(state => state.tapas.loading);
+  const createdRestaurantSuccess = useAppSelector(state => state.tapas.createdRestaurantSuccess);
+
+  const [resturantePopup, show] = useState(false);
+  useEffect(() => {
+    if (createdRestaurantSuccess) {
+      dispatch(getRestaurants());
+    }
+  }, [createdRestaurantSuccess]);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
-  const [resturantePopup, show] = useState(false);
   const onValidatedFormSubmit = () => {};
 
   return (
@@ -111,7 +118,11 @@ export const NewDish = () => {
                   }}
                   options={restaurants}
                   getOptionLabel={options => {
-                    return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
+                    if (options['address'].city === undefined) {
+                      return options['name'] + '   ' + options['address'].country;
+                    } else {
+                      return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
+                    }
                   }}
                   getOptionValue={options => {
                     return options['id'];
