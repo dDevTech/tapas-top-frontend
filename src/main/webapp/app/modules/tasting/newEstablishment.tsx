@@ -90,7 +90,7 @@ export const NewEstablishment = ({ funct }) => {
             name="address"
             label="Dirección (*)"
             id="address"
-            placeholder="Dirección de residencia"
+            placeholder="Dirección del local"
             validate={{
               required: { value: true, message: 'La dirección es obligatoria.' },
             }}
