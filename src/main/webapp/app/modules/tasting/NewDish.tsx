@@ -12,7 +12,7 @@ import { isImage } from 'app/shared/util/image-verification';
 export const NewDish = () => {
   const dispatch = useAppDispatch();
   const restaurants = useAppSelector(state => state.establishment.restaurants);
-  const loading = useAppSelector(state => state.tapas.loading);
+  const loading = useAppSelector(state => state.establishment.loading);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
