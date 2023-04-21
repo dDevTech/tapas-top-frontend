@@ -5,14 +5,14 @@ import Select from 'react-select';
 import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
+import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
-  const restaurants = useAppSelector(state => state.tapas.restaurants);
-  const loading = useAppSelector(state => state.tapas.loading);
+  const restaurants = useAppSelector(state => state.establishment.restaurants);
+  const loading = useAppSelector(state => state.establishment.loading);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
@@ -66,7 +66,7 @@ export const NewDish = () => {
             />
             <label>Procedencia (*) </label>
             <Select
-              name="tipoComida"
+              name="procedencia"
               noOptionsMessage={() => 'No hay opciones'}
               options={optionsProcedencia}
               getOptionLabel={options => {
@@ -76,12 +76,12 @@ export const NewDish = () => {
                 return options['value'];
               }}
               className={'mt-3 mb-2 col-sm'}
-              placeholder="Introduzca tipo"
+              placeholder="Introduzca procedencia"
               required={true}
             />
             <label>Tipo (*)</label>
             <Select
-              name="procedencia"
+              name="tipoComida"
               noOptionsMessage={() => 'No hay opciones'}
               options={optionsTipo}
               getOptionLabel={options => {
@@ -91,7 +91,7 @@ export const NewDish = () => {
                 return options['value'];
               }}
               className={'mt-3 mb-2 col-sm'}
-              placeholder="Introduzca procedencia"
+              placeholder="Introduzca tipo de comida"
               required={true}
             />
             <label>Restaurante asociado (*)</label>

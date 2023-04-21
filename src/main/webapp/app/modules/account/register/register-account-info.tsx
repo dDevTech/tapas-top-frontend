@@ -214,7 +214,7 @@ export const RegisterAccountInfo = () => {
               id="image"
               placeholder="Imagen"
               validate={{
-                validate: i => isImage(i) || 'La URL no es válida'
+                validate: i => isImage(i) || 'La URL no es válida',
               }}
               accept="image/*"
               data-cy="image"

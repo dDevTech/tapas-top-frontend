@@ -12,6 +12,7 @@ const initialState = {
   favorites: [] as ITapa[],
   last: [] as ITapa[],
   lastRestaurants: [] as IEstablishment[],
+  myTastings: [] as ITapa[],
 };
 
 const apiUrl = 'api/myuser';
@@ -29,6 +30,14 @@ export const getLast = createAsyncThunk(
   'tapas_fetch_last',
   async (login: string) => {
     const requestUrl = `${apiUrl}/lastTapas/${login}`;
+    return axios.get<ITapa[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
+export const getMyTastings = createAsyncThunk(
+  'tapas_fetch_my',
+  async (login: string) => {
+    const requestUrl = `${apiUrl}/allTapas/${login}`;
     return axios.get<ITapa[]>(requestUrl);
   },
   { serializeError: serializeAxiosError }
@@ -65,7 +74,11 @@ export const UserInfoSlice = createSlice({
         state.last = action.payload.data;
         state.loading = false;
       })
-      .addMatcher(isPending(getLast, getFavorites, getLastEstablisment), state => {
+      .addCase(getMyTastings.fulfilled, (state, action) => {
+        state.myTastings = action.payload.data;
+        state.loading = false;
+      })
+      .addMatcher(isPending(getLast, getFavorites, getLastEstablisment, getMyTastings), state => {
         state.errorMessage = null;
         state.loading = true;
       });

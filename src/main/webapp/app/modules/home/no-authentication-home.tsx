@@ -12,7 +12,7 @@ export const NoAuthenticationHome = () => {
         </Row>
         <Row className="margin-top-row shadow-box">
           <Col md="6">
-            <img className="width-100" src="content/images/foto-tapa.avif" />
+            <img className="width-100" src="content/images/croquetas.png" />
           </Col>
           <Col md="6">
             <Row className="row-introduction">

@@ -18,7 +18,11 @@ import { AUTHORITIES } from 'app/config/constants';
 import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
 
 import { TastingPage } from 'app/modules/tasting/Tasting';
+import { MyTastings } from 'app/modules/myTastings/myTastings';
+
 import { NewDish } from 'app/modules/tasting/NewDish';
+import { MostValorated } from 'app/modules/most-valorated/mostValorated';
+
 const loading = <div>loading ...</div>;
 
 const Account = Loadable({
@@ -40,6 +44,7 @@ const AppRoutes = () => {
         <Route path="age-verify" element={<AgeVerifyPage />} />
         <Route path="register" element={<Register />} />
         <Route path="register-account-info" element={<RegisterAccountInfo />} />
+
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
@@ -64,6 +69,23 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         ></Route>
+        <Route
+          path="mostValorated"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <MostValorated />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="myTastings"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <MyTastings />
+            </PrivateRoute>
+          }
+        ></Route>
+
         <Route
           path="newDish"
           element={

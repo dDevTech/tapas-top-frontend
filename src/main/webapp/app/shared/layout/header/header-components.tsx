@@ -27,9 +27,8 @@ export const Home = () => (
 );
 
 export const Tasting = () => (
-  // TODO: introducir enlace real cuando se cree la página
   <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+    <NavLink tag={Link} to="/myTastings" className="d-flex align-items-center">
       <FontAwesomeIcon icon="utensils" />
       <span>&nbsp;Mis degustaciones</span>
     </NavLink>
@@ -39,7 +38,7 @@ export const Tasting = () => (
 export const MostValorated = () => (
   // TODO: introducir enlace real cuando se cree la página
   <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+    <NavLink tag={Link} to="/mostValorated" className="d-flex align-items-center">
       <FontAwesomeIcon icon="award" />
       <span>&nbsp;Más valoradas</span>
     </NavLink>

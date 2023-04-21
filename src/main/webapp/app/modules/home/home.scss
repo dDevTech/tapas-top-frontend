@@ -39,13 +39,11 @@ Main page styles
 }
 
 .login-button {
-  margin-right: 10px;
-  width: 60%;
+  width: 100%;
 }
 
 .register-button {
-  margin-left: 10px;
-  width: 60%;
+  width: 100%;
 }
 
 .introduction {
@@ -61,13 +59,11 @@ Main page styles
 }
 
 .row-buttons {
-  position: relative;
-  top: 80px;
+  padding-top: 10%;
 }
 
 .row-citation {
-  position: relative;
-  top: 35px;
+  padding-top: 5%;
 }
 
 .row-introduction {
@@ -174,6 +170,9 @@ Main page styles
 .card-rate {
   margin-top: -8px;
 }
+.card-rate-6 {
+  margin-top: -6px;
+}
 
 .card-date {
   float: right;
@@ -192,4 +191,11 @@ Main page styles
 
 .overflow-auto {
   overflow: auto;
+}
+.margin-left {
+  margin-left: -10px;
+}
+
+.text-align-right {
+  text-align: right;
 }
