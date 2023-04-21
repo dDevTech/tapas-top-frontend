@@ -1,11 +1,12 @@
 import { Button, Col, Row } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
-import { Descriptions, Image, Divider, Rate, ConfigProvider, Popconfirm } from 'antd';
+import { Descriptions, Image, Divider, Rate, ConfigProvider, Popconfirm, Tag } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import esEs from 'antd/locale/es_ES';
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { saveRating } from 'app/shared/reducers/rating-user.reducer';
+import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
 
 export const TastingElement = ({ item }) => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,9 @@ export const TastingElement = ({ item }) => {
     setOpen(true);
     setNewRate(rate);
   };
+
+  const procedencia = optionsProcedencia.find(opcion => opcion.value === item?.country).label;
+  const tipo = optionsTipo.find(opcion => opcion.value === item?.type).label;
   return (
     <ConfigProvider locale={esEs}>
       <Row className="tasting-card-container">
@@ -51,7 +55,7 @@ export const TastingElement = ({ item }) => {
           />
         </Col>
         <Col className="tasting-card-content" md="10">
-          <Row className="tasting-card-head">
+          <Row className="">
             <div className="tasting-card-head-wrapper">
               <div className="tasting-card-head-title">{item?.name}</div>
               <div className="card-extra">
@@ -67,22 +71,20 @@ export const TastingElement = ({ item }) => {
             <Col className="tasting-card-left" md="8">
               <Row>
                 <Col md="10">
-                  <Descriptions size="small" column={1} layout="horizontal">
-                    <Descriptions.Item label="Tipo de tapa">{item?.type}</Descriptions.Item>
-                  </Descriptions>
+                  {item?.country !== 'otro' && <Tag color="blue">{procedencia.toUpperCase()}</Tag>}
+                  {item?.type !== 'otro' && <Tag color="magenta">{tipo.toUpperCase()}</Tag>}
                 </Col>
                 <Col className="text-align-right" md="2">
-                  <Descriptions size="small" column={1} layout="horizontal">
-                    <Descriptions.Item label="Favorito">
-                      <Rate className="card-rate-6" style={{ color: '#ff0000' }} character={<FontAwesomeIcon icon={faHeart} />} count={1} />
-                    </Descriptions.Item>
-                  </Descriptions>
+                  <Rate className="card-rate-6" style={{ color: '#ff0000' }} character={<FontAwesomeIcon icon={faHeart} />} count={1} />
                 </Col>
               </Row>
               <Descriptions size="small" column={1} layout="horizontal">
                 <Descriptions.Item label="Descripción">{item?.description}</Descriptions.Item>
               </Descriptions>
-              <Divider className="tasting-divider">{item?.establishment?.type}</Divider>
+              <Divider className="tasting-divider" style={{ color: 'rgba(44,44,44,0.49)' }}>
+                {' '}
+                {item?.establishment?.type}
+              </Divider>
               <Descriptions size="small" column={3} layout="horizontal">
                 <Descriptions.Item label="Nombre">{item?.establishment?.name}</Descriptions.Item>
                 {item.establishment?.address ? (
@@ -97,15 +99,32 @@ export const TastingElement = ({ item }) => {
               </Descriptions>
             </Col>
             <Col md="4" className="tasting-card-right" id={'tasting-button-col' + item.id}>
-              <Descriptions size="small" column={1} layout="horizontal" className="tasting-card-valorations">
-                <Descriptions.Item label="Valoración media" className="text-align-right">
-                  <Rate className="card-rate" allowHalf disabled defaultValue={item.average} />
-                </Descriptions.Item>
-                <Descriptions.Item label="Nº de valoraciones">{item.ratings ? item.ratings.length : 0}</Descriptions.Item>
-              </Descriptions>
+              <Row className="text-align-center">
+                <Col className="width-100 text-align-center">
+                  <Divider className="tasting-divider " style={{ color: 'rgba(44,44,44,0.49)' }}>
+                    Valoración media
+                  </Divider>
+
+                  <Row className="width-100 justify-content-center mt-2">
+                    <Col className="col-md-auto">
+                      {' '}
+                      <Rate className="card-rate mr-3" allowHalf disabled defaultValue={item.average} />
+                    </Col>
+                    <Col className="col-md-auto">
+                      {' '}
+                      <span className="ml-2" style={{ color: 'rgba(44,44,44,0.49)' }}>
+                        {' '}
+                        {item.ratings ? item.ratings.length : 0}
+                      </span>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
               <Row>
                 <Col className="width-100 text-align-center">
-                  <Divider className="tasting-divider">{newRate ? 'Tu valoración' : 'Valorar'}</Divider>
+                  <Divider className="tasting-divider" style={{ color: 'rgba(44,44,44,0.49)' }}>
+                    {newRate ? 'Tu valoración' : 'Valorar'}
+                  </Divider>
                   <Popconfirm
                     title="¿Estás seguro de que quieres valorar esta tapa?"
                     placement="top"
@@ -115,7 +134,7 @@ export const TastingElement = ({ item }) => {
                     cancelText="No"
                     open={open}
                   >
-                    <Row>
+                    <Row className="mb-2">
                       <Rate onChange={handleRateChange} value={newRate} disabled={item.rating || valoration} />
                     </Row>
                   </Popconfirm>
