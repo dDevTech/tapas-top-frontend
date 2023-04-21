@@ -22,7 +22,7 @@ export interface IHeaderProps {
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState('')
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -31,6 +31,9 @@ const Header = (props: IHeaderProps) => {
   }
 
   const handleClick = () => {
+    if(window.location.pathname === "/tasting"){
+      window.location.reload();
+    }
     navigate("/tasting", {state: search})
   }
 

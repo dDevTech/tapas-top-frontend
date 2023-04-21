@@ -13,9 +13,11 @@ export const TastingPage = () => {
   const [searchValue, setSearch] = useState(location.state != null ? location.state.toString() : "");
   const coincidences = useAppSelector(state => state.tapas.searchCoincidence);
   const loading = useAppSelector(state => state.tapas.loading);
+  const [wait, setWait] = useState(false)
 
   function onValidatedFormSubmit() {
     dispatch(getSearchCoincidences(searchValue));
+    setWait(true)
   }
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export const TastingPage = () => {
   }, [])
 
   useEffect(() => {
-    if (coincidences.length === 0 && searchValue == "") {
+    if(coincidences.length === 0 && searchValue != "" && wait == true) {
       toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
     }
   }, [coincidences]);
