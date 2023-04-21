@@ -10,6 +10,7 @@ import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -54,7 +55,7 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated && <div className='busquedaMenu'>
               <input className='inputMenu' type='text' value={search} onChange={handleChange} /> 
               <button className='botonBuscarMenu' onClick={handleClick}>
-                Buscar
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
               </div>}
             {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
