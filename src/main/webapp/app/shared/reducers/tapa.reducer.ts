@@ -9,6 +9,7 @@ const initialState = {
   errorMessage: null,
   updating: false,
   updateSuccess: false,
+
   createdRestaurantSuccess: false,
   favorites: [] as ITapa[],
   last: [] as ITapa[],

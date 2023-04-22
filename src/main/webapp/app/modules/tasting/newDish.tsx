@@ -9,6 +9,7 @@ import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
 import { NewEstablishment } from 'app/modules/tasting/newEstablishment';
+import { toast } from 'react-toastify';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ export const NewDish = () => {
   const [resturantePopup, show] = useState(false);
   useEffect(() => {
     if (createdRestaurantSuccess) {
+      toast.success('Se ha creado el restaurante correctamente');
       dispatch(getRestaurants());
     }
   }, [createdRestaurantSuccess]);
