@@ -44,7 +44,6 @@ const AppRoutes = () => {
         <Route path="age-verify" element={<AgeVerifyPage />} />
         <Route path="register" element={<Register />} />
         <Route path="register-account-info" element={<RegisterAccountInfo />} />
-
         <Route path="logout" element={<Logout />} />
         <Route path="account">
           <Route
