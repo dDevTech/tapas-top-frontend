@@ -6,28 +6,30 @@ import { getSearchCoincidences } from 'app/shared/reducers/tapa.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
+import { TastingElement } from 'app/modules/tasting/tastingElement';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const TastingPage = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [searchValue, setSearch] = useState(location.state != null ? location.state.toString() : "");
+  const [searchValue, setSearch] = useState(location.state != null ? location.state.toString() : '');
   const coincidences = useAppSelector(state => state.tapas.searchCoincidence);
   const loading = useAppSelector(state => state.tapas.loading);
-  const [wait, setWait] = useState(false)
+  const [wait, setWait] = useState(false);
 
   function onValidatedFormSubmit() {
     dispatch(getSearchCoincidences(searchValue));
-    setWait(true)
+    setWait(true);
   }
 
   useEffect(() => {
-    if(searchValue != ""){
-      onValidatedFormSubmit()
+    if (searchValue !== '') {
+      onValidatedFormSubmit();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(coincidences.length === 0 && searchValue != "" && wait == true) {
+    if (coincidences.length === 0 && searchValue !== '' && wait === true) {
       toast.info('No se han encontrado tapas que coincidan con la búsqueda. Crea una nueva tapa ');
     }
   }, [coincidences]);
@@ -76,7 +78,6 @@ export const TastingPage = () => {
               )}
             </Col>
           </Row>
-
         </ValidatedForm>
       </Row>
       <div className="text-center">
