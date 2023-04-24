@@ -36,6 +36,7 @@ export const MyTastings = () => {
         pagination={{
           pageSize: 3,
         }}
+        loading={loading}
         split={false}
         dataSource={tastingList}
         renderItem={item => (
