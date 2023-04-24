@@ -70,13 +70,6 @@ export const TastingPage = () => {
                 Buscar
               </Button>
             </Col>
-            <Col className="col-md-auto">
-              {loading && (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
-            </Col>
           </Row>
         </ValidatedForm>
       </Row>
@@ -91,6 +84,7 @@ export const TastingPage = () => {
         pagination={{
           pageSize: 3,
         }}
+        loading={loading}
         dataSource={coincidences}
         renderItem={item => (
           <List.Item>
