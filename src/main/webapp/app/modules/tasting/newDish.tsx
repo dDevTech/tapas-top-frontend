@@ -1,18 +1,29 @@
 import { Button, Col, Row } from 'reactstrap';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
+import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
+import { NewEstablishment } from 'app/modules/tasting/newEstablishment';
+import { toast } from 'react-toastify';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
-  const restaurants = useAppSelector(state => state.establishment.restaurants);
+  const restaurants = useAppSelector(state => state.tapas.restaurants);
   const loading = useAppSelector(state => state.tapas.loading);
+  const createdRestaurantSuccess = useAppSelector(state => state.tapas.createdRestaurantSuccess);
+
+  const [resturantePopup, show] = useState(false);
+  useEffect(() => {
+    if (createdRestaurantSuccess) {
+      toast.success('Se ha creado el restaurante correctamente');
+      dispatch(getRestaurants());
+    }
+  }, [createdRestaurantSuccess]);
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
@@ -20,6 +31,7 @@ export const NewDish = () => {
 
   return (
     <div>
+      {resturantePopup && <NewEstablishment funct={show}></NewEstablishment>}
       <Row className="justify-content-center">
         <Col md="8">
           <h1 id="register-title" data-cy="registerTitle">
@@ -75,7 +87,7 @@ export const NewDish = () => {
               getOptionValue={options => {
                 return options['value'];
               }}
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca tipo"
               required={true}
             />
@@ -90,37 +102,41 @@ export const NewDish = () => {
               getOptionValue={options => {
                 return options['value'];
               }}
-              className={'mt-3 mb-2 col-sm'}
+              className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca procedencia"
               required={true}
             />
-            <label>Restaurante asociado (*)</label>
+            <label>Establecimiento asociado (*)</label>
             <Row className="row-mx-auto restaurant">
               <Col className="col-8">
                 <Select
-                  name="restaurantes"
+                  name="establecimiento"
                   noOptionsMessage={() => {
                     if (!loading) {
-                      return 'No hay opciones. Si no existe crea un nuevo restaurante';
+                      return 'No hay opciones. Si no existe crea un nuevo establecimiento';
                     } else {
-                      return 'Cargando restaurantes...';
+                      return 'Cargando establecimientos...';
                     }
                   }}
                   options={restaurants}
                   getOptionLabel={options => {
-                    return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
+                    if (options['address'].city === undefined) {
+                      return options['name'] + '   ' + options['address'].country;
+                    } else {
+                      return options['name'] + '   ' + options['address'].city + ', ' + options['address'].country;
+                    }
                   }}
                   getOptionValue={options => {
                     return options['id'];
                   }}
-                  className={'mt-3 mb-2 col-sm'}
-                  placeholder="Introduzca restaurante"
+                  className={'mt-2 mb-3 col-sm'}
+                  placeholder="Introduzca establecimiento"
                   required={true}
                 />
               </Col>
               <Col className="col-md-auto">
-                <Button type="button" color="secondary">
-                  Nuevo restaurante
+                <Button type="button" color="secondary" onClick={() => show(true)}>
+                  Nuevo establecimiento
                 </Button>
               </Col>
             </Row>

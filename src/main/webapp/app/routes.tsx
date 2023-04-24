@@ -17,10 +17,12 @@ import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { AgeVerifyPage } from 'app/modules/account/age-verification/age-verify';
 
-import { TastingPage } from 'app/modules/tasting/Tasting';
+import { TastingPage } from 'app/modules/tasting/tasting';
 import { MyTastings } from 'app/modules/myTastings/myTastings';
 
-import { NewDish } from 'app/modules/tasting/NewDish';
+import { NewDish } from 'app/modules/tasting/newDish';
+import { MostValorated } from 'app/modules/most-valorated/mostValorated';
+
 const loading = <div>loading ...</div>;
 
 const Account = Loadable({
@@ -63,6 +65,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
               <TastingPage />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="mostValorated"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <MostValorated />
             </PrivateRoute>
           }
         ></Route>
