@@ -1,6 +1,8 @@
 export const isImage = i => {
   let validate = true;
-
+  if (i.isEmpty()) {
+    return true;
+  }
   if (!i.startsWith('http:') && !i.startsWith('https:')) {
     validate = false;
   }

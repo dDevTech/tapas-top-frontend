@@ -212,7 +212,7 @@ export const RegisterAccountInfo = () => {
               name="image"
               label="URL foto de perfil"
               id="image"
-              placeholder="Imagen"
+              placeholder="https://"
               validate={{
                 validate: i => isImage(i) || 'La URL no es válida',
               }}

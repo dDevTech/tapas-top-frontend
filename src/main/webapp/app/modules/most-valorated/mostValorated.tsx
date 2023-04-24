@@ -14,6 +14,7 @@ export const MostValorated = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const tastingList = useAppSelector(state => state.userInfo.myTastings);
+  const loading = useAppSelector(state => state.userInfo.loading);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
@@ -129,6 +130,7 @@ export const MostValorated = () => {
         pagination={{
           pageSize: 3,
         }}
+        loading={loading}
         split={false}
         dataSource={tastingList}
         renderItem={item => (
