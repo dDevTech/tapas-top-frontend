@@ -77,10 +77,6 @@ export const NewDish = () => {
               placeholder="Tapa"
               validate={{
                 required: { value: true, message: 'El nombre de la tapa es obligatorio.' },
-                pattern: {
-                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
-                  message: 'El nombre no es válido.',
-                },
                 minLength: { value: 5, message: 'La tapa debe tener al menos 5 caracteres.' },
                 maxLength: { value: 50, message: 'La tapa no puede tener más de 50 caracteres.' },
               }}
