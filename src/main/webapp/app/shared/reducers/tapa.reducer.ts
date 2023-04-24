@@ -10,6 +10,7 @@ const initialState = {
   updating: false,
   updateSuccess: false,
   createdRestaurantSuccess: false,
+  createTapaSuccess: false,
   favorites: [] as ITapa[],
   last: [] as ITapa[],
   searchCoincidence: [] as ITapa[],
@@ -67,6 +68,10 @@ export const createRestaurant = createAsyncThunk(
     axios.post<any>('api/establishment', data),
   { serializeError: serializeAxiosError }
 );
+
+export const saveTapa = createAsyncThunk('tapa/create_tapa', async (data: any) => axios.post<any>('api/tapa', data), {
+  serializeError: serializeAxiosError,
+});
 export const TapaSlice = createSlice({
   name: 'tapas',
   initialState,
@@ -101,9 +106,16 @@ export const TapaSlice = createSlice({
         state.last = action.payload.data;
         state.createdRestaurantSuccess = true;
       })
+      .addCase(saveTapa.fulfilled, (state, action) => {
+        state.createTapaSuccess = true;
+      })
       .addMatcher(isPending(createRestaurant), state => {
         state.errorMessage = null;
         state.createdRestaurantSuccess = false;
+      })
+      .addMatcher(isPending(saveTapa), state => {
+        state.errorMessage = null;
+        state.createTapaSuccess = false;
       })
       .addMatcher(isPending(getRestaurants, getLast, getSearchCoincidences, getFavorites, getLastEstablisment), state => {
         state.errorMessage = null;

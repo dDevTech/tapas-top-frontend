@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { optionsTipo, optionsProcedencia } from 'app/shared/util/Selectores';
 import { Rate } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getRestaurants } from 'app/shared/reducers/tapa.reducer';
+import { getRestaurants, saveTapa } from 'app/shared/reducers/tapa.reducer';
 import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
 import { NewEstablishment } from 'app/modules/tasting/newEstablishment';
@@ -16,18 +16,47 @@ export const NewDish = () => {
   const restaurants = useAppSelector(state => state.tapas.restaurants);
   const loading = useAppSelector(state => state.tapas.loading);
   const createdRestaurantSuccess = useAppSelector(state => state.tapas.createdRestaurantSuccess);
-
+  const createTapaSuccess = useAppSelector(state => state.tapas.createTapaSuccess);
   const [resturantePopup, show] = useState(false);
+  const [selectedProcedencia, setSelectedProcedencia] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedEstablishment, setSelectedEstablishment] = useState(null);
+  const [selectedDulce, setSelectedDulce] = useState(null);
+  const [selectedSalado, setSelectedSalado] = useState(null);
+  const [selectedAmargo, setSelectedAmargo] = useState(null);
+  const [selectedAcido, setSelectedAcido] = useState(null);
+
   useEffect(() => {
     if (createdRestaurantSuccess) {
       toast.success('Se ha creado el restaurante correctamente');
       dispatch(getRestaurants());
     }
   }, [createdRestaurantSuccess]);
+
+  useEffect(() => {
+    if (createTapaSuccess) {
+      toast.success('Se ha creado la tapa correctamente');
+    }
+  }, [createTapaSuccess]);
+
   useEffect(() => {
     dispatch(getRestaurants());
   }, []);
-  const onValidatedFormSubmit = () => {};
+  const onValidatedFormSubmit = values => {
+    const newEntity = {
+      name: values.nombreTapa,
+      description: values.descripcion,
+      type: selectedType?.value,
+      country: selectedProcedencia?.value,
+      imageUrl: values.urlFoto,
+      establishment: selectedEstablishment?.id,
+      dulce: selectedDulce,
+      amargo: selectedAmargo,
+      acido: selectedAcido,
+      salado: selectedSalado,
+    };
+    dispatch(saveTapa(newEntity));
+  };
 
   return (
     <div>
@@ -90,6 +119,7 @@ export const NewDish = () => {
               className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca tipo"
               required={true}
+              onChange={value => setSelectedProcedencia(value)}
             />
             <label>Tipo (*)</label>
             <Select
@@ -105,6 +135,7 @@ export const NewDish = () => {
               className={'mt-2 mb-3 col-sm'}
               placeholder="Introduzca procedencia"
               required={true}
+              onChange={value => setSelectedType(value)}
             />
             <label>Establecimiento asociado (*)</label>
             <Row className="row-mx-auto restaurant">
@@ -132,6 +163,7 @@ export const NewDish = () => {
                   className={'mt-2 mb-3 col-sm'}
                   placeholder="Introduzca establecimiento"
                   required={true}
+                  onChange={value => setSelectedEstablishment(value)}
                 />
               </Col>
               <Col className="col-md-auto">
@@ -146,28 +178,28 @@ export const NewDish = () => {
               <Col className={'col-2'}> Dulce: </Col>
               <Col className={'col-10'}>
                 {' '}
-                <Rate allowClear />{' '}
+                <Rate allowClear onChange={value => setSelectedDulce(value)} />{' '}
               </Col>
             </Row>
             <Row>
               <Col className={'col-2'}> Salado: </Col>
               <Col className={'col-10'}>
                 {' '}
-                <Rate allowClear />{' '}
+                <Rate allowClear onChange={value => setSelectedSalado(value)} />{' '}
               </Col>
             </Row>
             <Row>
               <Col className={'col-2'}> Amargo: </Col>
               <Col className={'col-10'}>
                 {' '}
-                <Rate allowClear />{' '}
+                <Rate allowClear onChange={value => setSelectedAmargo(value)} />{' '}
               </Col>
             </Row>
             <Row>
               <Col className={'col-2'}> Ácido: </Col>
               <Col className={'col-10'}>
                 {' '}
-                <Rate allowClear />{' '}
+                <Rate allowClear onChange={value => setSelectedAcido(value)} />{' '}
               </Col>
             </Row>
             <Button className="mt-5" id="register-submit" color="primary" type="submit" data-cy="submit">
