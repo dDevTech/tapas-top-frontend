@@ -7,7 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { saveRating } from 'app/shared/reducers/rating-user.reducer';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
-import { getFavorites, setFavorite } from 'app/shared/reducers/tapa.reducer';
+import { getFavorites } from 'app/shared/reducers/user-info.reducer';
 import axios from 'axios';
 
 export const TastingElement = ({ item }) => {
@@ -17,7 +17,9 @@ export const TastingElement = ({ item }) => {
   const [newRate, setNewRate] = useState(null);
   const [open, setOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
-  const [favorites, setFavorites] = useState(null)
+  /*const [favorites, setFavorites] = useState(null)*/
+  const favorites = useAppSelector(state => state.userInfo.favorites);
+  const favoritesLoading = useAppSelector(state => state.userInfo.loading);
   const [isFavorite, setIsFavorite] = useState(0)
 
   useEffect(() => {
@@ -25,6 +27,30 @@ export const TastingElement = ({ item }) => {
   }, [item.rating?.rating]);
 
   useEffect(() => {
+    dispatch(getFavorites(account.login));
+  }, []);
+  
+  useEffect(() => {
+    if(favorites.length != 0){
+      console.log(favorites)
+      for(let i = 0 ; i < favorites.length ; i++){
+        if(favorites[i].id == item.id){
+          setIsFavorite(1)
+        }
+      }
+    }
+  }, [favorites])
+
+  /*useEffect(() => {
+    console.log(favorites)
+    for(let i = 0 ; i < favorites.length ; i++){
+      if(favorites[i] == item.id){
+        setIsFavorite(1)
+      }
+    }
+  }, [favorites]);*/
+
+  /*useEffect(() => {
     setFavorites(dispatch(getFavorites(account.login)))
     if(favorites != null){
       for(let i = 0 ; i < favorites.length ; i++){
@@ -33,7 +59,7 @@ export const TastingElement = ({ item }) => {
         }
       }
     }
-  }, [])
+  }, [])*/
 
   const confirm = () => {
     const data = {
