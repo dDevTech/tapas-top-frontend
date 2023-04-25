@@ -13,12 +13,30 @@ export const BestValorated = () => {
   const dispatch = useAppDispatch();
   const tastingList = useAppSelector(state => state.tapas.bestValorated);
   const loading = useAppSelector(state => state.userInfo.loading);
+
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    dispatch(getBestValorated());
+    dispatch(getBestValorated({
+      city: null,
+      precedence: null,
+      type: null,
+      country: null,
+    }));
   }, []);
+
+  const applyFilter = () => {
+    dispatch(getBestValorated({
+      city: selectedCity,
+      precedence: selectedOrigin,
+      type: selectedType,
+      country: selectedCountry,
+    }));
+  }
+
 
   return (
     <div>
@@ -51,6 +69,9 @@ export const BestValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
+                onChange={item => {
+                  setSelectedOrigin(item);
+                }}
                 className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca procedencia"
               />
@@ -66,6 +87,9 @@ export const BestValorated = () => {
                 }}
                 getOptionValue={options => {
                   return options['value'];
+                }}
+                onChange={item => {
+                  setSelectedType(item);
                 }}
                 className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca tipo de comida"
@@ -88,7 +112,7 @@ export const BestValorated = () => {
                 }}
                 onChange={item => {
                   setSelectedCountry(item);
-                  setSelectedState(null);
+                  setSelectedCity(null);
                 }}
                 required
                 data-cy="country"
@@ -107,9 +131,9 @@ export const BestValorated = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
-                value={selectedState}
+                value={selectedCity}
                 onChange={item => {
-                  setSelectedState(item);
+                  setSelectedCity(item);
                 }}
                 data-cy="city"
               />
@@ -117,7 +141,7 @@ export const BestValorated = () => {
           </Row>
         </Col>
         <Col className="col-1 align-self-end mb-3">
-          <Button type="button" color="secondary">
+          <Button type="button" color="secondary" onClick={applyFilter}>
             Buscar
           </Button>
         </Col>
