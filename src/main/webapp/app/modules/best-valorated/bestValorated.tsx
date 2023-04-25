@@ -1,20 +1,17 @@
 import { Breadcrumb, BreadcrumbItem, Button, Col, Row } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import { List } from 'antd';
-import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
 import Select from 'react-select';
 import {getBestValorated} from "app/shared/reducers/tapa.reducer";
-import { getMyTastings } from 'app/shared/reducers/user-info.reducer';
 import { TastingElement } from 'app/modules/tasting/tastingElement';
 import { Country, State } from 'country-state-city';
 
 export const BestValorated = () => {
   const dispatch = useAppDispatch();
-  const account = useAppSelector(state => state.authentication.account);
-  const tastingList = useAppSelector(state => state.userInfo.myTastings);
+  const tastingList = useAppSelector(state => state.tapas.bestValorated);
   const loading = useAppSelector(state => state.userInfo.loading);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);

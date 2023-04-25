@@ -19,8 +19,6 @@ const initialState = {
   bestValorated: [] as ITapa[],
 };
 
-const apiUrl = 'api/tapas';
-
 export const getFavorites = createAsyncThunk(
   'tapas_fetch_favorites',
   async (login: string) => {
@@ -57,9 +55,9 @@ export const getRestaurants = createAsyncThunk(
 );
 
 export const getBestValorated = createAsyncThunk(
-  'valorations-ordered',
+  'bestValorations',
   async () => {
-    const requestUrl = `api/establishment`;
+    const requestUrl = `api/tapa`;
     return axios.get<ITapa[]>(requestUrl);
   },
   { serializeError: serializeAxiosError }
@@ -105,7 +103,7 @@ export const TapaSlice = createSlice({
         state.restaurants = action.payload.data;
         state.loading = false;
       })
-      .addCase(getRestaurants.fulfilled, (state, action) => {
+      .addCase(getBestValorated.fulfilled, (state, action) => {
         state.bestValorated = action.payload.data;
         state.loading = false;
       })
