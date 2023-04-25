@@ -17,7 +17,7 @@ export const TastingElement = ({ item }) => {
   const [open, setOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
   const favorites = useAppSelector(state => state.userInfo.favorites);
-  const [isFavorite, setIsFavorite] = useState(0)
+  const [isFavorite, setIsFavorite] = useState(0);
 
   useEffect(() => {
     if (item.rating) setNewRate(item.rating.rating);
@@ -26,16 +26,16 @@ export const TastingElement = ({ item }) => {
   useEffect(() => {
     dispatch(getFavorites(account.login));
   }, []);
-  
+
   useEffect(() => {
-    if(favorites.length != 0){
-      for(let i = 0 ; i < favorites.length ; i++){
-        if(favorites[i].id == item.id){
-          setIsFavorite(1)
+    if (favorites.length !== 0) {
+      for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i].id === item.id) {
+          setIsFavorite(1);
         }
       }
     }
-  }, [favorites])
+  }, [favorites]);
 
   const confirm = () => {
     const data = {
@@ -58,14 +58,14 @@ export const TastingElement = ({ item }) => {
   };
 
   const selectFavourite = () => {
-    if(isFavorite == 0){
-      dispatch(setFavorites(item.id))
-      setIsFavorite(1)
+    if (isFavorite === 0) {
+      dispatch(setFavorites(item.id));
+      setIsFavorite(1);
     } else {
-      dispatch(deleteFavorites(item.id))
-      setIsFavorite(0)
+      dispatch(deleteFavorites(item.id));
+      setIsFavorite(0);
     }
-  }
+  };
 
   const procedencia = optionsProcedencia.find(opcion => opcion.value === item?.country).label;
   const tipo = optionsTipo.find(opcion => opcion.value === item?.type).label;
@@ -102,7 +102,14 @@ export const TastingElement = ({ item }) => {
                   {item?.type !== 'otro' && <Tag color="magenta">{tipo.toUpperCase()}</Tag>}
                 </Col>
                 <Col className="text-align-right" md="2">
-                  <Rate className="card-rate-6" onChange={selectFavourite} style={{ color: '#ff0000' }} character={<FontAwesomeIcon icon={faHeart} />} count={1} value={isFavorite} />
+                  <Rate
+                    className="card-rate-6"
+                    onChange={selectFavourite}
+                    style={{ color: '#ff0000' }}
+                    character={<FontAwesomeIcon icon={faHeart} />}
+                    count={1}
+                    value={isFavorite}
+                  />
                 </Col>
               </Row>
               <Descriptions size="small" column={1} layout="horizontal">
