@@ -7,7 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { saveRating } from 'app/shared/reducers/rating-user.reducer';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
-import { getFavorites } from 'app/shared/reducers/user-info.reducer';
+import { deleteFavorites, getFavorites, setFavorites } from 'app/shared/reducers/user-info.reducer';
 import axios from 'axios';
 
 export const TastingElement = ({ item }) => {
@@ -62,10 +62,10 @@ export const TastingElement = ({ item }) => {
 
   const selectFavourite = () => {
     if(isFavorite == 0){
-      /* post favorite */
+      dispatch(setFavorites(item.id))
       setIsFavorite(1)
     } else {
-      /* delete favorite */
+      dispatch(deleteFavorites(item.id))
       setIsFavorite(0)
     }
   }
