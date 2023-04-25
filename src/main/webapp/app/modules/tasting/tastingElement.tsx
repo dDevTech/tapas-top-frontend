@@ -39,7 +39,6 @@ export const TastingElement = ({ item }) => {
     setOpen(true);
     setNewRate(rate);
   };
-
   const procedencia = optionsProcedencia.find(opcion => opcion.value === item?.country).label;
   const tipo = optionsTipo.find(opcion => opcion.value === item?.type).label;
   return (
@@ -108,7 +107,7 @@ export const TastingElement = ({ item }) => {
                   <Row className="width-100 justify-content-center mt-2">
                     <Col className="col-md-auto">
                       {' '}
-                      <Rate className="card-rate mr-3" allowHalf disabled defaultValue={item.average} />
+                      <Rate className="card-rate mr-3" allowHalf disabled value={item.average} />
                     </Col>
                     <Col className="col-md-auto">
                       {' '}
