@@ -19,7 +19,6 @@ export const TastingElement = ({ item }) => {
   const account = useAppSelector(state => state.authentication.account);
   /*const [favorites, setFavorites] = useState(null)*/
   const favorites = useAppSelector(state => state.userInfo.favorites);
-  const favoritesLoading = useAppSelector(state => state.userInfo.loading);
   const [isFavorite, setIsFavorite] = useState(0)
 
   useEffect(() => {
@@ -40,26 +39,6 @@ export const TastingElement = ({ item }) => {
       }
     }
   }, [favorites])
-
-  /*useEffect(() => {
-    console.log(favorites)
-    for(let i = 0 ; i < favorites.length ; i++){
-      if(favorites[i] == item.id){
-        setIsFavorite(1)
-      }
-    }
-  }, [favorites]);*/
-
-  /*useEffect(() => {
-    setFavorites(dispatch(getFavorites(account.login)))
-    if(favorites != null){
-      for(let i = 0 ; i < favorites.length ; i++){
-        if(favorites[i].id == item.id){
-          setIsFavorite(1)
-        }
-      }
-    }
-  }, [])*/
 
   const confirm = () => {
     const data = {
