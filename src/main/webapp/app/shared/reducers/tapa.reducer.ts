@@ -28,6 +28,18 @@ export const getFavorites = createAsyncThunk(
   { serializeError: serializeAxiosError }
 );
 
+/*export const setFavorite = createAsyncThunk(
+  'tapas_fetch_favorites',
+  async (tapaId: string) => {
+    const requestUrl = `api/myuser/favourites/${tapaId}`;
+    return axios.post<any>(requestUrl);
+  }
+);*/
+export const setFavorite = createAsyncThunk(
+  'tapas_set_favorites',
+  async (tapaId: string) => axios.post(`api/myuser/favourites/${tapaId}`)
+);
+
 export const getSearchCoincidences = createAsyncThunk(
   'tapas_search_coincidences',
   async (search: string) => {
