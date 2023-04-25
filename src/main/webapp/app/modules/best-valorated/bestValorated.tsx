@@ -6,11 +6,12 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
 import Select from 'react-select';
+import {getBestValorated} from "app/shared/reducers/tapa.reducer";
 import { getMyTastings } from 'app/shared/reducers/user-info.reducer';
 import { TastingElement } from 'app/modules/tasting/tastingElement';
 import { Country, State } from 'country-state-city';
 
-export const MostValorated = () => {
+export const BestValorated = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector(state => state.authentication.account);
   const tastingList = useAppSelector(state => state.userInfo.myTastings);
@@ -19,7 +20,7 @@ export const MostValorated = () => {
   const [selectedState, setSelectedState] = useState(null);
 
   useEffect(() => {
-    dispatch(getMyTastings(account?.login));
+    dispatch(getBestValorated());
   }, []);
 
   return (
@@ -32,7 +33,7 @@ export const MostValorated = () => {
       </Breadcrumb>
       <Row className="justify-content-center mb-3">
         <Col>
-          <h1 id="most-valorated" data-cy="most-valorated" className="mb-4">
+          <h1 id="best-valorated" data-cy="best-valorated" className="mb-4">
             Tapas más valoradas
           </h1>
         </Col>
@@ -143,4 +144,4 @@ export const MostValorated = () => {
   );
 };
 
-export default MostValorated;
+export default BestValorated;

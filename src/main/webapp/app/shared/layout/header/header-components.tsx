@@ -38,7 +38,7 @@ export const Tasting = () => (
 export const MostValorated = () => (
   // TODO: introducir enlace real cuando se cree la página
   <NavItem>
-    <NavLink tag={Link} to="/mostValorated" className="d-flex align-items-center">
+    <NavLink tag={Link} to="/bestValorated" className="d-flex align-items-center">
       <FontAwesomeIcon icon="award" />
       <span>&nbsp;Más valoradas</span>
     </NavLink>
