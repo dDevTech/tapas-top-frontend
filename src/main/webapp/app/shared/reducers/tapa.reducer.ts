@@ -57,7 +57,15 @@ export const getRestaurants = createAsyncThunk(
 export const getBestValorated = createAsyncThunk(
   'bestValorations',
   async (data: { city: string; precedence: string; type: string; country: string }) => {
-    const requestUrl = `api/tapa`;
+    let requestUrl = `api/tapa`;
+    if (data.city !== null || data.precedence !== null || data.type !== null || data.country !== null  ) {
+      let params = ''
+      Object.entries(data).map(([key, value]) => (
+        params += (value !==null ? `&${key}=${value}` : '')
+      ))
+      params = params.substring(1,params.length)
+      requestUrl += '?' + params
+    }
     return axios.get<ITapa[]>(requestUrl, {data});
   },
   { serializeError: serializeAxiosError }

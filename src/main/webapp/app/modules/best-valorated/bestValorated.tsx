@@ -30,11 +30,18 @@ export const BestValorated = () => {
 
   const applyFilter = () => {
     dispatch(getBestValorated({
-      city: selectedCity,
-      precedence: selectedOrigin,
-      type: selectedType,
-      country: selectedCountry,
+      city: selectedCity? selectedCity.name: null,
+      precedence: selectedOrigin ? selectedOrigin.value: null,
+      type: selectedType? selectedType.value : null,
+      country: selectedCountry? selectedCountry.name: null,
     }));
+  }
+
+  const clearFilter = () => {
+    setSelectedCity(null)
+    setSelectedOrigin(null)
+    setSelectedType(null)
+    setSelectedCountry(null)
   }
 
 
@@ -69,6 +76,7 @@ export const BestValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
+                value={selectedOrigin}
                 onChange={item => {
                   setSelectedOrigin(item);
                 }}
@@ -88,6 +96,7 @@ export const BestValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
+                value={selectedType}
                 onChange={item => {
                   setSelectedType(item);
                 }}
@@ -110,6 +119,7 @@ export const BestValorated = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
+                value={selectedCountry}
                 onChange={item => {
                   setSelectedCountry(item);
                   setSelectedCity(null);
@@ -141,6 +151,10 @@ export const BestValorated = () => {
           </Row>
         </Col>
         <Col className="col-1 align-self-end mb-3">
+          <Button className='mb-1' type="button" color="secondary" onClick={clearFilter}>
+            Limpiar
+          </Button>
+
           <Button type="button" color="secondary" onClick={applyFilter}>
             Buscar
           </Button>
