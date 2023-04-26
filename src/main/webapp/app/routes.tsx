@@ -21,7 +21,7 @@ import { TastingPage } from 'app/modules/tasting/tasting';
 import { MyTastings } from 'app/modules/myTastings/myTastings';
 
 import { NewDish } from 'app/modules/tasting/newDish';
-import { MostValorated } from 'app/modules/most-valorated/mostValorated';
+import { BestValorated } from 'app/modules/best-valorated/bestValorated';
 
 const loading = <div>loading ...</div>;
 
@@ -69,10 +69,10 @@ const AppRoutes = () => {
           }
         ></Route>
         <Route
-          path="mostValorated"
+          path="bestValorated"
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
-              <MostValorated />
+              <BestValorated />
             </PrivateRoute>
           }
         ></Route>

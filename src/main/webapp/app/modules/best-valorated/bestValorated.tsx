@@ -1,26 +1,52 @@
 import { Breadcrumb, BreadcrumbItem, Button, Col, Row } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import { List } from 'antd';
-import { getRestaurants } from 'app/shared/reducers/establishment.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
 import Select from 'react-select';
-import { getMyTastings } from 'app/shared/reducers/user-info.reducer';
+import { getBestValorated } from 'app/shared/reducers/tapa.reducer';
 import { TastingElement } from 'app/modules/tasting/tastingElement';
 import { Country, State } from 'country-state-city';
 
-export const MostValorated = () => {
+export const BestValorated = () => {
   const dispatch = useAppDispatch();
-  const account = useAppSelector(state => state.authentication.account);
-  const tastingList = useAppSelector(state => state.userInfo.myTastings);
-  const loading = useAppSelector(state => state.userInfo.loading);
+  const tastingList = useAppSelector(state => state.tapas.bestValorated);
+  const loading = useAppSelector(state => state.tapas.loading);
+
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    dispatch(getMyTastings(account?.login));
+    dispatch(
+      getBestValorated({
+        city: null,
+        precedence: null,
+        type: null,
+        country: null,
+      })
+    );
   }, []);
+
+  const applyFilter = () => {
+    dispatch(
+      getBestValorated({
+        city: selectedCity ? selectedCity.name : null,
+        precedence: selectedOrigin ? selectedOrigin.value : null,
+        type: selectedType ? selectedType.value : null,
+        country: selectedCountry ? selectedCountry.name : null,
+      })
+    );
+  };
+
+  const clearFilter = () => {
+    setSelectedCity(null);
+    setSelectedOrigin(null);
+    setSelectedType(null);
+    setSelectedCountry(null);
+  };
 
   return (
     <div>
@@ -32,7 +58,7 @@ export const MostValorated = () => {
       </Breadcrumb>
       <Row className="justify-content-center mb-3">
         <Col>
-          <h1 id="most-valorated" data-cy="most-valorated" className="mb-4">
+          <h1 id="best-valorated" data-cy="best-valorated" className="mb-4">
             Tapas más valoradas
           </h1>
         </Col>
@@ -41,8 +67,7 @@ export const MostValorated = () => {
       <Row className="selectors">
         <Col className="col-11">
           <Row className="selectors">
-            <Col className="col-6">
-              <label> Seleccione la procedencia: </label>
+            <Col className="col-3">
               <Select
                 name="procedencia"
                 noOptionsMessage={() => 'No hay opciones'}
@@ -53,12 +78,15 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
+                value={selectedOrigin}
+                onChange={item => {
+                  setSelectedOrigin(item);
+                }}
                 className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca procedencia"
               />
             </Col>
-            <Col className="col-6">
-              <label>Tipo:</label>
+            <Col className="col-3">
               <Select
                 name="tipoComida"
                 noOptionsMessage={() => 'No hay opciones'}
@@ -69,14 +97,16 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['value'];
                 }}
+                value={selectedType}
+                onChange={item => {
+                  setSelectedType(item);
+                }}
                 className={'mt-2 mb-3 col-sm'}
                 placeholder="Introduzca tipo de comida"
               />
             </Col>
-          </Row>
-          <Row>
-            <label> Ubicación: </label>
-            <Col className="col-6">
+
+            <Col className="col-3">
               <Select
                 name="country"
                 className={'mt-2 mb-3 col-sm'}
@@ -88,15 +118,16 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
+                value={selectedCountry}
                 onChange={item => {
                   setSelectedCountry(item);
-                  setSelectedState(null);
+                  setSelectedCity(null);
                 }}
                 required
                 data-cy="country"
               />
             </Col>
-            <Col className="col-6">
+            <Col className="col-3">
               <Select
                 name="city"
                 className={'mt-2 mb-3 col-sm'}
@@ -109,20 +140,27 @@ export const MostValorated = () => {
                 getOptionValue={options => {
                   return options['name'];
                 }}
-                value={selectedState}
+                value={selectedCity}
                 onChange={item => {
-                  setSelectedState(item);
+                  setSelectedCity(item);
                 }}
                 data-cy="city"
               />
             </Col>
           </Row>
         </Col>
-        <Col className="col-1 align-self-end mb-3">
-          <Button type="button" color="secondary">
-            Buscar
+        <Col className="col-1 mt-2">
+          <Button type="button" color="secondary" onClick={clearFilter}>
+            Limpiar
           </Button>
         </Col>
+        <Row>
+          <Col className="text-align-center">
+            <Button className="w-25" type="button" color="primary" onClick={applyFilter}>
+              Buscar
+            </Button>
+          </Col>
+        </Row>
       </Row>
       <List
         itemLayout="vertical"
@@ -143,4 +181,4 @@ export const MostValorated = () => {
   );
 };
 
-export default MostValorated;
+export default BestValorated;
