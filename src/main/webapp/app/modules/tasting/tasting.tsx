@@ -73,14 +73,20 @@ export const TastingPage = () => {
           </Row>
         </ValidatedForm>
       </Row>
-      <div className="text-center">
-        <a href="/newDish">
-          <Button color="secondary">Crear una tapa</Button>
-        </a>
-      </div>
+
       <List
         itemLayout="vertical"
         size="large"
+        footer={
+          !loading &&
+          coincidences.length === 0 && (
+            <div className="text-center">
+              <a href="/newDish">
+                <Button color="primary">Crear una tapa</Button>
+              </a>
+            </div>
+          )
+        }
         pagination={{
           pageSize: 3,
         }}
