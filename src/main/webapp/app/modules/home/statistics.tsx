@@ -1,5 +1,5 @@
-import { Button, Col, Row, UncontrolledCarousel, Alert } from 'reactstrap';
-import { Avatar, Descriptions, Divider, Table, Tabs, Timeline, Empty, Card, Image, Rate } from 'antd';
+import { Button, Col, Row } from 'reactstrap';
+import { Descriptions, Divider, Tabs, Timeline, Empty } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getLast, getLastEstablisment } from 'app/shared/reducers/user-info.reducer';
@@ -63,7 +63,7 @@ function LastSample({ list }) {
             </Divider>
             <Timeline items={timelineList} />
             <Row>
-              <Link to="/login">
+              <Link to="/myTastings">
                 <Button color="primary" type="submit" data-cy="submit" className="width-100">
                   Ver todas mis degustaciones
                 </Button>
@@ -78,7 +78,7 @@ function LastSample({ list }) {
               <Empty description={'No has introducido ningúna degustación en los últimos 7 días'} />
             </Row>
             <Row className="empty-div margin-top-20">
-              <Link to="/home">
+              <Link to="/newDish">
                 <Button color="primary" type="submit" data-cy="submit">
                   Introduce una nueva degustación ahora
                 </Button>
