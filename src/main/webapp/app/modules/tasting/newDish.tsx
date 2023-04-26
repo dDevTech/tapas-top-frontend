@@ -10,6 +10,7 @@ import './tasting.scss';
 import { isImage } from 'app/shared/util/image-verification';
 import { NewEstablishment } from 'app/modules/tasting/newEstablishment';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const NewDish = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ export const NewDish = () => {
   const [selectedSalado, setSelectedSalado] = useState(null);
   const [selectedAmargo, setSelectedAmargo] = useState(null);
   const [selectedAcido, setSelectedAcido] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (createdRestaurantSuccess) {
       toast.success('Se ha creado el restaurante correctamente');
@@ -36,6 +37,7 @@ export const NewDish = () => {
   useEffect(() => {
     if (createTapaSuccess) {
       toast.success('Se ha creado la tapa correctamente');
+      navigate('/myTastings');
     }
   }, [createTapaSuccess]);
 
