@@ -1,18 +1,18 @@
-import {Breadcrumb, BreadcrumbItem, Button, Col, Row} from 'reactstrap';
-import React, {useEffect, useState} from 'react';
-import {List} from 'antd';
-import {useAppDispatch, useAppSelector} from 'app/config/store';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {optionsProcedencia, optionsTipo} from 'app/shared/util/Selectores';
+import { Breadcrumb, BreadcrumbItem, Button, Col, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { List } from 'antd';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
 import Select from 'react-select';
-import {getBestValorated} from "app/shared/reducers/tapa.reducer";
-import {TastingElement} from 'app/modules/tasting/tastingElement';
-import {Country, State} from 'country-state-city';
+import { getBestValorated } from 'app/shared/reducers/tapa.reducer';
+import { TastingElement } from 'app/modules/tasting/tastingElement';
+import { Country, State } from 'country-state-city';
 
 export const BestValorated = () => {
   const dispatch = useAppDispatch();
   const tastingList = useAppSelector(state => state.tapas.bestValorated);
-  const loading = useAppSelector(state => state.userInfo.loading);
+  const loading = useAppSelector(state => state.tapas.loading);
 
   const [selectedOrigin, setSelectedOrigin] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
@@ -20,36 +20,39 @@ export const BestValorated = () => {
   const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    dispatch(getBestValorated({
-      city: null,
-      precedence: null,
-      type: null,
-      country: null,
-    }));
+    dispatch(
+      getBestValorated({
+        city: null,
+        precedence: null,
+        type: null,
+        country: null,
+      })
+    );
   }, []);
 
   const applyFilter = () => {
-    dispatch(getBestValorated({
-      city: selectedCity ? selectedCity.name : null,
-      precedence: selectedOrigin ? selectedOrigin.value : null,
-      type: selectedType ? selectedType.value : null,
-      country: selectedCountry ? selectedCountry.name : null,
-    }));
-  }
+    dispatch(
+      getBestValorated({
+        city: selectedCity ? selectedCity.name : null,
+        precedence: selectedOrigin ? selectedOrigin.value : null,
+        type: selectedType ? selectedType.value : null,
+        country: selectedCountry ? selectedCountry.name : null,
+      })
+    );
+  };
 
   const clearFilter = () => {
-    setSelectedCity(null)
-    setSelectedOrigin(null)
-    setSelectedType(null)
-    setSelectedCountry(null)
-  }
-
+    setSelectedCity(null);
+    setSelectedOrigin(null);
+    setSelectedType(null);
+    setSelectedCountry(null);
+  };
 
   return (
     <div>
       <Breadcrumb>
         <BreadcrumbItem active>
-          <FontAwesomeIcon icon="award"/>
+          <FontAwesomeIcon icon="award" />
           <span>&nbsp;Más valoradas</span>
         </BreadcrumbItem>
       </Breadcrumb>
@@ -64,8 +67,7 @@ export const BestValorated = () => {
       <Row className="selectors">
         <Col className="col-11">
           <Row className="selectors">
-            <Col className="col-6">
-              <label> Seleccione la procedencia: </label>
+            <Col className="col-3">
               <Select
                 name="procedencia"
                 noOptionsMessage={() => 'No hay opciones'}
@@ -84,8 +86,7 @@ export const BestValorated = () => {
                 placeholder="Introduzca procedencia"
               />
             </Col>
-            <Col className="col-6">
-              <label>Tipo:</label>
+            <Col className="col-3">
               <Select
                 name="tipoComida"
                 noOptionsMessage={() => 'No hay opciones'}
@@ -104,10 +105,8 @@ export const BestValorated = () => {
                 placeholder="Introduzca tipo de comida"
               />
             </Col>
-          </Row>
-          <Row>
-            <label> Ubicación: </label>
-            <Col className="col-6">
+
+            <Col className="col-3">
               <Select
                 name="country"
                 className={'mt-2 mb-3 col-sm'}
@@ -128,7 +127,7 @@ export const BestValorated = () => {
                 data-cy="country"
               />
             </Col>
-            <Col className="col-6">
+            <Col className="col-3">
               <Select
                 name="city"
                 className={'mt-2 mb-3 col-sm'}
@@ -150,15 +149,18 @@ export const BestValorated = () => {
             </Col>
           </Row>
         </Col>
-        <Col className="col-1 align-self-end mb-3">
-          <Button className='mb-1' type="button" color="secondary" onClick={clearFilter}>
+        <Col className="col-1 mt-2">
+          <Button type="button" color="secondary" onClick={clearFilter}>
             Limpiar
           </Button>
-
-          <Button type="button" color="secondary" onClick={applyFilter}>
-            Buscar
-          </Button>
         </Col>
+        <Row>
+          <Col className="text-align-center">
+            <Button className="w-25" type="button" color="primary" onClick={applyFilter}>
+              Buscar
+            </Button>
+          </Col>
+        </Row>
       </Row>
       <List
         itemLayout="vertical"
