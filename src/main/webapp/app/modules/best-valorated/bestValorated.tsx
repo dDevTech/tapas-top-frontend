@@ -1,13 +1,13 @@
-import { Breadcrumb, BreadcrumbItem, Button, Col, Row } from 'reactstrap';
-import React, { useEffect, useState } from 'react';
-import { List } from 'antd';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
+import {Breadcrumb, BreadcrumbItem, Button, Col, Row} from 'reactstrap';
+import React, {useEffect, useState} from 'react';
+import {List} from 'antd';
+import {useAppDispatch, useAppSelector} from 'app/config/store';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {optionsProcedencia, optionsTipo} from 'app/shared/util/Selectores';
 import Select from 'react-select';
 import {getBestValorated} from "app/shared/reducers/tapa.reducer";
-import { TastingElement } from 'app/modules/tasting/tastingElement';
-import { Country, State } from 'country-state-city';
+import {TastingElement} from 'app/modules/tasting/tastingElement';
+import {Country, State} from 'country-state-city';
 
 export const BestValorated = () => {
   const dispatch = useAppDispatch();
@@ -30,10 +30,10 @@ export const BestValorated = () => {
 
   const applyFilter = () => {
     dispatch(getBestValorated({
-      city: selectedCity? selectedCity.name: null,
-      precedence: selectedOrigin ? selectedOrigin.value: null,
-      type: selectedType? selectedType.value : null,
-      country: selectedCountry? selectedCountry.name: null,
+      city: selectedCity ? selectedCity.name : null,
+      precedence: selectedOrigin ? selectedOrigin.value : null,
+      type: selectedType ? selectedType.value : null,
+      country: selectedCountry ? selectedCountry.name : null,
     }));
   }
 
@@ -49,7 +49,7 @@ export const BestValorated = () => {
     <div>
       <Breadcrumb>
         <BreadcrumbItem active>
-          <FontAwesomeIcon icon="award" />
+          <FontAwesomeIcon icon="award"/>
           <span>&nbsp;Más valoradas</span>
         </BreadcrumbItem>
       </Breadcrumb>

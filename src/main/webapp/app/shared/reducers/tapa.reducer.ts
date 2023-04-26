@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
-import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
-import { ITapa } from 'app/shared/model/tapa.model';
-import { IEstablishment } from 'app/shared/model/establishment.model';
+import {createAsyncThunk, createSlice, isPending} from '@reduxjs/toolkit';
+import {serializeAxiosError} from 'app/shared/reducers/reducer.utils';
+import {ITapa} from 'app/shared/model/tapa.model';
+import {IEstablishment} from 'app/shared/model/establishment.model';
 
 const initialState = {
   loading: false,
@@ -25,7 +25,7 @@ export const getFavorites = createAsyncThunk(
     const requestUrl = `api/myuser/favourites/${login}`;
     return axios.get<ITapa[]>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 
 export const getSearchCoincidences = createAsyncThunk(
@@ -34,7 +34,7 @@ export const getSearchCoincidences = createAsyncThunk(
     const requestUrl = `api/tapa/name/${search}`;
     return axios.get<ITapa[]>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 
 export const getLast = createAsyncThunk(
@@ -43,7 +43,7 @@ export const getLast = createAsyncThunk(
     const requestUrl = `api/myuser/lastTapas/${login}`;
     return axios.get<ITapa[]>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 export const getRestaurants = createAsyncThunk(
   'restaurantes',
@@ -51,24 +51,23 @@ export const getRestaurants = createAsyncThunk(
     const requestUrl = `api/establishment`;
     return axios.get<IEstablishment[]>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 
 export const getBestValorated = createAsyncThunk(
   'bestValorations',
   async (data: { city: string; precedence: string; type: string; country: string }) => {
     let requestUrl = `api/tapa`;
-    if (data.city !== null || data.precedence !== null || data.type !== null || data.country !== null  ) {
+    if (data.city !== null || data.precedence !== null || data.type !== null || data.country !== null) {
       let params = ''
       Object.entries(data).map(([key, value]) => (
-        params += (value !==null ? `&${key}=${value}` : '')
+        params += (value !== null ? `&${key}=${value}` : '')
       ))
-      params = params.substring(1,params.length)
-      requestUrl += '?' + params
+      requestUrl += '?' + params.substring(1, params.length)
     }
     return axios.get<ITapa[]>(requestUrl, {data});
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 
 export const getLastEstablisment = createAsyncThunk(
@@ -77,13 +76,13 @@ export const getLastEstablisment = createAsyncThunk(
     const requestUrl = `api/myuser/lastRestaurants/${login}`;
     return axios.get<ITapa[]>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 export const createRestaurant = createAsyncThunk(
   'establishment/create_restaurant',
   async (data: { name: string; type: string; address: { address: string; city?: string; country: string } }) =>
     axios.post<any>('api/establishment', data),
-  { serializeError: serializeAxiosError }
+  {serializeError: serializeAxiosError}
 );
 
 export const saveTapa = createAsyncThunk('tapa/create_tapa', async (data: any) => axios.post<any>('api/tapa', data), {
@@ -145,7 +144,7 @@ export const TapaSlice = createSlice({
   },
 });
 
-export const { reset } = TapaSlice.actions;
+export const {reset} = TapaSlice.actions;
 
 // Reducer
 export default TapaSlice.reducer;
