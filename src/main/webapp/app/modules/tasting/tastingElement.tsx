@@ -7,6 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { saveRating } from 'app/shared/reducers/rating-user.reducer';
 import { optionsProcedencia, optionsTipo } from 'app/shared/util/Selectores';
+import { deleteFavorites, getFavorites, setFavorites } from 'app/shared/reducers/user-info.reducer';
 
 export const TastingElement = ({ item }) => {
   const dispatch = useAppDispatch();
@@ -15,7 +16,8 @@ export const TastingElement = ({ item }) => {
   const [newRate, setNewRate] = useState(null);
   const [open, setOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
-
+  const [isFavorite, setIsFavorite] = useState(0);
+  const [modified, modifyFavourite] = useState(false);
   useEffect(() => {
     if (item.rating) setNewRate(item.rating.rating);
   }, [item.rating?.rating]);
@@ -39,6 +41,19 @@ export const TastingElement = ({ item }) => {
     setOpen(true);
     setNewRate(rate);
   };
+
+  const selectFavourite = () => {
+    if (isFavorite === 0) {
+      dispatch(setFavorites(item.id));
+      setIsFavorite(1);
+      modifyFavourite(true);
+    } else {
+      dispatch(deleteFavorites(item.id));
+      setIsFavorite(0);
+      modifyFavourite(true);
+    }
+  };
+
   const procedencia = optionsProcedencia.find(opcion => opcion.value === item?.country).label;
   const tipo = optionsTipo.find(opcion => opcion.value === item?.type).label;
   return (
@@ -74,7 +89,14 @@ export const TastingElement = ({ item }) => {
                   {item?.type !== 'otro' && <Tag color="magenta">{tipo.toUpperCase()}</Tag>}
                 </Col>
                 <Col className="text-align-right" md="2">
-                  <Rate className="card-rate-6" style={{ color: '#ff0000' }} character={<FontAwesomeIcon icon={faHeart} />} count={1} />
+                  <Rate
+                    className="card-rate-6"
+                    onChange={selectFavourite}
+                    style={{ color: '#ff0000' }}
+                    character={<FontAwesomeIcon icon={faHeart} />}
+                    count={1}
+                    value={modified ? isFavorite : item?.favourite}
+                  />
                 </Col>
               </Row>
               <Descriptions size="small" column={1} layout="horizontal">

@@ -26,6 +26,24 @@ export const getFavorites = createAsyncThunk(
   { serializeError: serializeAxiosError }
 );
 
+export const setFavorites = createAsyncThunk(
+  'tapas_set_favorites',
+  async (tapaId: string) => {
+    const requestUrl = `${apiUrl}/favourites/${tapaId}`;
+    return axios.post<ITapa[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
+
+export const deleteFavorites = createAsyncThunk(
+  'tapas_delete_favorites',
+  async (tapaId: string) => {
+    const requestUrl = `${apiUrl}/favourites/${tapaId}`;
+    return axios.delete<ITapa[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
+
 export const getLast = createAsyncThunk(
   'tapas_fetch_last',
   async (login: string) => {
