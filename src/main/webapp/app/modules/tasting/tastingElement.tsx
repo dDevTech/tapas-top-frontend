@@ -16,26 +16,11 @@ export const TastingElement = ({ item }) => {
   const [newRate, setNewRate] = useState(null);
   const [open, setOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
-  const favorites = useAppSelector(state => state.userInfo.favorites);
   const [isFavorite, setIsFavorite] = useState(0);
-
+  const [modified, modifyFavourite] = useState(false);
   useEffect(() => {
     if (item.rating) setNewRate(item.rating.rating);
   }, [item.rating?.rating]);
-
-  useEffect(() => {
-    dispatch(getFavorites(account.login));
-  }, []);
-
-  useEffect(() => {
-    if (favorites.length !== 0) {
-      for (let i = 0; i < favorites.length; i++) {
-        if (favorites[i].id === item.id) {
-          setIsFavorite(1);
-        }
-      }
-    }
-  }, [favorites]);
 
   const confirm = () => {
     const data = {
@@ -61,9 +46,11 @@ export const TastingElement = ({ item }) => {
     if (isFavorite === 0) {
       dispatch(setFavorites(item.id));
       setIsFavorite(1);
+      modifyFavourite(true);
     } else {
       dispatch(deleteFavorites(item.id));
       setIsFavorite(0);
+      modifyFavourite(true);
     }
   };
 
@@ -108,7 +95,7 @@ export const TastingElement = ({ item }) => {
                     style={{ color: '#ff0000' }}
                     character={<FontAwesomeIcon icon={faHeart} />}
                     count={1}
-                    value={isFavorite}
+                    value={modified ? isFavorite : item?.favourite}
                   />
                 </Col>
               </Row>
