@@ -13,12 +13,17 @@ export const TastingElement = ({ item }) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState(150);
   const [valoration, setValoration] = useState(null);
+  const [average, setAverage] = useState(null);
+  const [ratings, setRatings] = useState(null);
   const [newRate, setNewRate] = useState(null);
   const [open, setOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
   const [isFavorite, setIsFavorite] = useState(0);
   const [modified, modifyFavourite] = useState(false);
+
   useEffect(() => {
+    setRatings(item.ratings ? item.ratings.length : 0);
+    setAverage(item.average);
     if (item.rating) setNewRate(item.rating.rating);
   }, [item.rating?.rating]);
 
@@ -29,7 +34,10 @@ export const TastingElement = ({ item }) => {
       rating: newRate,
     };
     dispatch(saveRating(data));
+
     setValoration(newRate);
+    setAverage((average * ratings + newRate) / (ratings + 1));
+    setRatings(ratings + 1);
     setOpen(false);
   };
 
@@ -129,13 +137,13 @@ export const TastingElement = ({ item }) => {
                   <Row className="width-100 justify-content-center mt-2">
                     <Col className="col-md-auto">
                       {' '}
-                      <Rate className="card-rate mr-3" allowHalf disabled value={item.average} />
+                      <Rate className="card-rate mr-3" allowHalf disabled value={average} />
                     </Col>
                     <Col className="col-md-auto">
                       {' '}
                       <span className="ml-2" style={{ color: 'rgba(44,44,44,0.49)' }}>
                         {' '}
-                        {item.ratings ? item.ratings.length : 0}
+                        {ratings}
                       </span>
                     </Col>
                   </Row>
